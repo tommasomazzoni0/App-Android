@@ -1,20 +1,24 @@
 package com.example.app_registro_elettronico;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import java.util.ArrayList;
 
 public class studenteActivity extends AppCompatActivity {
 
     private RelativeLayout cerchioVerde;
     private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
-    private LinearLayout materieLayout, votiLayout;
-    private Button buttonMaterieIndietro, buttonVotiIndietro;
+    private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
+    private Button logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
 
     private ArrayList<String> materie;
     private ArrayList<Integer> voti;
@@ -32,15 +36,20 @@ public class studenteActivity extends AppCompatActivity {
         materieLayout = findViewById(R.id.materieLayout);
         titoloValutazioni = findViewById(R.id.titoloValutazioni);
         votiLayout = findViewById(R.id.votiLayout);
+        noteLayout =findViewById(R.id.noteElenco);
+        assenzeLayout = findViewById(R.id.assenzeElenco);
         nomeMateria = findViewById(R.id.titoloMateria);
+        logout = findViewById(R.id.logOutButton);
         buttonMaterieIndietro = findViewById(R.id.backButtonMaterie);
+        buttonAssenzaIndietro = findViewById(R.id.backButtonAssenze);
         buttonVotiIndietro = findViewById(R.id.backButtonVoti);
+        buttonNoteIndietro = findViewById(R.id.backButtonNote);
 
         voti = new ArrayList<>();
         voti.add(3);
         voti.add(4);
-        voti.add(10);
-        voti.add(7);
+        voti.add(3);
+        voti.add(3);
 
         materie = new ArrayList<>();
         materie.add("Italiano");
@@ -52,7 +61,16 @@ public class studenteActivity extends AppCompatActivity {
         materie.add("Inglese");
         materie.add("Scienze");
 
-        int voto = 6;
+        ArrayList<String> note = new ArrayList<>();
+        note.add("ciaooo");
+        note.add("sus");
+        note.add("damn");
+
+        ArrayList<String> assenze= new ArrayList<>();
+        assenze.add("2024-12-01 - Giustificata");
+        assenze.add("2024-12-02 - Non giustificata");
+
+        int voto = 5;
         String materia = materie.get(0);
 
         numeroTextView.setText(String.valueOf(voto));
@@ -64,6 +82,7 @@ public class studenteActivity extends AppCompatActivity {
         }
 
         TextView valutazioniTextView = findViewById(R.id.valutazioni);
+        TextView votiTextView = findViewById(R.id.titoloMateria);
         valutazioniTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +95,10 @@ public class studenteActivity extends AppCompatActivity {
                 materieLayout.setVisibility(View.VISIBLE);
                 votiLayout.setVisibility(View.GONE);
                 buttonMaterieIndietro.setVisibility(View.VISIBLE);
+                materieLayout.removeAllViews();
+                materieLayout.addView(buttonMaterieIndietro);
+                materieLayout.addView(titoloValutazioni);
+
 
 
                 for (int i = 0; i < materie.size(); i++) {
@@ -87,7 +110,10 @@ public class studenteActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             materieLayout.setVisibility(View.GONE);
                             nomeMateria.setText(materie.get(index));
+                            votiLayout.removeAllViews();
                             votiLayout.setVisibility(View.VISIBLE);
+                            votiLayout.addView(buttonVotiIndietro);
+                            votiLayout.addView(votiTextView);
                             buttonVotiIndietro.setVisibility(View.VISIBLE);
                             for (int j = 0; j < voti.size(); j++) {
                                 Button voto = new Button(studenteActivity.this);
@@ -102,10 +128,87 @@ public class studenteActivity extends AppCompatActivity {
         });
 
         TextView noteTextView = findViewById(R.id.note);
+
         noteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cerchioVerde.setVisibility(View.GONE);
+                numeroTextView.setVisibility(View.GONE);
+                materiaTextView.setVisibility(View.GONE);
+                valutazioniTextView.setVisibility(View.GONE);
+                noteTextView.setVisibility(View.GONE);
+                assenzeTextView.setVisibility(View.GONE);
+                materieLayout.setVisibility(View.GONE);
+                votiLayout.setVisibility(View.GONE);
+                noteLayout.setVisibility(View.VISIBLE);
+                buttonNoteIndietro.setVisibility(View.VISIBLE);
 
+                for (int i = 0; i < note.size(); i++) {
+                    Button nota = new Button(studenteActivity.this);
+                    nota.setText(note.get(i));
+
+                    final String noteInfo = note.get(i);
+                    nota.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Dialog noteDialog = new Dialog(studenteActivity.this);
+                            noteDialog.setContentView(R.layout.dialog_note_info);
+                            TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
+                            noteInfoTextView.setText(noteInfo);
+
+
+                            noteDialog.getWindow().setLayout(
+                                    WindowManager.LayoutParams.MATCH_PARENT,
+                                    WindowManager.LayoutParams.WRAP_CONTENT);
+                            noteDialog.getWindow().setGravity(Gravity.BOTTOM);
+                            noteDialog.show();
+                        }
+                    });
+
+                    noteLayout.addView(nota);
+                }
+            }
+        });
+
+
+        TextView assenzeText = findViewById(R.id.assenze);
+
+        assenzeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cerchioVerde.setVisibility(View.GONE);
+                numeroTextView.setVisibility(View.GONE);
+                materiaTextView.setVisibility(View.GONE);
+                valutazioniTextView.setVisibility(View.GONE);
+                noteTextView.setVisibility(View.GONE);
+                assenzeTextView.setVisibility(View.GONE);
+                materieLayout.setVisibility(View.GONE);
+                votiLayout.setVisibility(View.GONE);
+                assenzeLayout.setVisibility(View.VISIBLE);
+                buttonAssenzaIndietro.setVisibility(View.VISIBLE);
+
+                for (String assenza : assenze) {
+                    String[] parts = assenza.split(" - ");
+                    if (parts.length == 2) {
+                        LinearLayout row = new LinearLayout(studenteActivity.this);
+                        row.setOrientation(LinearLayout.HORIZONTAL);
+
+                        TextView dataView = new TextView(studenteActivity.this);
+                        dataView.setText(parts[0]);
+                        dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        dataView.setPadding(16, 16, 16, 16);
+
+                        TextView statoView = new TextView(studenteActivity.this);
+                        statoView.setText(parts[1]);
+                        statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        statoView.setPadding(16, 16, 16, 16);
+
+                        row.addView(dataView);
+                        row.addView(statoView);
+
+                        assenzeLayout.addView(row);
+                    }
+                }
             }
         });
 
@@ -132,8 +235,49 @@ public class studenteActivity extends AppCompatActivity {
                 buttonVotiIndietro.setVisibility(View.VISIBLE);
             }
         });
+
+        buttonNoteIndietro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                noteLayout.setVisibility(View.GONE);
+                buttonNoteIndietro.setVisibility(View.GONE);
+                cerchioVerde.setVisibility(View.VISIBLE);
+                numeroTextView.setVisibility(View.VISIBLE);
+                materiaTextView.setVisibility(View.VISIBLE);
+                noteTextView.setVisibility(View.VISIBLE);
+                assenzeTextView.setVisibility(View.VISIBLE);
+                valutazioniTextView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        buttonAssenzaIndietro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assenzeLayout.setVisibility(View.GONE);
+                buttonAssenzaIndietro.setVisibility(View.GONE);
+                cerchioVerde.setVisibility(View.VISIBLE);
+                numeroTextView.setVisibility(View.VISIBLE);
+                materiaTextView.setVisibility(View.VISIBLE);
+                noteTextView.setVisibility(View.VISIBLE);
+                assenzeTextView.setVisibility(View.VISIBLE);
+                valutazioniTextView.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(studenteActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 }
+
+
 
 
 

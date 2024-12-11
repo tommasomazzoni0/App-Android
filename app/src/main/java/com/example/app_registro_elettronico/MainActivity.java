@@ -38,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
                     if(true){
                         errore.setVisibility(View.GONE);
                         int sus=1;
+
                         if(sus == 1){
                             //studente
-                            Intent intent= new Intent(MainActivity.this, studenteActivity.class);
-                            startActivity(intent);
+                                Intent intent = new Intent(MainActivity.this, studenteActivity.class);
+                                startActivity(intent);
                         } else if (sus==2) {
                             //genitore
                             Intent intent= new Intent(MainActivity.this, genitoreActivity.class);
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent= new Intent(MainActivity.this, docenteActivity.class);
                             startActivity(intent);
                         }
-
+                        usernameText.setText("");
+                        passwordText.setText("");
+                        finish();
                     }else{
                         errore.setVisibility(View.VISIBLE);
                     }
