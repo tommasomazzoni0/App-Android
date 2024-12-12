@@ -22,6 +22,7 @@ id backButtonNote
 id backButtonVoti
 id cerchio_verde
 id errorMessage
+id giustifica
 id labelRegistroElettronico
 id linearLayout
 id logOutButton

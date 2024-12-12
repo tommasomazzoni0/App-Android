@@ -8,8 +8,8 @@
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-anydpi/ic_launcher_round.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_genitore.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_genitore.xml"
     },
     {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_docente.xml.flat",
@@ -48,10 +48,6 @@
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-anydpi/ic_launcher.xml"
-    },
-    {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\xml_data_extraction_rules.xml.flat",
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\xml\\data_extraction_rules.xml"
     },
@@ -64,12 +60,12 @@
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-anydpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\xml\\backup_rules.xml"
-    },
-    {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_genitore.xml.flat",
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_genitore.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\xml\\backup_rules.xml"
     },
     {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xhdpi_ic_launcher.webp.flat",
