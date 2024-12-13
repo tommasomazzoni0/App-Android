@@ -9,7 +9,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/black"
-            tools:context=".MainActivity">
+            tools:context=".MainActivity" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
                 android:id="@+id/labelRegistroElettronico"
@@ -22,7 +24,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="4dp" app:layout_constraintHorizontal_bias="0.0"/>
+                android:layout_marginTop="4dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
 
 
         <LinearLayout
@@ -35,47 +38,20 @@
                 app:layout_constraintTop_toBottomOf="@id/labelRegistroElettronico"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp" app:layout_constraintHorizontal_bias="0.0">
-
-            <RelativeLayout
-                    android:id="@+id/cerchio_verde"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/cerchio_verde"
-                    android:gravity="center">
-
-                <TextView
-                        android:id="@+id/numero"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="40dp"/>
-
-                <TextView
-                        android:id="@+id/media"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Media"
-                        android:textColor="#FFFFFF"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="50dp"/>
-            </RelativeLayout>
+                android:layout_marginTop="16dp">
 
             <TextView
                     android:id="@+id/valutazioni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Valutazioni"
+                    android:gravity="center"
                     android:textSize="30sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:textColor="#FFFFFF"
-                    android:layout_marginTop="16dp"/>
+            />
         </LinearLayout>
         <LinearLayout
                 android:id="@+id/noteLayout"
@@ -119,7 +95,6 @@
                     android:text="Assenze"
                     android:textSize="30sp"
                     android:textStyle="bold"
-
                     android:textColor="#FFFFFF"
                     android:layout_margin="16dp"/>
         </LinearLayout>

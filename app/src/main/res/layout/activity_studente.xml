@@ -134,18 +134,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-                android:id="@+id/backButtonMaterie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="indietro"
-                android:textSize="20sp"
-                android:backgroundTint="@color/gray"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:layout_gravity="start"
-                app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
                 android:id="@+id/titoloValutazioni"
@@ -172,19 +160,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-                android:id="@+id/backButtonVoti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Indietro"
-                android:backgroundTint="@color/gray"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:visibility="gone"
-                android:layout_gravity="start"
-                app:layout_constraintStart_toStartOf="parent"/>
-
         <TextView
                 android:id="@+id/titoloMateria"
                 android:layout_width="wrap_content"
@@ -210,18 +185,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-                android:id="@+id/backButtonNote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Indietro"
-                android:backgroundTint="@color/gray"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:layout_gravity="start"
-                app:layout_constraintStart_toStartOf="parent"/>
-
         <TextView
                 android:id="@+id/titoloNote"
                 android:layout_width="wrap_content"
@@ -246,18 +209,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-                android:id="@+id/backButtonAssenze"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Indietro"
-                android:backgroundTint="@color/gray"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:layout_gravity="start"
-                app:layout_constraintStart_toStartOf="parent"/>
-
         <TextView
                 android:id="@+id/titoloAssenze"
                 android:layout_width="wrap_content"
@@ -274,7 +225,7 @@
             android:id="@+id/logOutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log Out"
+            android:text="Esci"
             android:textColor="@color/white"
             android:backgroundTint="@color/gray"
             android:textSize="20sp"
@@ -283,6 +234,61 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="1.0"/>
 
+    <Button
+            android:id="@+id/backButtonAssenze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Indietro"
+            android:backgroundTint="@color/gray"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="56dp"
+            app:layout_constraintHorizontal_bias="0.0"/>
+    <Button
+            android:id="@+id/backButtonNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Indietro"
+            android:backgroundTint="@color/gray"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="56dp" />
 
+    <Button
+            android:id="@+id/backButtonVoti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Indietro"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="56dp" />
+
+    <Button
+            android:id="@+id/backButtonMaterie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Indietro"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="56dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
