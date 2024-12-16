@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-32:12
+ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-36:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\tommaso.mazzoni_isar\.gradle\caches\transforms-3\1d1983722278f18dfcff420f2caf7969\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\tommaso.mazzoni_isar\.gradle\caches\transforms-3\1368dd662548bc0b53605e73a36a982c\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\tommaso.mazzoni_isar\.gradle\caches\transforms-3\fd9f9db7cc06c125d1a0b29f37c11c69\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
@@ -56,8 +56,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\tommaso
 	xmlns:android
 		ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-30:19
-INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-30:19
+ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-34:19
+INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-34:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\tommaso.mazzoni_isar\.gradle\caches\transforms-3\1d1983722278f18dfcff420f2caf7969\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\tommaso.mazzoni_isar\.gradle\caches\transforms-3\1d1983722278f18dfcff420f2caf7969\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\tommaso.mazzoni_isar\.gradle\caches\transforms-3\1368dd662548bc0b53605e73a36a982c\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -128,6 +128,22 @@ activity#com.example.app_registro_elettronico.alunniDocenteActivity
 ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:28:9-58
 	android:name
 		ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:28:19-56
+activity#com.example.app_registro_elettronico.inserimentoAssenzeActivity
+ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:29:9-63
+	android:name
+		ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:29:19-61
+activity#com.example.app_registro_elettronico.inserimentoNoteActivity
+ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:30:9-60
+	android:name
+		ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:30:19-58
+activity#com.example.app_registro_elettronico.inserimentoValutazioniActivity
+ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:31:9-67
+	android:name
+		ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:31:19-65
+activity#com.example.app_registro_elettronico.notesAdapter
+ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:32:9-49
+	android:name
+		ADDED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:32:19-47
 uses-sdk
 INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\tommaso.mazzoni_isar\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml

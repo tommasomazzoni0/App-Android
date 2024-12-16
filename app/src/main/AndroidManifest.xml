@@ -26,6 +26,10 @@
         <activity android:name=".docenteActivity"/>
         <activity android:name=".genitoreActivity"/>
         <activity android:name=".alunniDocenteActivity"/>
+        <activity android:name=".inserimentoAssenzeActivity"/>
+        <activity android:name=".inserimentoNoteActivity"/>
+        <activity android:name=".inserimentoValutazioniActivity"/>
+        <activity android:name=".notesAdapter"/>
 
     </application>
 

@@ -3116,6 +3116,7 @@ id SHOW_PROGRESS
 id SYM
 id TOP_END
 id TOP_START
+id Titolonota
 id Username
 id VotiLayout
 id accedi
@@ -3340,7 +3341,9 @@ id image
 id immediateStop
 id included
 id indeterminate
+id indietro
 id info
+id inserisci
 id invisible
 id inward
 id italic
@@ -3438,13 +3441,18 @@ id none
 id normal
 id north
 id note
+id noteDate
 id noteElenco
 id noteInfoTextView
 id noteLayout
+id noteProfessor
+id noteText
+id notesRecyclerView
 id notification_background
 id notification_main_column
 id notification_main_column_container
 id numero
+id nuovanota
 id off
 id on
 id onInterceptTouchReturnSwipe
@@ -3623,6 +3631,9 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
+id visualizza
+id visualizzaNoteLayout
+id visualizzanoteButton
 id votiLayout
 id west
 id withText
@@ -3751,6 +3762,7 @@ layout activity_docente
 layout activity_genitore
 layout activity_main
 layout activity_studente
+layout assenze_activity
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -3822,6 +3834,8 @@ layout mtrl_picker_text_input_date
 layout mtrl_picker_text_input_date_range
 layout mtrl_search_bar
 layout mtrl_search_view
+layout note_activity
+layout note_item
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big
@@ -3832,6 +3846,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout valutazioni_activity
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description

@@ -40,6 +40,10 @@
         <activity android:name="com.example.app_registro_elettronico.docenteActivity" />
         <activity android:name="com.example.app_registro_elettronico.genitoreActivity" />
         <activity android:name="com.example.app_registro_elettronico.alunniDocenteActivity" />
+        <activity android:name="com.example.app_registro_elettronico.inserimentoAssenzeActivity" />
+        <activity android:name="com.example.app_registro_elettronico.inserimentoNoteActivity" />
+        <activity android:name="com.example.app_registro_elettronico.inserimentoValutazioniActivity" />
+        <activity android:name="com.example.app_registro_elettronico.notesAdapter" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
