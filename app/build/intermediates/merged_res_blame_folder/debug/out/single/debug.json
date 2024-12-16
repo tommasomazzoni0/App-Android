@@ -1,106 +1,106 @@
 [
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/drawable_icona.png.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/drawable/icona.png"
+    },
+    {
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_docente_main.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/docente_main.xml"
     },
     {
         "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_genitore.xml.flat",
         "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_genitore.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_docente.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_docente.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-anydpi/ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-anydpi\\ic_launcher.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_dialog_note_info.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\dialog_note_info.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/drawable_cerchio_verde.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/drawable/cerchio_verde.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_studente.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_studente.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/drawable_rounded_background.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/drawable/rounded_background.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-hdpi\\ic_launcher.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\drawable_icona.png.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\drawable\\icona.png"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-mdpi\\ic_launcher.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\drawable_cerchio_rosso.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\drawable\\cerchio_rosso.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-anydpi/ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_main.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\xml\\data_extraction_rules.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/xml_backup_rules.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/xml/backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\drawable_cerchio_verde.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\drawable\\cerchio_verde.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-anydpi\\ic_launcher_round.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_genitore.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_genitore.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_studente.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_studente.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\xml\\backup_rules.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xhdpi\\ic_launcher.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/drawable_cerchio_rosso.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/drawable/cerchio_rosso.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_main.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_docente.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_docente.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-hdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_dialog_note_info.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/dialog_note_info.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\drawable_rounded_background.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\drawable\\rounded_background.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\drawable\\ic_launcher_background.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-mdpi\\ic_launcher_round.webp"
-    },
-    {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxxhdpi\\ic_launcher.webp"
-    },
-    {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/drawable/ic_launcher_foreground.xml"
     }
 ]

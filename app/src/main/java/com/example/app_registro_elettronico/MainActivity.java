@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                     //apro il file e cerco quella persona, se è presente mi salvo la persona
                     if(true){
                         errore.setVisibility(View.GONE);
-                        int sus=2;
+                        int sus=3;
 
                         if(sus == 1){
                             //studente

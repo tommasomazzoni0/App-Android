@@ -25,6 +25,7 @@
         <activity android:name=".studenteActivity"/>
         <activity android:name=".docenteActivity"/>
         <activity android:name=".genitoreActivity"/>
+        <activity android:name=".alunniDocenteActivity"/>
 
     </application>
 

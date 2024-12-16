@@ -21,6 +21,7 @@ id backButtonMaterie
 id backButtonNote
 id backButtonVoti
 id cerchio_verde
+id classListLayout
 id errorMessage
 id giustifica
 id labelRegistroElettronico
@@ -45,6 +46,7 @@ layout activity_genitore
 layout activity_main
 layout activity_studente
 layout dialog_note_info
+layout docente_main
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name

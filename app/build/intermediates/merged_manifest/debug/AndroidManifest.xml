@@ -39,6 +39,7 @@
         <activity android:name="com.example.app_registro_elettronico.studenteActivity" />
         <activity android:name="com.example.app_registro_elettronico.docenteActivity" />
         <activity android:name="com.example.app_registro_elettronico.genitoreActivity" />
+        <activity android:name="com.example.app_registro_elettronico.alunniDocenteActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

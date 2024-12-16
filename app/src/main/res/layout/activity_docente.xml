@@ -53,6 +53,7 @@
                     android:textColor="#FFFFFF"
             />
         </LinearLayout>
+
         <LinearLayout
                 android:id="@+id/noteLayout"
                 android:layout_width="match_parent"
@@ -171,8 +172,8 @@
                     android:textColor="#FFFFFF"
                     android:layout_marginTop="16dp"/>
 
-
         </LinearLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
