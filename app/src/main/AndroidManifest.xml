@@ -30,6 +30,8 @@
         <activity android:name=".inserimentoNoteActivity"/>
         <activity android:name=".inserimentoValutazioniActivity"/>
         <activity android:name=".notesAdapter"/>
+        <activity android:name=".valutazioneAdapter"/>
+        <activity android:name=".assenzeAdapter"/>
 
     </application>
 

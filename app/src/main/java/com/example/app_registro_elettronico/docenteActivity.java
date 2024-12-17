@@ -2,9 +2,11 @@ package com.example.app_registro_elettronico;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import java.util.Map;
 
 public class docenteActivity extends AppCompatActivity {
     private Map<String, ArrayList<String>> classiAlunniMap = new HashMap<>();
+    TextView alunni,classi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +23,11 @@ public class docenteActivity extends AppCompatActivity {
         setContentView(R.layout.docente_main);
         populateClassiAndAlunni();
         LinearLayout classListLayout = findViewById(R.id.classListLayout);
+        alunni = findViewById(R.id.leTueClassi);
+        classi = findViewById(R.id.Alunni);
 
         for (String classe : classiAlunniMap.keySet()) {
+            alunni.setVisibility(View.VISIBLE);
             Button button = new Button(this);
             button.setText(classe);
             button.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
@@ -29,6 +35,7 @@ public class docenteActivity extends AppCompatActivity {
 
             button.setOnClickListener(v -> {
                 showAlunniOfClasse(classe);
+                alunni.setVisibility(View.GONE);
             });
 
             classListLayout.addView(button);

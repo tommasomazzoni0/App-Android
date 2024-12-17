@@ -77,6 +77,7 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array voti_array
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -3102,9 +3103,12 @@ drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
+id Alunni
+id Assenza
 id BOTTOM_END
 id BOTTOM_START
 id CTRL
+id Descrizione
 id FUNCTION
 id META
 id NO_DEBUG
@@ -3118,6 +3122,7 @@ id TOP_END
 id TOP_START
 id Titolonota
 id Username
+id Voti
 id VotiLayout
 id accedi
 id accelerate
@@ -3191,6 +3196,7 @@ id asConfigured
 id assenze
 id assenzeElenco
 id assenzeLayout
+id assenzeRecyclerView
 id async
 id auto
 id autoComplete
@@ -3252,6 +3258,9 @@ id currentState
 id custom
 id customPanel
 id cut
+id data
+id dataVoti
+id dataassenza
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -3259,6 +3268,7 @@ id decor_content_parent
 id default_activity_button
 id deltaRelative
 id dependency_ordering
+id descriziome
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -3353,6 +3363,7 @@ id jumpToStart
 id labelRegistroElettronico
 id labeled
 id layout
+id leTueClassi
 id left
 id leftToRight
 id legacy
@@ -3437,9 +3448,11 @@ id neverCompleteToEnd
 id neverCompleteToStart
 id noScroll
 id noState
+id nome
 id none
 id normal
 id north
+id nota
 id note
 id noteDate
 id noteElenco
@@ -3452,6 +3465,7 @@ id notification_background
 id notification_main_column
 id notification_main_column_container
 id numero
+id nuovaassenza
 id nuovanota
 id off
 id on
@@ -3632,9 +3646,13 @@ id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
 id visualizza
+id visualizzaAssenzeLayout
 id visualizzaNoteLayout
 id visualizzanoteButton
 id votiLayout
+id votiRecyclerView
+id voto
+id votoSpinner
 id west
 id withText
 id with_icon
@@ -3763,6 +3781,7 @@ layout activity_genitore
 layout activity_main
 layout activity_studente
 layout assenze_activity
+layout assenze_item
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -3847,6 +3866,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 layout valutazioni_activity
+layout voti_item
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description

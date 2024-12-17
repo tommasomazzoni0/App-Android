@@ -6,8 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
-        tools:context=".studenteActivity">
+        tools:context=".inserimentoNoteActivity">
 
+    <!-- Titolo principale -->
     <TextView
             android:id="@+id/labelRegistroElettronico"
             android:layout_width="wrap_content"
@@ -19,65 +20,78 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="4dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            android:layout_marginTop="8dp" />
+
+    <!-- Layout per l'inserimento di una nuova nota -->
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:visibility="visible"
             android:id="@+id/nuovanota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="top|center"
+            android:gravity="center"
+            android:padding="16dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintTop_toBottomOf="@id/labelRegistroElettronico"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-      >
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
 
         <TextView
                 android:id="@+id/Titolonota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nuova nota"
-                android:textSize="30sp"
+                android:text="Nuova Nota"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 android:textColor="#FFFFFF"
-                android:layout_marginTop="4dp"
-        />
+                android:layout_marginBottom="16dp" />
 
+        <!-- Campo data -->
         <EditText
-                android:id="@+id/Username"
-                android:layout_width="250dp"
+                android:id="@+id/data"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Data"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
+                android:textStyle="bold"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#AAAAAA"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+        <EditText
+                android:id="@+id/nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome del professore"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textStyle="bold"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#AAAAAA"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+        <!-- Campo motivazione -->
+        <EditText
+                android:id="@+id/nota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Motivazione"
                 android:inputType="text"
                 android:padding="12dp"
                 android:textStyle="bold"
                 android:backgroundTint="#FFFFFF"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#AAAAAA"
-                android:layout_marginBottom="16dp"
                 android:gravity="center"
-        />
+                android:layout_marginBottom="16dp" />
 
-        <EditText
-                android:id="@+id/Password"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="Motivazione"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:textStyle="bold"
-                android:backgroundTint="#FFFFFF"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
-                android:gravity="center"
-        />
-
+        <!-- Pulsante per inserire la nota -->
         <Button
                 android:id="@+id/inserisci"
                 android:layout_width="wrap_content"
@@ -87,49 +101,40 @@
                 android:textSize="20sp"
                 android:backgroundTint="@color/gray"
                 android:textColor="@color/white"
-                android:visibility="visible"
-                android:layout_gravity="center"
-        />
+                android:layout_gravity="center" />
     </LinearLayout>
 
+    <!-- Layout per visualizzare le note -->
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:visibility="visible"
             android:id="@+id/visualizzaNoteLayout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:orientation="vertical"
-            android:gravity="top|center"
+            android:padding="16dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintTop_toBottomOf="@id/nuovanota"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
-            app:layout_constraintHorizontal_bias="0.0"
-            tools:ignore="MissingConstraints">
+            android:layout_marginTop="24dp">
 
         <TextView
                 android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Note"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 android:textColor="#FFFFFF"
-                android:layout_marginTop="4dp"
-        />
+                android:layout_marginBottom="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:padding="8dp"/>
+                android:padding="8dp" />
     </LinearLayout>
 
+    <!-- Pulsante per tornare indietro -->
     <Button
             android:id="@+id/indietro"
             android:layout_width="wrap_content"
@@ -139,12 +144,9 @@
             android:textSize="20sp"
             android:backgroundTint="@color/gray"
             android:textColor="@color/white"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="24dp"
-            android:layout_marginStart="16dp"/>
-
-
+            android:layout_marginStart="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

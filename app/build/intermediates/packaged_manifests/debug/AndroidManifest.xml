@@ -44,6 +44,8 @@
         <activity android:name="com.example.app_registro_elettronico.inserimentoNoteActivity" />
         <activity android:name="com.example.app_registro_elettronico.inserimentoValutazioniActivity" />
         <activity android:name="com.example.app_registro_elettronico.notesAdapter" />
+        <activity android:name="com.example.app_registro_elettronico.valutazioneAdapter" />
+        <activity android:name="com.example.app_registro_elettronico.assenzeAdapter" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
