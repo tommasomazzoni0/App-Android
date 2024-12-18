@@ -31,12 +31,15 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
     private Button indietro, inserisci;
     private EditText dataEditText, descrizioneEditText;
     private Spinner votoSpinner;
-    private int votoSelezionato;
+    private float votoSelezionato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valutazioni_activity);
+        String classe = getIntent().getStringExtra("classe_nome");
+        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
+
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
@@ -56,12 +59,35 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
 
         indietro.setOnClickListener(view -> {
             Intent intent = new Intent(inserimentoValutazioniActivity.this, alunniDocenteActivity.class);
+            intent.putExtra("classe_nome", classe);
+            intent.putStringArrayListExtra("alunni", alunni);
             startActivity(intent);
             finish();
         });
 
         dataEditText.setOnClickListener(view -> {
             final Calendar calendar = Calendar.getInstance();
+
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONTH);
+
+            int startYear;
+            int endYear;
+
+            if (currentMonth >= Calendar.SEPTEMBER) {
+                startYear = currentYear;
+                endYear = currentYear + 1;
+            } else {
+                startYear = currentYear - 1;
+                endYear = currentYear;
+            }
+
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(startYear, Calendar.SEPTEMBER, 1);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.set(endYear, Calendar.JUNE, 30);
+
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -70,8 +96,16 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
                 String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
                 dataEditText.setText(selectedDate);
             }, year, month, day);
+
+            datePickerDialog.getDatePicker().setMinDate(startDate.getTimeInMillis());
+            datePickerDialog.getDatePicker().setMaxDate(endDate.getTimeInMillis());
+
             datePickerDialog.show();
         });
+
+
+
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.voti_array, android.R.layout.simple_spinner_item);
@@ -81,7 +115,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         votoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                votoSelezionato = Integer.parseInt(parentView.getItemAtPosition(position).toString());
+                votoSelezionato = Float.parseFloat(parentView.getItemAtPosition(position).toString());
             }
 
             @Override

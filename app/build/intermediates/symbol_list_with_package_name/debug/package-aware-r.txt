@@ -3186,6 +3186,7 @@ id alertTitle
 id aligned
 id all
 id allStates
+id alunniLayout
 id always
 id animateToEnd
 id animateToStart
@@ -3202,6 +3203,7 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
+id backButton
 id backButtonAssenze
 id backButtonMaterie
 id backButtonNote
@@ -3236,6 +3238,7 @@ id checked
 id chronometer
 id circle_center
 id classListLayout
+id classeTitle
 id clear_text
 id clip_horizontal
 id clip_vertical
@@ -3448,7 +3451,6 @@ id neverCompleteToEnd
 id neverCompleteToStart
 id noScroll
 id noState
-id nome
 id none
 id normal
 id north
@@ -3776,6 +3778,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_alunni
 layout activity_docente
 layout activity_genitore
 layout activity_main

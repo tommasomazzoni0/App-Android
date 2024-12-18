@@ -13,6 +13,19 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
+        <Button
+                android:id="@+id/logOutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Esci"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/gray"
+                android:textSize="20sp"
+                android:layout_gravity="left"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="1.0"/>
+
         <TextView
                 android:id="@+id/labelRegistroElettronico"
                 android:layout_width="wrap_content"
@@ -173,7 +186,19 @@
                     android:layout_marginTop="16dp"/>
 
         </LinearLayout>
-
+        <Button
+                android:id="@+id/indietro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Indietro"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:backgroundTint="@color/gray"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="24dp"
+                android:layout_marginStart="16dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

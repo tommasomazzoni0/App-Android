@@ -3,10 +3,10 @@ package com.example.app_registro_elettronico.gestione;
 public class Voti {
 
     private String data;
-    private int voto;
+    private float voto;
     private String descrizione;
 
-    public Voti(String data, int voto, String descrizione) {
+    public Voti(String data, float voto, String descrizione) {
         this.data = data;
         this.voto = voto;
         this.descrizione = descrizione;
@@ -20,11 +20,11 @@ public class Voti {
         this.data = data;
     }
 
-    public int getvoto() {
+    public float getvoto() {
         return voto;
     }
 
-    public void setvoto(int voto) {
+    public void setvoto(float voto) {
         this.voto = voto;
     }
 

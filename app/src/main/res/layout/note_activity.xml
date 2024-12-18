@@ -63,21 +63,6 @@
                 android:layout_marginBottom="16dp" />
 
         <EditText
-                android:id="@+id/nome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nome del professore"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:textStyle="bold"
-                android:backgroundTint="#FFFFFF"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#AAAAAA"
-                android:gravity="center"
-                android:layout_marginBottom="16dp" />
-
-        <!-- Campo motivazione -->
-        <EditText
                 android:id="@+id/nota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,7 +76,6 @@
                 android:gravity="center"
                 android:layout_marginBottom="16dp" />
 
-        <!-- Pulsante per inserire la nota -->
         <Button
                 android:id="@+id/inserisci"
                 android:layout_width="wrap_content"
@@ -104,7 +88,6 @@
                 android:layout_gravity="center" />
     </LinearLayout>
 
-    <!-- Layout per visualizzare le note -->
     <LinearLayout
             android:id="@+id/visualizzaNoteLayout"
             android:layout_width="match_parent"
@@ -134,7 +117,6 @@
                 android:padding="8dp" />
     </LinearLayout>
 
-    <!-- Pulsante per tornare indietro -->
     <Button
             android:id="@+id/indietro"
             android:layout_width="wrap_content"

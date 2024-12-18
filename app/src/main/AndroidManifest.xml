@@ -32,6 +32,7 @@
         <activity android:name=".notesAdapter"/>
         <activity android:name=".valutazioneAdapter"/>
         <activity android:name=".assenzeAdapter"/>
+        <activity android:name=".alunniActivity"/>
 
     </application>
 

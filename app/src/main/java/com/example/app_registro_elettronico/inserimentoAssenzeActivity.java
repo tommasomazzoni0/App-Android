@@ -28,6 +28,9 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assenze_activity);
+        String classe = getIntent().getStringExtra("classe_nome");
+        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
+
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
@@ -35,7 +38,6 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.assenzeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Lista iniziale di assenze
         assenzeList = new ArrayList<>();
         assenzeList.add(new Assenza("01/01/2024", false, "dasdasd"));
         assenzeList.add(new Assenza("02/01/2024", false, "dadsa"));
@@ -44,45 +46,58 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         assenzaAdapter = new assenzeAdapter(assenzeList);
         recyclerView.setAdapter(assenzaAdapter);
 
-        // Listener per pulsante "Indietro"
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(inserimentoAssenzeActivity.this, alunniDocenteActivity.class);
+                intent.putExtra("classe_nome", classe);
+                intent.putStringArrayListExtra("alunni", alunni);
                 startActivity(intent);
                 finish();
             }
         });
 
-        // Listener per EditText della data
-        dataEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Ottieni data corrente
-                final Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+        dataEditText.setOnClickListener(view -> {
+            final Calendar calendar = Calendar.getInstance();
 
-                // Mostra il DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        inserimentoAssenzeActivity.this,
-                        (datePicker, selectedYear, selectedMonth, selectedDay) -> {
-                            // Imposta la data selezionata nell'EditText
-                            String selectedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
-                            dataEditText.setText(selectedDate);
-                        },
-                        year, month, day
-                );
-                datePickerDialog.show();
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONTH);
+
+            int startYear;
+            int endYear;
+
+            if (currentMonth >= Calendar.SEPTEMBER) {
+                startYear = currentYear;
+                endYear = currentYear + 1;
+            } else {
+                startYear = currentYear - 1;
+                endYear = currentYear;
             }
+
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(startYear, Calendar.SEPTEMBER, 1);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.set(endYear, Calendar.JUNE, 30);
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, selectedYear, selectedMonth, selectedDay) -> {
+                String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                dataEditText.setText(selectedDate);
+            }, year, month, day);
+
+            datePickerDialog.getDatePicker().setMinDate(startDate.getTimeInMillis());
+            datePickerDialog.getDatePicker().setMaxDate(endDate.getTimeInMillis());
+
+            datePickerDialog.show();
         });
 
-        // Listener per pulsante "Inserisci"
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Recupera la data inserita
                 String nuovaData = dataEditText.getText().toString().trim();
 
                 if (nuovaData.isEmpty()) {
@@ -90,14 +105,11 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Aggiungi una nuova assenza con una nota vuota di default
                 assenzeList.add(new Assenza(nuovaData, false, "Nuova assenza"));
-                assenzaAdapter.notifyDataSetChanged(); // Aggiorna l'RecyclerView
+                assenzaAdapter.notifyDataSetChanged();
 
-                // Mostra conferma
                 Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
 
-                // Pulisci il campo data
                 dataEditText.setText("");
             }
         });

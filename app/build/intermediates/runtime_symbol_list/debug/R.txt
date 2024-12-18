@@ -3185,6 +3185,7 @@ int id alertTitle 0x7f08004c
 int id aligned 0x7f08004d
 int id all 0x7f08004e
 int id allStates 0x7f08004f
+int id alunniLayout 0x7f080232
 int id always 0x7f080050
 int id animateToEnd 0x7f080051
 int id animateToStart 0x7f080052
@@ -3201,6 +3202,7 @@ int id auto 0x7f08005b
 int id autoComplete 0x7f08005c
 int id autoCompleteToEnd 0x7f08005d
 int id autoCompleteToStart 0x7f08005e
+int id backButton 0x7f080233
 int id backButtonAssenze 0x7f08005f
 int id backButtonMaterie 0x7f080060
 int id backButtonNote 0x7f080061
@@ -3235,6 +3237,7 @@ int id checked 0x7f08007d
 int id chronometer 0x7f08007e
 int id circle_center 0x7f08007f
 int id classListLayout 0x7f080080
+int id classeTitle 0x7f080234
 int id clear_text 0x7f080081
 int id clip_horizontal 0x7f080082
 int id clip_vertical 0x7f080083
@@ -3447,7 +3450,6 @@ int id neverCompleteToEnd 0x7f08014c
 int id neverCompleteToStart 0x7f08014d
 int id noScroll 0x7f08014e
 int id noState 0x7f08014f
-int id nome 0x7f08022f
 int id none 0x7f080150
 int id normal 0x7f080151
 int id north 0x7f080152
@@ -3775,6 +3777,7 @@ int layout abc_search_dropdown_item_icons_2line 0x7f0b0018
 int layout abc_search_view 0x7f0b0019
 int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
+int layout activity_alunni 0x7f0b0077
 int layout activity_docente 0x7f0b001c
 int layout activity_genitore 0x7f0b001d
 int layout activity_main 0x7f0b001e

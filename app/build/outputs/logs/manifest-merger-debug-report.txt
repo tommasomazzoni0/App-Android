@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-38:12
-INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-38:12
-INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-38:12
-INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-38:12
+ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:1-39:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\User\.gradle\caches\transforms-3\1d1983722278f18dfcff420f2caf7969\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\User\.gradle\caches\transforms-3\1368dd662548bc0b53605e73a36a982c\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\User\.gradle\caches\transforms-3\fd9f9db7cc06c125d1a0b29f37c11c69\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
@@ -56,8 +56,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\User\.g
 	xmlns:android
 		ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-36:19
-INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-36:19
+ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-37:19
+INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:5:5-37:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\User\.gradle\caches\transforms-3\1d1983722278f18dfcff420f2caf7969\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\User\.gradle\caches\transforms-3\1d1983722278f18dfcff420f2caf7969\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\User\.gradle\caches\transforms-3\1368dd662548bc0b53605e73a36a982c\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -152,6 +152,10 @@ activity#com.example.app_registro_elettronico.assenzeAdapter
 ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:34:9-51
 	android:name
 		ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:34:19-49
+activity#com.example.app_registro_elettronico.alunniActivity
+ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:35:9-51
+	android:name
+		ADDED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml:35:19-49
 uses-sdk
 INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\User\Documents\GitHub\App-Android\app\src\main\AndroidManifest.xml

@@ -28,81 +28,89 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.note_activity);
+        String classe = getIntent().getStringExtra("classe_nome");
+        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
-        dataEditText = findViewById(R.id.data); // Campo data
-        nomeEditText = findViewById(R.id.nome); // Campo nome
-        notaEditText = findViewById(R.id.nota); // Campo nota
+        dataEditText = findViewById(R.id.data);
+        notaEditText = findViewById(R.id.nota);
         recyclerView = findViewById(R.id.notesRecyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Lista iniziale di note
         noteList = new ArrayList<>();
         noteList.add(new Note("01/01/2024", "Mario Rossi", "Nota di esempio 1"));
         noteList.add(new Note("02/01/2024", "Giovanni Bianchi", "Nota di esempio 2"));
         notesAdapter = new notesAdapter(noteList);
         recyclerView.setAdapter(notesAdapter);
 
-        // Listener per pulsante "Indietro"
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(inserimentoNoteActivity.this, alunniDocenteActivity.class);
+                intent.putExtra("classe_nome", classe);
+                intent.putStringArrayListExtra("alunni", alunni);
                 startActivity(intent);
                 finish();
             }
         });
 
-        // Listener per EditText della data
-        dataEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Ottieni data corrente
-                final Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+        dataEditText.setOnClickListener(view -> {
+            final Calendar calendar = Calendar.getInstance();
 
-                // Mostra il DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        inserimentoNoteActivity.this,
-                        (datePicker, selectedYear, selectedMonth, selectedDay) -> {
-                            // Imposta la data selezionata nell'EditText
-                            String selectedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
-                            dataEditText.setText(selectedDate);
-                        },
-                        year, month, day
-                );
-                datePickerDialog.show();
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONTH);
+
+            int startYear;
+            int endYear;
+
+            if (currentMonth >= Calendar.SEPTEMBER) {
+                startYear = currentYear;
+                endYear = currentYear + 1;
+            } else {
+                startYear = currentYear - 1;
+                endYear = currentYear;
             }
+
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(startYear, Calendar.SEPTEMBER, 1);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.set(endYear, Calendar.JUNE, 30);
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, selectedYear, selectedMonth, selectedDay) -> {
+                String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                dataEditText.setText(selectedDate);
+            }, year, month, day);
+
+            datePickerDialog.getDatePicker().setMinDate(startDate.getTimeInMillis());
+            datePickerDialog.getDatePicker().setMaxDate(endDate.getTimeInMillis());
+
+            datePickerDialog.show();
         });
 
-        // Listener per pulsante "Inserisci"
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Recupera i dati inseriti
                 String nuovaData = dataEditText.getText().toString().trim();
-                String nomeStudente = nomeEditText.getText().toString().trim();
+                String nome = "sus";  //nome del professore
                 String nuovaNota = notaEditText.getText().toString().trim();
 
-                if (nuovaData.isEmpty() || nomeStudente.isEmpty() || nuovaNota.isEmpty()) {
+                if (nuovaData.isEmpty() || nome.isEmpty() || nuovaNota.isEmpty()) {
                     Toast.makeText(inserimentoNoteActivity.this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Aggiungi una nuova nota alla lista
-                noteList.add(new Note(nuovaData, nomeStudente, nuovaNota));
-                notesAdapter.notifyDataSetChanged(); // Aggiorna il RecyclerView
+                noteList.add(new Note(nuovaData, nome, nuovaNota));
+                notesAdapter.notifyDataSetChanged();
 
-                // Mostra conferma
                 Toast.makeText(inserimentoNoteActivity.this, "Nota aggiunta con successo", Toast.LENGTH_SHORT).show();
-
-                // Pulisci i campi di input
                 dataEditText.setText("");
-                nomeEditText.setText("");
                 notaEditText.setText("");
             }
         });

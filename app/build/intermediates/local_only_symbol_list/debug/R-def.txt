@@ -19,16 +19,19 @@ id Username
 id Voti
 id VotiLayout
 id accedi
+id alunniLayout
 id assenze
 id assenzeElenco
 id assenzeLayout
 id assenzeRecyclerView
+id backButton
 id backButtonAssenze
 id backButtonMaterie
 id backButtonNote
 id backButtonVoti
 id cerchio_verde
 id classListLayout
+id classeTitle
 id data
 id dataVoti
 id dataassenza
@@ -43,7 +46,6 @@ id linearLayout
 id logOutButton
 id materieLayout
 id media
-id nome
 id nota
 id note
 id noteDate
@@ -70,6 +72,7 @@ id votiLayout
 id votiRecyclerView
 id voto
 id votoSpinner
+layout activity_alunni
 layout activity_docente
 layout activity_genitore
 layout activity_main
