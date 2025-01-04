@@ -29,15 +29,18 @@ id backButtonAssenze
 id backButtonMaterie
 id backButtonNote
 id backButtonVoti
+id bottonegiustifica
 id cerchio_verde
 id classListLayout
 id classeTitle
 id data
 id dataVoti
 id dataassenza
+id date
 id descriziome
 id errorMessage
 id giustifica
+id giustificaAssenze
 id indietro
 id inserisci
 id labelRegistroElettronico
@@ -60,6 +63,7 @@ id nuovaassenza
 id nuovanota
 id textViewAccedi
 id titoloAssenze
+id titoloGiustifica
 id titoloMateria
 id titoloNote
 id titoloValutazioni

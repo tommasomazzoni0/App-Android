@@ -5,22 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 
 public class genitoreActivity extends AppCompatActivity {
 
     private RelativeLayout cerchioVerde;
-    private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
-    private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
-    private Button giustifica, logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
+    private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, noteText, giustificaText, assenzaText, titoloValutazioni, nomeMateria;
+    private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout, giustificalayout;
+    private Button giustifica, logout, buttonMaterieIndietro, bottonegiustifica, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
 
+    Spinner spinner;
     private ArrayList<String> materie;
     private ArrayList<Integer> voti;
 
@@ -45,8 +42,12 @@ public class genitoreActivity extends AppCompatActivity {
         buttonAssenzaIndietro = findViewById(R.id.backButtonAssenze);
         buttonVotiIndietro = findViewById(R.id.backButtonVoti);
         buttonNoteIndietro = findViewById(R.id.backButtonNote);
-        giustifica = findViewById(R.id.giustifica);
-
+        giustificalayout=findViewById(R.id.giustificaAssenze);
+        assenzaText= findViewById(R.id.titoloAssenze);
+        giustificaText =findViewById(R.id.titoloGiustifica);
+        bottonegiustifica= findViewById(R.id.bottonegiustifica);
+        spinner =findViewById(R.id.date);
+        noteText = findViewById(R.id.titoloNote);
         voti = new ArrayList<>();
         voti.add(3);
         voti.add(4);
@@ -70,7 +71,23 @@ public class genitoreActivity extends AppCompatActivity {
 
         ArrayList<String> assenze= new ArrayList<>();
         assenze.add("2024-12-01 - Giustificata");
-        assenze.add("2024-12-02 - Non giustificata");
+        assenze.add("2024-12-03 - Non giustificata");
+        assenze.add("2024-12-04 - Non giustificata");
+        assenze.add("2024-12-05 - Non giustificata");
+        assenze.add("2024-12-06 - Non giustificata");
+        assenze.add("2024-12-07 - Non giustificata");
+        assenze.add("2024-12-08 - Non giustificata");
+        ArrayList<String> assenzeGiustificate = new ArrayList<>();
+        ArrayList<String> assenzeNonGiustificate = new ArrayList<>();
+
+        for (String assenza : assenze) {
+            if (assenza.contains("Giustificata")) {
+                assenzeGiustificate.add(assenza);
+            } else if (assenza.contains("Non giustificata")) {
+                assenzeNonGiustificate.add(assenza);
+            }
+        }
+
 
         int voto = 5;
         String materia = materie.get(0);
@@ -139,7 +156,9 @@ public class genitoreActivity extends AppCompatActivity {
                 assenzeTextView.setVisibility(View.GONE);
                 materieLayout.setVisibility(View.GONE);
                 votiLayout.setVisibility(View.GONE);
+                noteLayout.removeAllViews();
                 noteLayout.setVisibility(View.VISIBLE);
+                noteLayout.addView(noteText);
                 buttonNoteIndietro.setVisibility(View.VISIBLE);
 
                 for (int i = 0; i < note.size(); i++) {
@@ -172,6 +191,7 @@ public class genitoreActivity extends AppCompatActivity {
 
         TextView assenzeText = findViewById(R.id.assenze);
 
+
         assenzeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,14 +200,16 @@ public class genitoreActivity extends AppCompatActivity {
                 materiaTextView.setVisibility(View.GONE);
                 valutazioniTextView.setVisibility(View.GONE);
                 noteTextView.setVisibility(View.GONE);
+                assenzeTextView.setVisibility(View.GONE);
                 materieLayout.setVisibility(View.GONE);
                 votiLayout.setVisibility(View.GONE);
-                assenzeLayout.removeAllViews();
                 assenzeLayout.setVisibility(View.VISIBLE);
-                giustifica.setVisibility(View.VISIBLE);
                 buttonAssenzaIndietro.setVisibility(View.VISIBLE);
-
-                for (String assenza : assenze) {
+                giustificalayout.setVisibility(View.VISIBLE);
+                giustificaText.setVisibility(View.VISIBLE);
+                assenzeLayout.removeAllViews();
+                assenzeLayout.addView(assenzaText);
+                for (String assenza : assenzeGiustificate) {
                     String[] parts = assenza.split(" - ");
                     if (parts.length == 2) {
                         LinearLayout row = new LinearLayout(genitoreActivity.this);
@@ -207,11 +229,86 @@ public class genitoreActivity extends AppCompatActivity {
                         row.addView(statoView);
 
                         assenzeLayout.addView(row);
-                    }
 
+                    }
+                }
+
+                ArrayList<String> assenzeNonGiustificateDates = new ArrayList<>();
+                for (String assenza : assenzeNonGiustificate) {
+                    String[] parts = assenza.split(" - ");
+                    if (parts.length == 2) {
+                        assenzeNonGiustificateDates.add(parts[0]);
+                    }
+                }
+
+                if (assenzeNonGiustificateDates.isEmpty()) {
+                    Toast.makeText(genitoreActivity.this, "Non ci sono assenze non giustificate.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificateDates);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+            }
+        });
+
+        bottonegiustifica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (spinner.getSelectedItem() != null) {
+                    String selectedDate = spinner.getSelectedItem().toString();
+
+                    String assenzaNonGiustificata = selectedDate + " - Non giustificata";
+                    if (assenzeNonGiustificate.contains(assenzaNonGiustificata)) {
+                        assenzeNonGiustificate.remove(assenzaNonGiustificata);
+
+                        assenzeGiustificate.add(selectedDate + " - Giustificata");
+
+                        ArrayList<String> assenzeNonGiustificateDates = new ArrayList<>();
+                        for (String assenza : assenzeNonGiustificate) {
+                            String[] parts = assenza.split(" - ");
+                            if (parts.length == 2) {
+                                assenzeNonGiustificateDates.add(parts[0]);
+                            }
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificateDates);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
+
+                        Toast.makeText(genitoreActivity.this, "Assenza giustificata: " + selectedDate, Toast.LENGTH_SHORT).show();
+
+                        assenzeLayout.removeAllViews();
+                        assenzeLayout.addView(assenzaText);
+                        for (String assenza : assenzeGiustificate) {
+                            String[] parts = assenza.split(" - ");
+                            if (parts.length == 2) {
+                                LinearLayout row = new LinearLayout(genitoreActivity.this);
+                                row.setOrientation(LinearLayout.HORIZONTAL);
+
+                                TextView dataView = new TextView(genitoreActivity.this);
+                                dataView.setText(parts[0]);
+                                dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                                dataView.setPadding(16, 16, 16, 16);
+
+                                TextView statoView = new TextView(genitoreActivity.this);
+                                statoView.setText(parts[1]);
+                                statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                                statoView.setPadding(16, 16, 16, 16);
+
+                                row.addView(dataView);
+                                row.addView(statoView);
+
+                                assenzeLayout.addView(row);
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(genitoreActivity.this, "non ci sono assenze da giustificare", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
 
         buttonMaterieIndietro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +354,7 @@ public class genitoreActivity extends AppCompatActivity {
         buttonAssenzaIndietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                giustificalayout.setVisibility(View.GONE);
                 assenzeLayout.setVisibility(View.GONE);
                 buttonAssenzaIndietro.setVisibility(View.GONE);
                 cerchioVerde.setVisibility(View.VISIBLE);
@@ -265,9 +363,10 @@ public class genitoreActivity extends AppCompatActivity {
                 noteTextView.setVisibility(View.VISIBLE);
                 assenzeTextView.setVisibility(View.VISIBLE);
                 valutazioniTextView.setVisibility(View.VISIBLE);
-                giustifica.setVisibility(View.GONE);
+                giustificalayout.setVisibility(View.GONE);
             }
         });
+
 
 
         logout.setOnClickListener(new View.OnClickListener() {

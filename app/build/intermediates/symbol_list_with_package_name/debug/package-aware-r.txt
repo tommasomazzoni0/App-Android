@@ -3215,6 +3215,7 @@ id beginning
 id bestChoice
 id blocking
 id bottom
+id bottonegiustifica
 id bounce
 id bounceBoth
 id bounceEnd
@@ -3264,6 +3265,7 @@ id cut
 id data
 id dataVoti
 id dataassenza
+id date
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -3332,6 +3334,7 @@ id fullscreen_header
 id ghost_view
 id ghost_view_holder
 id giustifica
+id giustificaAssenze
 id gone
 id graph
 id graph_wrap
@@ -3614,6 +3617,7 @@ id title
 id titleDividerNoCustom
 id title_template
 id titoloAssenze
+id titoloGiustifica
 id titoloMateria
 id titoloNote
 id titoloValutazioni

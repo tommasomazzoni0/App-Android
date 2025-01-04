@@ -16,8 +16,8 @@
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_alunni.xml.flat",
-        "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_alunni.xml"
+        "merged": "com.example.app_registro_elettronico.app-merged_res-31:/layout_activity_genitore.xml.flat",
+        "source": "com.example.app_registro_elettronico.app-main-33:/layout/activity_genitore.xml"
     },
     {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_note_activity.xml.flat",
@@ -36,16 +36,16 @@
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-anydpi\\ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_dialog_note_info.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\dialog_note_info.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_studente.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_studente.xml"
     },
     {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-hdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_activity_studente.xml.flat",
-        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\activity_studente.xml"
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\layout_dialog_note_info.xml.flat",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-main-33:\\layout\\dialog_note_info.xml"
     },
     {
         "merged": "C:\\Users\\User\\.gradle\\daemon\\8.2\\com.example.app_registro_elettronico.app-merged_res-31:\\mipmap-mdpi_ic_launcher.webp.flat",
