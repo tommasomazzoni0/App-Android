@@ -11,11 +11,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity principale per la visualizzazione delle classi e degli alunni associati a un docente.
+ * Consente al docente di selezionare una classe per visualizzare gli alunni e di effettuare il logout.
+ */
 public class docenteActivity extends AppCompatActivity {
     private Map<String, ArrayList<String>> classiAlunniMap = new HashMap<>();
     TextView alunni;
     Button logout;
 
+    /**
+     * Metodo chiamato quando l'Activity viene creata.
+     * Popola la lista delle classi e degli alunni, e imposta i layout e i listener degli eventi.
+     *
+     * @param savedInstanceState Stato precedente dell'Activity, se presente.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +68,9 @@ public class docenteActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Popola la mappa delle classi e degli alunni con dati fittizi.
+     */
     private void populateClassiAndAlunni() {
         ArrayList<String> alunniClasse1 = new ArrayList<>();
         alunniClasse1.add("Alunno 1");

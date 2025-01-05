@@ -16,6 +16,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Activity che gestisce l'interfaccia studente, visualizzando i dettagli come voti, note e assenze.
+ */
 public class studenteActivity extends AppCompatActivity {
 
     private RelativeLayout cerchioVerde;
@@ -29,6 +32,11 @@ public class studenteActivity extends AppCompatActivity {
     private ArrayList<Integer> voti;
     String username;
 
+    /**
+     * Metodo di creazione dell'Activity. Viene inizializzata l'interfaccia utente e i dati.
+     *
+     * @param savedInstanceState Stato precedente dell'Activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,6 +295,12 @@ public class studenteActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Invia una richiesta al server per recuperare i dati dello studente.
+     *
+     * @param username Il nome utente dello studente.
+     */
     private void sendRequest(String username) {
         OkHttpClient client = new OkHttpClient();
 

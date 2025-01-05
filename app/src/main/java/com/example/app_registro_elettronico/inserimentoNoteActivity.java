@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Activity per la gestione dell'inserimento delle note per gli alunni.
+ * Permette di visualizzare una lista di note, aggiungere nuove note e navigare tra le schermate.
+ */
 public class inserimentoNoteActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -24,6 +28,11 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     private EditText dataEditText, nomeEditText, notaEditText;
     private Button indietro, inserisci;
 
+    /**
+     * Inizializza l'activity, configura il RecyclerView e imposta gli ascoltatori di eventi.
+     *
+     * @param savedInstanceState Bundle che contiene lo stato precedentemente salvato dell'activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

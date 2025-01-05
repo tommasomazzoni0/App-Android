@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+/**
+ * Activity per la schermata del Genitore nell'app.
+ * Mostra informazioni sui voti, le assenze e le note dello studente, e permette ai genitori di giustificare le assenze.
+ */
 public class genitoreActivity extends AppCompatActivity {
 
     private RelativeLayout cerchioVerde;
@@ -21,6 +25,11 @@ public class genitoreActivity extends AppCompatActivity {
     private ArrayList<String> materie;
     private ArrayList<Integer> voti;
 
+    /**
+     * Inizializza l'activity, imposta i componenti UI e gli ascoltatori di eventi.
+     *
+     * @param savedInstanceState Un bundle che contiene lo stato precedentemente salvato dell'activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

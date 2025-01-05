@@ -20,6 +20,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
+/**
+ * Activity principale per la gestione del login dell'utente.
+ * Consente all'utente di accedere inserendo username e password e di navigare verso l'activity corretta
+ * in base al ruolo dell'utente (studente, genitore, docente).
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String SERVER_URL = "https://tommasomazzoni.altervista.org/WS.php";
     private EditText usernameText;
@@ -28,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView errore;
     private String username;
 
+    /**
+     * Metodo di creazione dell'activity.
+     * Inizializza le viste, imposta gli ascoltatori di eventi e gestisce la logica di login.
+     *
+     * @param savedInstanceState Stato precedentemente salvato dell'activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
+            /**
+             * Metodo invocato in caso di errore nella connessione.
+             *
+             * @param call La chiamata HTTP.
+             * @param e    L'eccezione che è stata generata.
+             */
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 runOnUiThread(() -> {
@@ -83,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("HTTP_ERROR", e.getMessage(), e);
             }
 
+            /**
+             * Metodo invocato quando il server risponde con successo.
+             *
+             * @param call     La chiamata HTTP.
+             * @param response La risposta ricevuta dal server.
+             * @throws IOException In caso di errore nella lettura della risposta.
+             */
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {

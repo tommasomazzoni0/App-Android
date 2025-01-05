@@ -23,6 +23,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Activity per la gestione dell'inserimento delle valutazioni degli alunni.
+ * Consente di visualizzare le valutazioni, aggiungerne di nuove e navigare tra le schermate.
+ */
 public class inserimentoValutazioniActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -33,6 +37,11 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
     private Spinner votoSpinner;
     private float votoSelezionato;
 
+    /**
+     * Inizializza l'activity, configura il RecyclerView, il spinner per i voti e imposta gli ascoltatori di eventi.
+     *
+     * @param savedInstanceState Bundle che contiene lo stato precedentemente salvato dell'activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,12 +9,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+/**
+ * La classe alunniDocenteActivity rappresenta un'attività che consente ai docenti di gestire
+ * le valutazioni, le note e le assenze degli alunni di una determinata classe.
+ * Fornisce opzioni per navigare verso attività specifiche per l'inserimento di queste informazioni.
+ */
 public class alunniDocenteActivity extends AppCompatActivity {
 
     TextView valutazioniTextView, noteTextView, assenzeTextView;
     Button logout, indietro;
     String classe;
     ArrayList<String> alunni;
+
+    /**
+     * Metodo chiamato durante la creazione dell'attività.
+     * Inizializza la vista, configura i listener per i pulsanti e gestisce i dati passati tramite intent.
+     *
+     * @param savedInstanceState Lo stato salvato dell'attività, se presente.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

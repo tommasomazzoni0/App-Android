@@ -11,10 +11,20 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
+/**
+ * La classe alunniActivity rappresenta un'attività dell'app che mostra la lista degli alunni di una classe.
+ * L'utente può visualizzare i dettagli di ogni alunno o tornare all'attività precedente.
+ */
 public class alunniActivity extends AppCompatActivity {
 
     Button logout;
 
+    /**
+     * Metodo chiamato durante la creazione dell'attività.
+     * Inizializza la vista, configura i pulsanti e popola la lista degli alunni.
+     *
+     * @param savedInstanceState Lo stato salvato dell'attività, se presente.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +73,14 @@ public class alunniActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Metodo chiamato quando un'attività figlia restituisce un risultato.
+     * Aggiorna la lista degli alunni se ci sono modifiche.
+     * @param requestCode Il codice della richiesta originale.
+     * @param resultCode  Il risultato restituito dall'attività figlia.
+     * @param data        I dati aggiuntivi restituiti dall'attività figlia.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
