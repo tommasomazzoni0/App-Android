@@ -1,14 +1,17 @@
 package com.example.app_registro_elettronico.gestione;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * Rappresenta un'assenza di uno studente con la possibilità di indicare se è stata giustificata e con quale motivazione.
  */
-public class Assenza {
+public class Assenza implements Serializable {
 
     /**
      * La data dell'assenza.
      */
-    private String data;
+    private Date data;
 
     /**
      * Indica se l'assenza è stata giustificata.
@@ -18,26 +21,25 @@ public class Assenza {
     /**
      * La motivazione della giustificazione dell'assenza.
      */
-    private String giustificazione;
+    private Docente docente;
 
     /**
      * Costruttore della classe Assenza.
      *
      * @param data La data dell'assenza.
      * @param giustifica Indica se l'assenza è stata giustificata.
-     * @param giustificazione La motivazione della giustificazione.
      */
-    public Assenza(String data, boolean giustifica, String giustificazione) {
+    public Assenza(Docente docente, Date data, boolean giustifica) {
+        this.docente=docente;
         this.data = data;
-        this.giustifica = giustifica;
-        this.giustificazione = giustificazione;
+        this.giustifica=giustifica;
     }
 
     /**
      * Restituisce la data dell'assenza.
      * @return La data dell'assenza.
      */
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
@@ -45,7 +47,7 @@ public class Assenza {
      * Imposta la data dell'assenza.
      * @param data La nuova data dell'assenza.
      */
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 
@@ -71,16 +73,16 @@ public class Assenza {
      *
      * @return La motivazione della giustificazione.
      */
-    public String getgiustificazione() {
-        return giustificazione;
+    public Docente getdocente() {
+        return docente;
     }
 
     /**
      * Imposta la motivazione della giustificazione.
      *
-     * @param giustificazione La nuova motivazione della giustificazione.
+     * @param docente La nuova motivazione della giustificazione.
      */
-    public void setgiustificazione(String giustificazione) {
-        this.giustificazione = giustificazione;
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 }

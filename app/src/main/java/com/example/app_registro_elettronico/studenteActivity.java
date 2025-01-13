@@ -3,17 +3,12 @@ package com.example.app_registro_elettronico;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.app_registro_elettronico.gestione.Assenza;
+import com.example.app_registro_elettronico.gestione.Studente;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -27,10 +22,8 @@ public class studenteActivity extends AppCompatActivity {
     private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
     private Button logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
-
     private ArrayList<String> materie;
-    private ArrayList<Integer> voti;
-    String username;
+    Studente studente;
 
     /**
      * Metodo di creazione dell'Activity. Viene inizializzata l'interfaccia utente e i dati.
@@ -42,7 +35,7 @@ public class studenteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studente);
         Intent intent = getIntent();
-        username = intent.getStringExtra("username");
+        studente = (Studente) intent.getSerializableExtra("studente");
 
         cerchioVerde = findViewById(R.id.cerchio_verde);
         numeroTextView = findViewById(R.id.numero);
@@ -61,41 +54,18 @@ public class studenteActivity extends AppCompatActivity {
         buttonVotiIndietro = findViewById(R.id.backButtonVoti);
         buttonNoteIndietro = findViewById(R.id.backButtonNote);
 
-
-        sendRequest(username);
-
-
-        voti = new ArrayList<>();
-        voti.add(3);
-        voti.add(4);
-        voti.add(3);
-        voti.add(3);
-
-        materie = new ArrayList<>();
-        materie.add("Italiano");
+        double media = studente.getmedia();
+        ArrayList<String> materie= new ArrayList<>();
         materie.add("Matematica");
-        materie.add("Inglese");
-        materie.add("Scienze");
         materie.add("Italiano");
-        materie.add("Matematica");
-        materie.add("Inglese");
-        materie.add("Scienze");
+        materie.add("Storia");
+        materie.add("Informatica");
+        materie.add("Sistemi");
 
-        ArrayList<String> note = new ArrayList<>();
-        note.add("ciaooo");
-        note.add("sus");
-        note.add("damn");
 
-        ArrayList<String> assenze= new ArrayList<>();
-        assenze.add("2024-12-01 - Giustificata");
-        assenze.add("2024-12-02 - Non giustificata");
+        numeroTextView.setText(String.valueOf(media));
 
-        int voto = 5;
-        String materia = materie.get(0);
-
-        numeroTextView.setText(String.valueOf(voto));
-
-        if (voto >= 6) {
+        if (media >= 6) {
             cerchioVerde.setBackgroundResource(R.drawable.cerchio_verde);
         } else {
             cerchioVerde.setBackgroundResource(R.drawable.cerchio_rosso);
@@ -132,9 +102,9 @@ public class studenteActivity extends AppCompatActivity {
                             votiLayout.setVisibility(View.VISIBLE);
                             buttonVotiIndietro.setVisibility(View.VISIBLE);
                             votiLayout.addView(votiTextView);
-                            for (int j = 0; j < voti.size(); j++) {
+                            for (int j = 0; j < studente.getVoti().size(); j++) {
                                 Button voto = new Button(studenteActivity.this);
-                                voto.setText(String.valueOf(voti.get(j)));
+                                voto.setText(String.valueOf(studente.getVoti().get(j)));
                                 votiLayout.addView(voto);
                             }
                         }
@@ -160,11 +130,11 @@ public class studenteActivity extends AppCompatActivity {
                 noteLayout.setVisibility(View.VISIBLE);
                 buttonNoteIndietro.setVisibility(View.VISIBLE);
 
-                for (int i = 0; i < note.size(); i++) {
+                for (int i = 0; i < studente.getNote().size(); i++) {
                     Button nota = new Button(studenteActivity.this);
-                    nota.setText(note.get(i));
+                    nota.setText(studente.getNote().get(i).getDate().toString());
 
-                    final String noteInfo = note.get(i);
+                    final String noteInfo = studente.getNote().get(i).getText();
                     nota.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -204,9 +174,13 @@ public class studenteActivity extends AppCompatActivity {
                 assenzeLayout.setVisibility(View.VISIBLE);
                 buttonAssenzaIndietro.setVisibility(View.VISIBLE);
 
-                for (String assenza : assenze) {
-                    String[] parts = assenza.split(" - ");
-                    if (parts.length == 2) {
+                for (Assenza assenza : studente.getAssenze()) {
+                    String[] parts = new String[0];
+                    parts[0]= String.valueOf(assenza.getData());
+                     parts[1]= String.valueOf(assenza.getdocente());
+                     parts[2]= String.valueOf(assenza.getgiustifica());
+
+                    if (parts.length == 3) {
                         LinearLayout row = new LinearLayout(studenteActivity.this);
                         row.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -220,9 +194,15 @@ public class studenteActivity extends AppCompatActivity {
                         statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                         statoView.setPadding(16, 16, 16, 16);
 
+                        TextView susView = new TextView(studenteActivity.this);
+                        susView.setText(parts[1]);
+                        susView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        susView.setPadding(16, 16, 16, 16);
+
                         row.addView(dataView);
                         row.addView(statoView);
-
+                        row.addView(susView);
+                        
                         assenzeLayout.addView(row);
                     }
                 }
@@ -290,56 +270,6 @@ public class studenteActivity extends AppCompatActivity {
                 Intent intent = new Intent(studenteActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-            }
-        });
-
-    }
-
-
-    /**
-     * Invia una richiesta al server per recuperare i dati dello studente.
-     *
-     * @param username Il nome utente dello studente.
-     */
-    private void sendRequest(String username) {
-        OkHttpClient client = new OkHttpClient();
-
-        FormBody formBody = new FormBody.Builder()
-                .add("username", username)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(SERVER_URL)
-                .post(formBody)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                runOnUiThread(() -> {
-                    Toast.makeText(studenteActivity.this, "Errore di connessione", Toast.LENGTH_SHORT).show();
-                });
-                Log.e("HTTP_ERROR", e.getMessage(), e);
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    final String responseBody = response.body().string();
-                    runOnUiThread(() -> {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(responseBody);
-                            String status = jsonResponse.getString("status");
-
-                        } catch (JSONException e) {
-                            Log.e("JSON_ERROR", e.getMessage(), e);
-                        }
-                    });
-                } else {
-                    runOnUiThread(() -> {
-                        Toast.makeText(studenteActivity.this, "Errore dal server", Toast.LENGTH_SHORT).show();
-                    });
-                }
             }
         });
     }

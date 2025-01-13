@@ -62,7 +62,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         votiAdapter = new valutazioneAdapter(votiList);
         recyclerView.setAdapter(votiAdapter);
 
-        votiList.add(new Voti("01/01/2024", 3, "Nota di esempio 1"));
+        votiList.add(new Voti( 3, "matematica","SUSS","2024/01/02"));
         votiList.add(new Voti("02/01/2024", 10, "Nota di esempio 2"));
         votiAdapter.notifyDataSetChanged();
 
@@ -135,14 +135,14 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
 
         inserisci.setOnClickListener(view -> {
             String data = dataEditText.getText().toString();
-            String descrizione = descrizioneEditText.getText().toString();
+            String docente = descrizioneEditText.getText().toString();
 
-            if (TextUtils.isEmpty(data) || votoSelezionato == 0 || TextUtils.isEmpty(descrizione)) {
+            if (TextUtils.isEmpty(data) || votoSelezionato == 0 || TextUtils.isEmpty(docente)) {
                 Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            votiList.add(new Voti(data, votoSelezionato, descrizione));
+            votiList.add(new Voti(votoSelezionato, materia, docente,data));
             votiAdapter.notifyItemInserted(votiList.size() - 1);
 
             dataEditText.setText("");

@@ -1,13 +1,16 @@
 package com.example.app_registro_elettronico.gestione;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * La classe Note rappresenta una nota registrata nel sistema.
  * Ogni nota contiene una data, il nome del professore e il testo della nota.
  */
-public class Note {
+public class Note implements Serializable {
 
-    private String date;
-    private String professor;
+    private Date date;
+    private Docente professor;
     private String text;
 
     /**
@@ -17,7 +20,7 @@ public class Note {
      * @param professor Il nome del professore associato alla nota.
      * @param text      Il testo della nota.
      */
-    public Note(String date, String professor, String text) {
+    public Note(Date date, Docente professor, String text) {
         this.date = date;
         this.professor = professor;
         this.text = text;
@@ -27,7 +30,7 @@ public class Note {
      * Ottiene la data della nota.
      * @return La data della nota.
      */
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -35,7 +38,7 @@ public class Note {
      * Imposta una nuova data per la nota.
      * @param date La nuova data della nota.
      */
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -43,7 +46,7 @@ public class Note {
      * Ottiene il nome del professore associato alla nota.
      * @return Il nome del professore.
      */
-    public String getProfessor() {
+    public Docente getProfessor() {
         return professor;
     }
 
@@ -51,7 +54,7 @@ public class Note {
      * Imposta il nome del professore associato alla nota.
      * @param professor Il nuovo nome del professore.
      */
-    public void setProfessor(String professor) {
+    public void setProfessor(Docente professor) {
         this.professor = professor;
     }
 
