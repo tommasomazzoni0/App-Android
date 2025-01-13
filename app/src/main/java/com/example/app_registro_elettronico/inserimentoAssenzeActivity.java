@@ -14,6 +14,7 @@ import com.example.app_registro_elettronico.gestione.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,9 +26,12 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private assenzeAdapter assenzaAdapter;
-    private List<Assenza> assenzeList;
-    private EditText dataEditText; // Campo data
+    private EditText dataEditText;
     private Button indietro, inserisci;
+    Docente docente;
+    Studente alunno;
+    ArrayList<Studente> alunni;
+    Classe classe;
 
     /**
      * Inizializza l'activity, configura il RecyclerView e imposta gli ascoltatori di eventi.
@@ -38,30 +42,28 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assenze_activity);
-        String classe = getIntent().getStringExtra("classe_nome");
-        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
+        Intent intent = getIntent();
+        docente = (Docente) intent.getSerializableExtra("docente");
+        classe = (Classe) intent.getSerializableExtra("classi");
+        alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
+        alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
-        dataEditText = findViewById(R.id.data); // Associa il campo EditText
+        dataEditText = findViewById(R.id.data);
         recyclerView = findViewById(R.id.assenzeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        assenzeList = new ArrayList<>();
-        assenzeList.add(new Assenza("01/01/2024", false, "dasdasd"));
-        assenzeList.add(new Assenza("02/01/2024", false, "dadsa"));
-        assenzeList.add(new Assenza("02/01/2024", true, "Ndasdasda"));
-        assenzeList.add(new Assenza("02/01/2024", true, "dasdsadas"));
-        assenzaAdapter = new assenzeAdapter(assenzeList);
+        assenzaAdapter = new assenzeAdapter(alunno.getAssenze());
         recyclerView.setAdapter(assenzaAdapter);
 
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(inserimentoAssenzeActivity.this, alunniDocenteActivity.class);
-                intent.putExtra("classe_nome", classe);
-                intent.putStringArrayListExtra("alunni", alunni);
+                intent.putExtra("classi", classe);
+                intent.putExtra("alunni", alunni);
                 startActivity(intent);
                 finish();
             }
@@ -108,14 +110,14 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nuovaData = dataEditText.getText().toString().trim();
+                Date nuovaData = (Date) dataEditText.getText();
 
-                if (nuovaData.isEmpty()) {
+                if (nuovaData == null) {
                     Toast.makeText(inserimentoAssenzeActivity.this, "Inserisci una data valida", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                assenzeList.add(new Assenza(nuovaData, false, "Nuova assenza"));
+                alunno.getAssenze().add(new Assenza(docente, nuovaData, false));
                 assenzaAdapter.notifyDataSetChanged();
 
                 Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();

@@ -17,8 +17,6 @@ import java.util.ArrayList;
 public class studenteActivity extends AppCompatActivity {
 
     private RelativeLayout cerchioVerde;
-
-    String SERVER_URL= "https://tommasomazzoni.altervista.org/tornaStudente.php";
     private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
     private Button logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;

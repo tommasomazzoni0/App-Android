@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.app_registro_elettronico.gestione.Classe;
+import com.example.app_registro_elettronico.gestione.Docente;
+import com.example.app_registro_elettronico.gestione.Studente;
+
 import java.util.ArrayList;
 
 /**
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 public class alunniActivity extends AppCompatActivity {
 
     Button logout;
+    Classe classe;
+    ArrayList<Studente> alunni;
 
     /**
      * Metodo chiamato durante la creazione dell'attività.
@@ -29,28 +35,30 @@ public class alunniActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alunni);
+        Intent intent = getIntent();
+        classe =(Classe) intent.getSerializableExtra("classi");
+        alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
 
         TextView classeTitle = findViewById(R.id.classeTitle);
         LinearLayout alunniLayout = findViewById(R.id.alunniLayout);
         Button backButton = findViewById(R.id.backButton);
 
-        String classe = getIntent().getStringExtra("classe_nome");
-        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
 
         classeTitle.setText("Alunni della " + classe);
 
         if (alunni != null) {
-            for (String alunno : alunni) {
+            for (Studente alunno : alunni) {
                 Button button = new Button(this);
-                button.setText(alunno);
+                button.setText(alunno.getNome() + " " + alunno.getCognome());
                 button.setBackgroundColor(Color.parseColor("#333333"));
                 button.setTextColor(getResources().getColor(android.R.color.white));
 
                 button.setOnClickListener(v -> {
-                    Intent intent = new Intent(alunniActivity.this, alunniDocenteActivity.class);
-                    intent.putExtra("classe_nome", classe);
-                    intent.putStringArrayListExtra("alunni", alunni);
-                    startActivity(intent);
+                    Intent intent2 = new Intent(alunniActivity.this, alunniDocenteActivity.class);
+                    intent2.putExtra("classi", classe);
+                    intent2.putExtra("alunni", alunni);
+                    intent2.putExtra("alunno_selezionato", alunno);
+                    startActivity(intent2);
                 });
 
                 alunniLayout.addView(button);
@@ -67,8 +75,8 @@ public class alunniActivity extends AppCompatActivity {
         }
 
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(alunniActivity.this, docenteActivity.class);
-            startActivity(intent);
+            Intent intent1 = new Intent(alunniActivity.this, docenteActivity.class);
+            startActivity(intent1);
             finish();
         });
     }
@@ -86,8 +94,8 @@ public class alunniActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            String classe = data.getStringExtra("classe_nome");
-            ArrayList<String> alunni = data.getStringArrayListExtra("alunni");
+            Classe classe = (Classe) data.getSerializableExtra("classi");
+            ArrayList<Studente> alunni = (ArrayList<Studente>) data.getSerializableExtra("alunni");
 
             if (classe != null && alunni != null) {
                 TextView classeTitle = findViewById(R.id.classeTitle);
@@ -96,16 +104,17 @@ public class alunniActivity extends AppCompatActivity {
                 LinearLayout alunniLayout = findViewById(R.id.alunniLayout);
                 alunniLayout.removeAllViews();  // Pulisci la lista precedente
 
-                for (String alunno : alunni) {
+                for (Studente alunno : alunni) {
                     Button button = new Button(this);
-                    button.setText(alunno);
+                    button.setText(alunno.getNome() + " " + alunno.getCognome());
                     button.setBackgroundColor(Color.parseColor("#333333"));
                     button.setTextColor(getResources().getColor(android.R.color.white));
 
                     button.setOnClickListener(v -> {
                         Intent intent = new Intent(alunniActivity.this, alunniDocenteActivity.class);
-                        intent.putExtra("classe_nome", classe);
-                        intent.putStringArrayListExtra("alunni", alunni);
+                        intent.putExtra("classi", classe);
+                        intent.putExtra("alunni", alunni);
+                        intent.putExtra("alunno_selezionato", alunno);
                         startActivityForResult(intent, 1);
                     });
 

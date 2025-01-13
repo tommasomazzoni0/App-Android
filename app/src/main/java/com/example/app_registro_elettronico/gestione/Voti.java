@@ -68,6 +68,10 @@ public class Voti implements Serializable {
         return docente;
     }
 
+    public String getMateria() {
+        return materia;
+    }
+
     /**
      * Imposta una nuova descrizione per il voto.
      * @param docente La nuova descrizione del voto.

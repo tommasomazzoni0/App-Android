@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.app_registro_elettronico.gestione.Classe;
+import com.example.app_registro_elettronico.gestione.Docente;
+import com.example.app_registro_elettronico.gestione.Genitore;
+import com.example.app_registro_elettronico.gestione.Studente;
 
 import java.util.ArrayList;
 
@@ -18,8 +22,10 @@ public class alunniDocenteActivity extends AppCompatActivity {
 
     TextView valutazioniTextView, noteTextView, assenzeTextView;
     Button logout, indietro;
-    String classe;
-    ArrayList<String> alunni;
+    Classe classe;
+    ArrayList<Studente> alunni;
+    Docente docente;
+    Studente alunno;
 
     /**
      * Metodo chiamato durante la creazione dell'attività.
@@ -31,8 +37,12 @@ public class alunniDocenteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docente);
-        classe = getIntent().getStringExtra("classe_nome");
-        alunni = getIntent().getStringArrayListExtra("alunni");
+        Intent intent = getIntent();
+        docente = (Docente) intent.getSerializableExtra("docente");
+        classe = (Classe) intent.getSerializableExtra("classi");
+        alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
+        alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
+
 
         valutazioniTextView = findViewById(R.id.valutazioni);
         noteTextView = findViewById(R.id.note);
@@ -42,8 +52,8 @@ public class alunniDocenteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(alunniDocenteActivity.this, inserimentoValutazioniActivity.class);
-                intent.putExtra("classe_nome", classe);
-                intent.putStringArrayListExtra("alunni", alunni);
+                intent.putExtra("classi", classe);
+                intent.putExtra("alunno_selezionato", alunno);
                 startActivity(intent);
                 finish();
             }
@@ -53,8 +63,8 @@ public class alunniDocenteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(alunniDocenteActivity.this, inserimentoNoteActivity.class);
-                intent.putExtra("classe_nome", classe);
-                intent.putStringArrayListExtra("alunni", alunni);
+                intent.putExtra("classi", classe);
+                intent.putExtra("alunno_selezionato", alunno);
                 startActivity(intent);
                 finish();
             }
@@ -64,8 +74,8 @@ public class alunniDocenteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(alunniDocenteActivity.this, inserimentoAssenzeActivity.class);
-                intent.putExtra("classe_nome", classe);
-                intent.putStringArrayListExtra("alunni", alunni);
+                intent.putExtra("classi", classe);
+                intent.putExtra("alunno_selezionato", alunno);
                 startActivity(intent);
                 finish();
             }
@@ -73,10 +83,10 @@ public class alunniDocenteActivity extends AppCompatActivity {
 
         indietro = findViewById(R.id.indietro);
         indietro.setOnClickListener(v -> {
-            Intent intent = new Intent(alunniDocenteActivity.this, alunniActivity.class);
-            intent.putExtra("classe_nome", classe);
-            intent.putStringArrayListExtra("alunni", alunni);
-            startActivity(intent);
+            Intent intent1 = new Intent(alunniDocenteActivity.this, alunniActivity.class);
+            intent1.putExtra("classi", classe);
+            intent1.putExtra("alunni", alunni);
+            startActivity(intent1);
             finish();
         });
 

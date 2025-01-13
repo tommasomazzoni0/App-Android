@@ -16,11 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app_registro_elettronico.gestione.Voti;
+import com.example.app_registro_elettronico.gestione.*;
 import com.example.app_registro_elettronico.valutazioneAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,11 +32,15 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private valutazioneAdapter votiAdapter;
-    private List<Voti> votiList;
     private Button indietro, inserisci;
     private EditText dataEditText, descrizioneEditText;
     private Spinner votoSpinner;
     private float votoSelezionato;
+    Classe classe;
+    Docente docente;
+    Studente alunno;
+    ArrayList<Studente> alunni;
+    ArrayList<Studente> studenti;
 
     /**
      * Inizializza l'activity, configura il RecyclerView, il spinner per i voti e imposta gli ascoltatori di eventi.
@@ -46,9 +51,11 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valutazioni_activity);
-        String classe = getIntent().getStringExtra("classe_nome");
-        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
-
+        Intent intent = getIntent();
+        docente = (Docente) intent.getSerializableExtra("docente");
+        classe = (Classe) intent.getSerializableExtra("classi");
+        alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
+        alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
@@ -58,19 +65,15 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         votoSpinner = findViewById(R.id.votoSpinner);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        votiList = new ArrayList<>();
-        votiAdapter = new valutazioneAdapter(votiList);
+        votiAdapter = new valutazioneAdapter(alunno.getVoti());
         recyclerView.setAdapter(votiAdapter);
-
-        votiList.add(new Voti( 3, "matematica","SUSS","2024/01/02"));
-        votiList.add(new Voti("02/01/2024", 10, "Nota di esempio 2"));
         votiAdapter.notifyDataSetChanged();
 
         indietro.setOnClickListener(view -> {
-            Intent intent = new Intent(inserimentoValutazioniActivity.this, alunniDocenteActivity.class);
-            intent.putExtra("classe_nome", classe);
-            intent.putStringArrayListExtra("alunni", alunni);
-            startActivity(intent);
+            Intent intent1 = new Intent(inserimentoValutazioniActivity.this, alunniDocenteActivity.class);
+            intent1.putExtra("classi", classe);
+            intent1.putExtra("alunni", studenti);
+            startActivity(intent1);
             finish();
         });
 
@@ -113,9 +116,6 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         });
 
 
-
-
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.voti_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -134,16 +134,16 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         });
 
         inserisci.setOnClickListener(view -> {
-            String data = dataEditText.getText().toString();
-            String docente = descrizioneEditText.getText().toString();
+            Date data = (Date) dataEditText.getText();
 
-            if (TextUtils.isEmpty(data) || votoSelezionato == 0 || TextUtils.isEmpty(docente)) {
+            if (TextUtils.isEmpty((CharSequence) data) || votoSelezionato == 0) {
                 Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            votiList.add(new Voti(votoSelezionato, materia, docente,data));
-            votiAdapter.notifyItemInserted(votiList.size() - 1);
+
+            alunno.getVoti().add(new Voti(votoSelezionato,"italiano", docente,data));
+            votiAdapter.notifyItemInserted(alunno.getVoti().size() - 1);
 
             dataEditText.setText("");
             descrizioneEditText.setText("");

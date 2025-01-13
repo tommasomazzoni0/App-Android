@@ -60,48 +60,6 @@ public class Classe implements Serializable {
     }
 
     /**
-     * Metodo che serve per calcolare la media mensile sia degli studenti che della classe.
-     *
-     * @param mese Mese riferito alla media da calcolare (1 = gennaio, 2 = febbraio etc...).
-     * @return Media mensile studenti nel mese specificato.
-     */
-    public double getMediaMensile(int mese){
-        double media = 0;
-        for (Studente s: studenti) {
-            media += s.getMediaMensile(mese);
-        }
-
-        if(studenti.isEmpty()){ //non ci sono studenti
-            return 0;
-        }
-        else{
-            return media/studenti.size();
-        }
-    }
-
-    /**
-     * Metodo che serve per calcolare la media di ciascun materia sia degli studenti che della classe.
-     *
-     * @param materia Materia per la quale calcolare la media.
-     * @return Media materia per gli studenti della classe.
-     */
-    public double getMediaMateria(String materia){
-        double media = 0;
-        int qt = 0;
-        for (Studente s: studenti) {
-            media += s.getMediaMateria(materia);
-            qt++;
-        }
-
-        if(qt==0){ //non ci sono studenti
-            return 0;
-        }
-        else{
-            return media/qt;
-        }
-    }
-
-    /**
      * Metodo che serve per restituire la classe in formato stringa.
      * Include: anno, sezione e indirizzo (tutto in minuscolo).
      *

@@ -14,6 +14,7 @@ import com.example.app_registro_elettronico.gestione.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +28,11 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     private List<Note> noteList;
     private EditText dataEditText, nomeEditText, notaEditText;
     private Button indietro, inserisci;
+    Docente docente;
+    Classe classe;
+    Studente alunno;
+
+    ArrayList<Studente> alunni;
 
     /**
      * Inizializza l'activity, configura il RecyclerView e imposta gli ascoltatori di eventi.
@@ -37,8 +43,11 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.note_activity);
-        String classe = getIntent().getStringExtra("classe_nome");
-        ArrayList<String> alunni = getIntent().getStringArrayListExtra("alunni");
+        Intent intent = getIntent();
+        docente = (Docente) intent.getSerializableExtra("docente");
+        classe = (Classe) intent.getSerializableExtra("classi");
+        alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
+        alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
@@ -48,10 +57,7 @@ public class inserimentoNoteActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        noteList = new ArrayList<>();
-        noteList.add(new Note("01/01/2024", "Mario Rossi", "Nota di esempio 1"));
-        noteList.add(new Note("02/01/2024", "Giovanni Bianchi", "Nota di esempio 2"));
-        notesAdapter = new notesAdapter(noteList);
+        notesAdapter = new notesAdapter(alunno.getNote());
         recyclerView.setAdapter(notesAdapter);
 
         indietro.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +65,7 @@ public class inserimentoNoteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(inserimentoNoteActivity.this, alunniDocenteActivity.class);
                 intent.putExtra("classe_nome", classe);
-                intent.putStringArrayListExtra("alunni", alunni);
+                intent.putExtra("alunni", alunni);
                 startActivity(intent);
                 finish();
             }
@@ -106,16 +112,15 @@ public class inserimentoNoteActivity extends AppCompatActivity {
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nuovaData = dataEditText.getText().toString().trim();
-                String nome = "sus";  //nome del professore
+                Date nuovaData = (Date) dataEditText.getText();
                 String nuovaNota = notaEditText.getText().toString().trim();
 
-                if (nuovaData.isEmpty() || nome.isEmpty() || nuovaNota.isEmpty()) {
+                if (nuovaData == null && nuovaNota.isEmpty()) {
                     Toast.makeText(inserimentoNoteActivity.this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                noteList.add(new Note(nuovaData, nome, nuovaNota));
+                noteList.add(new Note(nuovaData, docente, nuovaNota));
                 notesAdapter.notifyDataSetChanged();
 
                 Toast.makeText(inserimentoNoteActivity.this, "Nota aggiunta con successo", Toast.LENGTH_SHORT).show();

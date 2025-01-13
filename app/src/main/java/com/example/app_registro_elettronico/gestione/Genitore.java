@@ -37,4 +37,17 @@ public class Genitore extends Persona implements Serializable {
     public void setFiglio(Studente figlio){
         this.figlio = figlio;
     }
+    public double getmedia(){
+        double media = 0;
+        for (Voti v: figlio.getVoti()) {
+            media += v.getvoto();
+        }
+        if(figlio.getVoti().isEmpty()){
+            return 0;
+        }
+        else{
+            return media/figlio.getVoti().size();
+        }
+    }
+
 }

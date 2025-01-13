@@ -7,8 +7,13 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.app_registro_elettronico.gestione.Assenza;
+import com.example.app_registro_elettronico.gestione.Genitore;
+import com.example.app_registro_elettronico.gestione.Studente;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Activity per la schermata del Genitore nell'app.
@@ -20,10 +25,9 @@ public class genitoreActivity extends AppCompatActivity {
     private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, noteText, giustificaText, assenzaText, titoloValutazioni, nomeMateria;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout, giustificalayout;
     private Button giustifica, logout, buttonMaterieIndietro, bottonegiustifica, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
-
+    Genitore genitore;
     Spinner spinner;
     private ArrayList<String> materie;
-    private ArrayList<Integer> voti;
 
     /**
      * Inizializza l'activity, imposta i componenti UI e gli ascoltatori di eventi.
@@ -34,7 +38,8 @@ public class genitoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genitore);
-
+        Intent intent = getIntent();
+        genitore = (Genitore) intent.getSerializableExtra("studente");
         cerchioVerde = findViewById(R.id.cerchio_verde);
         numeroTextView = findViewById(R.id.numero);
         materiaTextView = findViewById(R.id.media);
@@ -57,42 +62,28 @@ public class genitoreActivity extends AppCompatActivity {
         bottonegiustifica= findViewById(R.id.bottonegiustifica);
         spinner =findViewById(R.id.date);
         noteText = findViewById(R.id.titoloNote);
-        voti = new ArrayList<>();
-        voti.add(3);
-        voti.add(4);
-        voti.add(3);
-        voti.add(3);
 
-        materie = new ArrayList<>();
-        materie.add("Italiano");
+        double media = genitore.getmedia();
+        ArrayList<String> materie= new ArrayList<>();
         materie.add("Matematica");
-        materie.add("Inglese");
-        materie.add("Scienze");
         materie.add("Italiano");
-        materie.add("Matematica");
-        materie.add("Inglese");
-        materie.add("Scienze");
+        materie.add("Storia");
+        materie.add("Informatica");
+        materie.add("Sistemi");
 
-        ArrayList<String> note = new ArrayList<>();
-        note.add("ciaooo");
-        note.add("sus");
-        note.add("damn");
 
-        ArrayList<String> assenze= new ArrayList<>();
-        assenze.add("2024-12-01 - Giustificata");
-        assenze.add("2024-12-03 - Non giustificata");
-        assenze.add("2024-12-04 - Non giustificata");
-        assenze.add("2024-12-05 - Non giustificata");
-        assenze.add("2024-12-06 - Non giustificata");
-        assenze.add("2024-12-07 - Non giustificata");
-        assenze.add("2024-12-08 - Non giustificata");
-        ArrayList<String> assenzeGiustificate = new ArrayList<>();
-        ArrayList<String> assenzeNonGiustificate = new ArrayList<>();
+        ArrayList<Assenza> assenze = new ArrayList<>();
+        for (Assenza assenza : genitore.getFiglio().getAssenze()) {
+            assenze.add(assenza);
+        }
+        ArrayList<Assenza> assenzeGiustificate = new ArrayList<>();
+        ArrayList<Assenza> assenzeNonGiustificate = new ArrayList<>();
 
-        for (String assenza : assenze) {
-            if (assenza.contains("Giustificata")) {
+
+        for (Assenza assenza : assenze) {
+            if (assenza.getgiustifica()==true) {
                 assenzeGiustificate.add(assenza);
-            } else if (assenza.contains("Non giustificata")) {
+            } else if (assenza.getgiustifica()==false) {
                 assenzeNonGiustificate.add(assenza);
             }
         }
@@ -140,9 +131,9 @@ public class genitoreActivity extends AppCompatActivity {
                             votiLayout.setVisibility(View.VISIBLE);
                             buttonVotiIndietro.setVisibility(View.VISIBLE);
                             votiLayout.addView(votiTextView);
-                            for (int j = 0; j < voti.size(); j++) {
+                            for (int j = 0; j < genitore.getFiglio().getVoti().size(); j++) {
                                 Button voto = new Button(genitoreActivity.this);
-                                voto.setText(String.valueOf(voti.get(j)));
+                                voto.setText(String.valueOf(genitore.getFiglio().getVoti().get(j)));
                                 votiLayout.addView(voto);
                             }
                         }
@@ -170,11 +161,11 @@ public class genitoreActivity extends AppCompatActivity {
                 noteLayout.addView(noteText);
                 buttonNoteIndietro.setVisibility(View.VISIBLE);
 
-                for (int i = 0; i < note.size(); i++) {
+                for (int i = 0; i < genitore.getFiglio().getNote().size(); i++) {
                     Button nota = new Button(genitoreActivity.this);
-                    nota.setText(note.get(i));
+                    nota.setText(genitore.getFiglio().getNote().get(i).getDate().toString());
 
-                    final String noteInfo = note.get(i);
+                    final String noteInfo = genitore.getFiglio().getNote().get(i).getText();
                     nota.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -218,43 +209,41 @@ public class genitoreActivity extends AppCompatActivity {
                 giustificaText.setVisibility(View.VISIBLE);
                 assenzeLayout.removeAllViews();
                 assenzeLayout.addView(assenzaText);
-                for (String assenza : assenzeGiustificate) {
-                    String[] parts = assenza.split(" - ");
-                    if (parts.length == 2) {
-                        LinearLayout row = new LinearLayout(genitoreActivity.this);
-                        row.setOrientation(LinearLayout.HORIZONTAL);
 
-                        TextView dataView = new TextView(genitoreActivity.this);
-                        dataView.setText(parts[0]);
-                        dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                        dataView.setPadding(16, 16, 16, 16);
+                // Aggiunge le assenze giustificate alla vista
+                for (Assenza assenza : assenzeGiustificate) {
+                    LinearLayout row = new LinearLayout(genitoreActivity.this);
+                    row.setOrientation(LinearLayout.HORIZONTAL);
 
-                        TextView statoView = new TextView(genitoreActivity.this);
-                        statoView.setText(parts[1]);
-                        statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                        statoView.setPadding(16, 16, 16, 16);
+                    TextView dataView = new TextView(genitoreActivity.this);
+                    dataView.setText(String.valueOf(assenza.getData()));
+                    dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                    dataView.setPadding(16, 16, 16, 16);
 
-                        row.addView(dataView);
-                        row.addView(statoView);
+                    TextView docenteView = new TextView(genitoreActivity.this);
+                    docenteView.setText(assenza.getdocente().getNome()+" "+assenza.getdocente().getCognome());
+                    docenteView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                    docenteView.setPadding(16, 16, 16, 16);
 
-                        assenzeLayout.addView(row);
+                    TextView statoView = new TextView(genitoreActivity.this);
+                    statoView.setText("Giustificata");
+                    statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                    statoView.setPadding(16, 16, 16, 16);
 
-                    }
+                    row.addView(dataView);
+                    row.addView(docenteView);
+                    row.addView(statoView);
+
+                    assenzeLayout.addView(row);
                 }
 
-                ArrayList<String> assenzeNonGiustificateDates = new ArrayList<>();
-                for (String assenza : assenzeNonGiustificate) {
-                    String[] parts = assenza.split(" - ");
-                    if (parts.length == 2) {
-                        assenzeNonGiustificateDates.add(parts[0]);
-                    }
-                }
-
-                if (assenzeNonGiustificateDates.isEmpty()) {
+                // Configura lo spinner con le assenze non giustificate
+                if (assenzeNonGiustificate.isEmpty()) {
                     Toast.makeText(genitoreActivity.this, "Non ci sono assenze non giustificate.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificateDates);
+
+                ArrayAdapter<Assenza> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificate);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(adapter);
             }
@@ -263,59 +252,58 @@ public class genitoreActivity extends AppCompatActivity {
         bottonegiustifica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (spinner.getSelectedItem() != null) {
-                    String selectedDate = spinner.getSelectedItem().toString();
+                Assenza selectedAssenza = (Assenza) spinner.getSelectedItem();
+                if (selectedAssenza != null) {
+                    // Rimuove l'assenza non giustificata e la aggiunge a quelle giustificate
+                    assenzeNonGiustificate.remove(selectedAssenza);
+                    selectedAssenza.setgiustifica(true);
+                    assenzeGiustificate.add(selectedAssenza);
 
-                    String assenzaNonGiustificata = selectedDate + " - Non giustificata";
-                    if (assenzeNonGiustificate.contains(assenzaNonGiustificata)) {
-                        assenzeNonGiustificate.remove(assenzaNonGiustificata);
+                    // Aggiorna lo spinner
+                    ArrayAdapter<Assenza> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificate);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
 
-                        assenzeGiustificate.add(selectedDate + " - Giustificata");
+                    // Mostra un messaggio di conferma
+                    Toast.makeText(genitoreActivity.this, "Assenza giustificata: " + selectedAssenza.getData(), Toast.LENGTH_SHORT).show();
 
-                        ArrayList<String> assenzeNonGiustificateDates = new ArrayList<>();
-                        for (String assenza : assenzeNonGiustificate) {
-                            String[] parts = assenza.split(" - ");
-                            if (parts.length == 2) {
-                                assenzeNonGiustificateDates.add(parts[0]);
-                            }
-                        }
+                    // Aggiorna la vista delle assenze giustificate
+                    assenzeLayout.removeAllViews();
+                    assenzeLayout.addView(assenzaText);
+                    for (Assenza assenza : assenzeGiustificate) {
+                        LinearLayout row = new LinearLayout(genitoreActivity.this);
+                        row.setOrientation(LinearLayout.HORIZONTAL);
 
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificateDates);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner.setAdapter(adapter);
+                        TextView dataView = new TextView(genitoreActivity.this);
+                        dataView.setText(String.valueOf(assenza.getData()));
+                        dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        dataView.setPadding(16, 16, 16, 16);
 
-                        Toast.makeText(genitoreActivity.this, "Assenza giustificata: " + selectedDate, Toast.LENGTH_SHORT).show();
+                        TextView docenteView = new TextView(genitoreActivity.this);
+                        docenteView.setText(assenza.getdocente().getNome() + " " + assenza.getdocente().getCognome());
+                        docenteView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        docenteView.setPadding(16, 16, 16, 16);
 
-                        assenzeLayout.removeAllViews();
-                        assenzeLayout.addView(assenzaText);
-                        for (String assenza : assenzeGiustificate) {
-                            String[] parts = assenza.split(" - ");
-                            if (parts.length == 2) {
-                                LinearLayout row = new LinearLayout(genitoreActivity.this);
-                                row.setOrientation(LinearLayout.HORIZONTAL);
+                        TextView statoView = new TextView(genitoreActivity.this);
+                        statoView.setText("Giustificata");
+                        statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        statoView.setPadding(16, 16, 16, 16);
 
-                                TextView dataView = new TextView(genitoreActivity.this);
-                                dataView.setText(parts[0]);
-                                dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                                dataView.setPadding(16, 16, 16, 16);
+                        row.addView(dataView);
+                        row.addView(docenteView);
+                        row.addView(statoView);
 
-                                TextView statoView = new TextView(genitoreActivity.this);
-                                statoView.setText(parts[1]);
-                                statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                                statoView.setPadding(16, 16, 16, 16);
+                        assenzeLayout.addView(row);
 
-                                row.addView(dataView);
-                                row.addView(statoView);
-
-                                assenzeLayout.addView(row);
-                            }
-                        }
+                        ArrayList<Assenza> elencoAssenze = ordinaAssenze(assenzeGiustificate,assenzeNonGiustificate);
+                        genitore.getFiglio().setAssenze(elencoAssenze);
                     }
                 } else {
-                    Toast.makeText(genitoreActivity.this, "non ci sono assenze da giustificare", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(genitoreActivity.this, "Non ci sono assenze da giustificare.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
 
 
@@ -388,7 +376,24 @@ public class genitoreActivity extends AppCompatActivity {
         });
 
     }
+
+    public static ArrayList<Assenza> ordinaAssenze(ArrayList<Assenza> assenzeGiustificate, ArrayList<Assenza> assenzeNonGiustificate) {
+        ArrayList<Assenza> assenze = new ArrayList<>();
+
+        // Aggiungi le due liste alla nuova lista
+        assenze.addAll(assenzeGiustificate);
+        assenze.addAll(assenzeNonGiustificate);
+
+        // Ordina la lista unificata per data
+        assenze.sort((a1, a2) -> a1.getData().compareTo(a2.getData()));
+
+        // Restituisci la lista ordinata
+        return assenze;
+    }
+
 }
+
+
 
 
 

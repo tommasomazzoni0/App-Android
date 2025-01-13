@@ -7,6 +7,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.app_registro_elettronico.gestione.Classe;
+import com.example.app_registro_elettronico.gestione.Docente;
+import com.example.app_registro_elettronico.gestione.Genitore;
+import com.example.app_registro_elettronico.gestione.Studente;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +24,7 @@ public class docenteActivity extends AppCompatActivity {
     private Map<String, ArrayList<String>> classiAlunniMap = new HashMap<>();
     TextView alunni;
     Button logout;
-
+    Docente docente;
     /**
      * Metodo chiamato quando l'Activity viene creata.
      * Popola la lista delle classi e degli alunni, e imposta i layout e i listener degli eventi.
@@ -30,23 +35,24 @@ public class docenteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.docente_main);
-        populateClassiAndAlunni();
+        Intent intent = getIntent();
+        docente = (Docente) intent.getSerializableExtra("docente");
 
         LinearLayout classListLayout = findViewById(R.id.classListLayout);
         alunni = findViewById(R.id.leTueClassi);
 
-        for (String classe : classiAlunniMap.keySet()) {
+        for (Classe classe : docente.getClassi()) {
             Button button = new Button(this);
-            button.setText(classe);
+            button.setText(classe.getAnno() + " " + classe.getSezione() + " "+ classe.getIndirizzo());
             button.setBackgroundColor(Color.parseColor("#333333"));
             button.setTextColor(getResources().getColor(android.R.color.white));
 
             button.setOnClickListener(v -> {
-                ArrayList<String> alunni = classiAlunniMap.get(classe);
-                Intent intent = new Intent(docenteActivity.this, alunniActivity.class);
-                intent.putExtra("classe_nome", classe);
-                intent.putStringArrayListExtra("alunni", alunni);
-                startActivity(intent);
+                ArrayList<Studente> alunni = classe.getStudenti();
+                Intent intent1 = new Intent(docenteActivity.this, alunniActivity.class);
+                intent1.putExtra("classi", classe);
+                intent1.putExtra("alunni", alunni);
+                startActivity(intent1);
             });
 
             classListLayout.addView(button);
@@ -62,27 +68,10 @@ public class docenteActivity extends AppCompatActivity {
         logout = findViewById(R.id.logOutButton);
 
         logout.setOnClickListener(view -> {
-            Intent intent = new Intent(docenteActivity.this, MainActivity.class);
-            startActivity(intent);
+            Intent intent2 = new Intent(docenteActivity.this, MainActivity.class);
+            startActivity(intent2);
             finish();
         });
     }
 
-    /**
-     * Popola la mappa delle classi e degli alunni con dati fittizi.
-     */
-    private void populateClassiAndAlunni() {
-        ArrayList<String> alunniClasse1 = new ArrayList<>();
-        alunniClasse1.add("Alunno 1");
-        alunniClasse1.add("Alunno 2");
-        alunniClasse1.add("Alunno 3");
-
-        ArrayList<String> alunniClasse2 = new ArrayList<>();
-        alunniClasse2.add("Alunno 4");
-        alunniClasse2.add("Alunno 5");
-        alunniClasse2.add("Alunno 6");
-
-        classiAlunniMap.put("Classe 1", alunniClasse1);
-        classiAlunniMap.put("Classe 2", alunniClasse2);
-    }
 }

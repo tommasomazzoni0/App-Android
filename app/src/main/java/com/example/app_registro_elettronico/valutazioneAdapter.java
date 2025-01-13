@@ -55,7 +55,7 @@ public class valutazioneAdapter extends RecyclerView.Adapter<valutazioneAdapter.
         Voti voto = votiList.get(position);
         holder.dataTextView.setText("Data: " + voto.getdata());
         holder.votoTextView.setText("Voto: " + voto.getvoto());
-        holder.descrizioneTextView.setText(voto.getdescrizione());
+        holder.descrizioneTextView.setText(voto.getdocente().getNome()+" "+voto.getdocente().getCognome());
     }
 
     /**
