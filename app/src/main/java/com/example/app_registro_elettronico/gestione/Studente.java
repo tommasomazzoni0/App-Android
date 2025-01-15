@@ -7,7 +7,6 @@ public class Studente extends Persona implements Serializable {
     private ArrayList<Voti> voti;
     private ArrayList<Note> note;
     private ArrayList<Assenza> assenze;
-
     private Classe classe;
 
     /**
@@ -21,9 +20,7 @@ public class Studente extends Persona implements Serializable {
      */
     public Studente(String nome, String congome, Date dataDiNascita, String CF, Classe classe) {
         super(nome, congome, dataDiNascita, CF);
-
         this.classe = classe;
-
         this.voti = new ArrayList<>();
         this.note = new ArrayList<>();
         this.assenze = new ArrayList<>();

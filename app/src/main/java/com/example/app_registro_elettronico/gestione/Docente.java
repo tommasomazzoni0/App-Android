@@ -19,7 +19,6 @@ public class Docente extends Persona implements Serializable {
      */
     public Docente(String nome, String congome, Date dataDiNascita, String CF, ArrayList<Classe> classe, ArrayList<String> materie) {
         super(nome, congome, dataDiNascita, CF);
-
         this.classi = classe;
         this.materie = materie;
     }
@@ -85,4 +84,5 @@ public class Docente extends Persona implements Serializable {
         }
         return s;
     }
+
 }

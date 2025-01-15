@@ -3,6 +3,7 @@ package com.example.app_registro_elettronico;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +17,15 @@ import java.util.ArrayList;
  */
 public class studenteActivity extends AppCompatActivity {
 
+    Server server = new Server();
     private RelativeLayout cerchioVerde;
     private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
     private Button logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
     private ArrayList<String> materie;
+    ArrayList<Studente> studenti;
     Studente studente;
+    private String username, password;
 
     /**
      * Metodo di creazione dell'Activity. Viene inizializzata l'interfaccia utente e i dati.
@@ -33,7 +37,9 @@ public class studenteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studente);
         Intent intent = getIntent();
-        studente = (Studente) intent.getSerializableExtra("studente");
+        username = (String) intent.getSerializableExtra("username");
+        Studente studente = prendiStudenti(username);
+
 
         cerchioVerde = findViewById(R.id.cerchio_verde);
         numeroTextView = findViewById(R.id.numero);
@@ -43,7 +49,7 @@ public class studenteActivity extends AppCompatActivity {
         materieLayout = findViewById(R.id.materieLayout);
         titoloValutazioni = findViewById(R.id.titoloValutazioni);
         votiLayout = findViewById(R.id.votiLayout);
-        noteLayout =findViewById(R.id.noteElenco);
+        noteLayout = findViewById(R.id.noteElenco);
         assenzeLayout = findViewById(R.id.assenzeElenco);
         nomeMateria = findViewById(R.id.titoloMateria);
         logout = findViewById(R.id.logOutButton);
@@ -51,9 +57,12 @@ public class studenteActivity extends AppCompatActivity {
         buttonAssenzaIndietro = findViewById(R.id.backButtonAssenze);
         buttonVotiIndietro = findViewById(R.id.backButtonVoti);
         buttonNoteIndietro = findViewById(R.id.backButtonNote);
-
-        double media = studente.getmedia();
-        ArrayList<String> materie= new ArrayList<>();
+        double media=5;
+        if (studente != null) {
+             media = studente.getmedia();
+        } else {
+            Log.e("StudenteActivity", "Studente è null, impossibile ottenere la media.");
+        }        ArrayList<String> materie = new ArrayList<>();
         materie.add("Matematica");
         materie.add("Italiano");
         materie.add("Storia");
@@ -174,9 +183,9 @@ public class studenteActivity extends AppCompatActivity {
 
                 for (Assenza assenza : studente.getAssenze()) {
                     String[] parts = new String[0];
-                    parts[0]= String.valueOf(assenza.getData());
-                     parts[1]= String.valueOf(assenza.getdocente());
-                     parts[2]= String.valueOf(assenza.getgiustifica());
+                    parts[0] = String.valueOf(assenza.getData());
+                    parts[1] = String.valueOf(assenza.getdocente());
+                    parts[2] = String.valueOf(assenza.getgiustifica());
 
                     if (parts.length == 3) {
                         LinearLayout row = new LinearLayout(studenteActivity.this);
@@ -200,7 +209,7 @@ public class studenteActivity extends AppCompatActivity {
                         row.addView(dataView);
                         row.addView(statoView);
                         row.addView(susView);
-                        
+
                         assenzeLayout.addView(row);
                     }
                 }
@@ -271,8 +280,27 @@ public class studenteActivity extends AppCompatActivity {
             }
         });
     }
-}
 
+
+    public Studente prendiStudenti(String username) {
+        ArrayList<Studente> studenti;
+        Server server = new Server();
+
+        studenti = server.getStudentiServer();
+
+        if (studenti != null) {
+            for (Studente s : studenti) {
+                if (s.getCredenziali().getUser().equals(username)) {
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+}
 
 
 
