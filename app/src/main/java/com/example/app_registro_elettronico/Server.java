@@ -27,10 +27,10 @@ public class Server {
     private static final String GENITORI_URL = "https://tommasomazzoni.altervista.org/genitore.php";
     private static final String CLASSI_URL = "https://tommasomazzoni.altervista.org/classe.php";
 
-    private ArrayList<Studente> studenti;
-    private ArrayList<Docente> docenti;
-    private ArrayList<Genitore> genitori;
-    private ArrayList<Classe> classi;
+    private ArrayList<Studente> studenti = new ArrayList<>();
+    private ArrayList<Docente> docenti= new ArrayList<>();
+    private ArrayList<Genitore> genitori= new ArrayList<>();
+    private ArrayList<Classe> classi = new ArrayList<>();
 
     public ArrayList<Studente> getStudentiServer() {
         OkHttpClient client = new OkHttpClient();
@@ -73,15 +73,10 @@ public class Server {
         try {
             Log.d("RawResponse", "Raw response from server: " + responseBody);  // Log dei dati dal server
 
-            String cleanedResponse = responseBody.replaceAll("<br[^>]*>", "");
-            cleanedResponse = cleanedResponse.replaceAll("<b>Notice</b>:  Undefined variable: azione in <b>/membri/tommasomazzoni/studente.php</b> on line <b>140</b>", "");
-            cleanedResponse = cleanedResponse.replaceAll("<b>Notice</b>:  Undefined variable: azione in <b>/membri/tommasomazzoni/studente.php</b> on line <b>165</b>","");
-            cleanedResponse = cleanedResponse.replaceAll("\\s", "");
-            cleanedResponse = cleanedResponse.replaceAll("<br />", "");
-            Log.d("CleanedResponse", "Cleaned JSON: " + cleanedResponse);  // Verifica che sia stato pulito
+            Log.d("CleanedResponse", "Cleaned JSON: " + responseBody);  // Verifica che sia stato pulito
             JSONObject jsonResponse=null;
             try {
-                 jsonResponse = new JSONObject(cleanedResponse);
+                 jsonResponse = new JSONObject(responseBody);
                 Log.d("JsonResponse", "JSONObject created successfully");
             } catch (JSONException e) {
                 Log.e("JsonError", "Errore durante il parsing del JSON: " + e.getMessage());
@@ -92,11 +87,11 @@ public class Server {
             String status = jsonResponse.getString("status");
 
             if ("success".equals(status)) {
+
                 JSONArray jsonStudenti = jsonResponse.getJSONArray("studenti");
 
                 for (int i = 0; i < jsonStudenti.length(); i++) {
                     JSONObject jsonStudente = jsonStudenti.getJSONObject(i);
-
                     // Parsing dati studente
                     String username = jsonStudente.getString("username");
                     String password = jsonStudente.getString("password");
@@ -108,9 +103,9 @@ public class Server {
 
                     // Parsing della data
                     Date dataNascita = parseData(dataString);
-
                     // Trova la classe
-                    Classe classe = getClasseByString(classeStringa);
+                    Classe classe = new Classe(Integer.parseInt(String.valueOf(classeStringa.charAt(0))),classeStringa.substring(2,4),classeStringa.charAt(1));
+                    Log.d("sus", "damn");
 
                     // Parsing voti, note e assenze
                     ArrayList<Voti> voti = parseVoti(jsonStudente.getString("voti"));
@@ -340,16 +335,30 @@ public class Server {
 
     private void handleDocenteResponse(String responseBody) {
         try {
-            JSONArray jsonDocenti = new JSONArray(responseBody);
+            Log.d("docente sus", responseBody);
+            JSONObject jsonResponse = new JSONObject(responseBody);
+            JSONArray jsonDocenti = jsonResponse.getJSONArray("docenti");
+            Log.d("docente sus", jsonDocenti.toString());
 
             for (int i = 0; i < jsonDocenti.length(); i++) {
                 JSONObject jsonDocente = jsonDocenti.getJSONObject(i);
 
                 String nome = jsonDocente.getString("nome");
                 String cognome = jsonDocente.getString("cognome");
-                String materia = jsonDocente.getString("materia");
+                String materia = jsonDocente.getString("materie");
+                String classi = jsonDocente.getString("classi") ;
+                ArrayList<Classe> clas= new ArrayList<>();
+                String[] damn = classi.split(";");
+                for (String s : damn) {
+                    clas.add(new Classe(Integer.parseInt(String.valueOf(s.charAt(0))),s.substring(2,4),s.charAt(1)));
+                }
 
-                Docente docente = new Docente(nome, cognome, parseData(jsonDocente.getString("dataDiNascita")), jsonDocente.getString("CF"), getClassiFromJson(jsonDocente.getJSONArray("classi")), parseMaterie(jsonDocente.getJSONArray("materie")));
+                ArrayList<String> materie= new ArrayList<>();
+                String[] sus = materia.split(";");
+                for (String s : sus) {
+                    materie.add(s);
+                }
+                Docente docente = new Docente(nome, cognome, parseData(jsonDocente.getString("data")), jsonDocente.getString("codiceFiscale"), clas , materie);
                 docenti.add(docente);
             }
         } catch (JSONException e) {
