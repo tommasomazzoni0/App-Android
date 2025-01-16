@@ -10,7 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_registro_elettronico.gestione.Assenza;
 import com.example.app_registro_elettronico.gestione.Studente;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Activity che gestisce l'interfaccia studente, visualizzando i dettagli come voti, note e assenze.
@@ -19,12 +24,17 @@ public class studenteActivity extends AppCompatActivity {
 
     Server server = new Server();
     private RelativeLayout cerchioVerde;
-    private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
+    private TextView numeroTextView, titoloNote, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
     private Button logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
     private ArrayList<String> materie;
     ArrayList<Studente> studenti;
     Studente studente;
+    ArrayList<String> matematica= new ArrayList<>();
+    ArrayList<String> italiano= new ArrayList<>();
+    ArrayList<String> storia= new ArrayList<>();
+    ArrayList<String> informatica= new ArrayList<>();
+    ArrayList<String> sistemi= new ArrayList<>();
     private String username, password;
 
     /**
@@ -38,7 +48,7 @@ public class studenteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_studente);
         Intent intent = getIntent();
         username = (String) intent.getSerializableExtra("username");
-        Studente studente = prendiStudenti(username);
+        studente = prendiStudenti(username);
 
 
         cerchioVerde = findViewById(R.id.cerchio_verde);
@@ -52,6 +62,7 @@ public class studenteActivity extends AppCompatActivity {
         noteLayout = findViewById(R.id.noteElenco);
         assenzeLayout = findViewById(R.id.assenzeElenco);
         nomeMateria = findViewById(R.id.titoloMateria);
+        titoloNote= findViewById(R.id.titoloNote);
         logout = findViewById(R.id.logOutButton);
         buttonMaterieIndietro = findViewById(R.id.backButtonMaterie);
         buttonAssenzaIndietro = findViewById(R.id.backButtonAssenze);
@@ -63,12 +74,28 @@ public class studenteActivity extends AppCompatActivity {
         } else {
             Log.e("StudenteActivity", "Studente è null, impossibile ottenere la media.");
         }        ArrayList<String> materie = new ArrayList<>();
+
+        studente.getVoti().get(0).getMateria();
         materie.add("Matematica");
         materie.add("Italiano");
         materie.add("Storia");
         materie.add("Informatica");
         materie.add("Sistemi");
 
+
+        for (int i = 0; i < studente.getVoti().size(); i++) {
+            if(studente.getVoti().get(i).getMateria().equals("Matematica")){
+                matematica.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else if(studente.getVoti().get(i).getMateria().equals("Italiano")){
+                italiano.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else if(studente.getVoti().get(i).getMateria().equals("Storia")){
+                storia.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else if(studente.getVoti().get(i).getMateria().equals("Informatica")){
+                informatica.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else{
+                sistemi.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }
+        }
 
         numeroTextView.setText(String.valueOf(media));
 
@@ -104,15 +131,28 @@ public class studenteActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             buttonMaterieIndietro.setVisibility(View.GONE);
                             materieLayout.setVisibility(View.GONE);
-                            nomeMateria.setText(materie.get(index)); //nome della materia
+                            nomeMateria.setText(materie.get(index));
                             votiLayout.removeAllViews();
                             votiLayout.setVisibility(View.VISIBLE);
                             buttonVotiIndietro.setVisibility(View.VISIBLE);
                             votiLayout.addView(votiTextView);
+
+                            ArrayList<String> votiPerMateria = new ArrayList<>();
                             for (int j = 0; j < studente.getVoti().size(); j++) {
-                                Button voto = new Button(studenteActivity.this);
-                                voto.setText(String.valueOf(studente.getVoti().get(j)));
-                                votiLayout.addView(voto);
+                                if (studente.getVoti().get(j).getMateria().equals(materie.get(index))) {
+                                    votiPerMateria.add(String.valueOf(studente.getVoti().get(j).getvoto()));
+                                    Button voto = new Button(studenteActivity.this);
+                                    voto.setText(String.valueOf(studente.getVoti().get(j).getvoto()));
+                                    votiLayout.addView(voto);
+                                }
+                            }
+
+                            if (votiPerMateria.isEmpty()) {
+                                TextView noVotiTextView = new TextView(studenteActivity.this);
+                                noVotiTextView.setText("Non ci sono voti per questa materia");
+                                noVotiTextView.setTextSize(16);
+                                noVotiTextView.setGravity(Gravity.CENTER);
+                                votiLayout.addView(noVotiTextView);
                             }
                         }
                     });
@@ -134,21 +174,29 @@ public class studenteActivity extends AppCompatActivity {
                 assenzeTextView.setVisibility(View.GONE);
                 materieLayout.setVisibility(View.GONE);
                 votiLayout.setVisibility(View.GONE);
+                noteLayout.removeAllViews();
+                noteLayout.addView(titoloNote);
                 noteLayout.setVisibility(View.VISIBLE);
                 buttonNoteIndietro.setVisibility(View.VISIBLE);
-
                 for (int i = 0; i < studente.getNote().size(); i++) {
                     Button nota = new Button(studenteActivity.this);
-                    nota.setText(studente.getNote().get(i).getDate().toString());
+                    Date data = new Date();
+                    String dataString = convertToString(data);
 
-                    final String noteInfo = studente.getNote().get(i).getText();
+                    nota.setText(dataString);
+
+                     String noteInfo = studente.getNote().get(i).getText();
+                     noteInfo= noteInfo.replace("Motivo_","");
+                     String docente ="Docente: "+studente.getNote().get(i).getProfessor().getNome()+" "+studente.getNote().get(i).getProfessor().getCognome();
+                     final String info= "Motivazione: "+noteInfo+"\n"+docente;
+
                     nota.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Dialog noteDialog = new Dialog(studenteActivity.this);
                             noteDialog.setContentView(R.layout.dialog_note_info);
                             TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
-                            noteInfoTextView.setText(noteInfo);
+                            noteInfoTextView.setText(info);
 
 
                             noteDialog.getWindow().setLayout(
@@ -181,11 +229,20 @@ public class studenteActivity extends AppCompatActivity {
                 assenzeLayout.setVisibility(View.VISIBLE);
                 buttonAssenzaIndietro.setVisibility(View.VISIBLE);
 
-                for (Assenza assenza : studente.getAssenze()) {
-                    String[] parts = new String[0];
-                    parts[0] = String.valueOf(assenza.getData());
-                    parts[1] = String.valueOf(assenza.getdocente());
-                    parts[2] = String.valueOf(assenza.getgiustifica());
+                for (int i=0; i<studente.getAssenze().size(); i++) {
+                    String[] parts = new String[3];
+                    Date data = new Date();
+                    String dataString = convertToString(data);
+
+                    parts[0] = dataString;
+                    parts[1] = studente.getAssenze().get(i).getdocente().getNome()+" "+studente.getAssenze().get(i).getdocente().getCognome();
+                    String giustifica;
+                    if(studente.getAssenze().get(i).getgiustifica()==true){
+                        giustifica="Giustificata";
+                    }else{
+                        giustifica="Non giustificata";
+                    }
+                    parts[2] = giustifica;
 
                     if (parts.length == 3) {
                         LinearLayout row = new LinearLayout(studenteActivity.this);
@@ -196,18 +253,14 @@ public class studenteActivity extends AppCompatActivity {
                         dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                         dataView.setPadding(16, 16, 16, 16);
 
-                        TextView statoView = new TextView(studenteActivity.this);
-                        statoView.setText(parts[1]);
-                        statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                        statoView.setPadding(16, 16, 16, 16);
+
 
                         TextView susView = new TextView(studenteActivity.this);
-                        susView.setText(parts[1]);
+                        susView.setText(parts[2]);
                         susView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                         susView.setPadding(16, 16, 16, 16);
 
                         row.addView(dataView);
-                        row.addView(statoView);
                         row.addView(susView);
 
                         assenzeLayout.addView(row);
@@ -283,23 +336,41 @@ public class studenteActivity extends AppCompatActivity {
 
 
     public Studente prendiStudenti(String username) {
-        ArrayList<Studente> studenti;
-        Server server = new Server();
+        Log.d("tommaso", "chiamo il bro");
 
-        studenti = server.getStudentiServer();
+        final Studente[] result = {null};
 
-        if (studenti != null) {
-            for (Studente s : studenti) {
-                if (s.getCredenziali().getUser().equals(username)) {
-                    return s;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<Studente> future = executor.submit(() -> {
+            Server server = new Server();
+            ArrayList<Studente> studenti = server.getStudentiServer();
+
+            if (studenti != null) {
+                for (Studente s : studenti) {
+                    Log.d("tommaso", s.getCredenziali().getUser());
+                    if (s.getCredenziali().getUser().equals(username)) {
+
+                        return s;
+                    }
                 }
             }
+            return null;
+        });
+
+        try {
+            result[0] = future.get();
+        } catch (Exception e) {
+            Log.e("StudenteActivity", "Errore durante la ricerca dello studente", e);
         }
-        return null;
+
+        return result[0];
     }
 
 
-
+    public static String convertToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(date);
+    }
 }
 
 

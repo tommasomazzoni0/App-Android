@@ -32,6 +32,11 @@ public class Server {
     private ArrayList<Genitore> genitori= new ArrayList<>();
     private ArrayList<Classe> classi = new ArrayList<>();
 
+    public interface CallbackStudenti {
+        void onSuccess(ArrayList<Studente> studenti);
+        void onFailure(Exception e);
+    }
+
     public ArrayList<Studente> getStudentiServer() {
         OkHttpClient client = new OkHttpClient();
 
@@ -40,58 +45,36 @@ public class Server {
                 .get()
                 .build();
 
-        Log.d("DEBUG", "Invio richiesta a: " + STUDENTI_URL);
-
         try {
+            Response response = client.newCall(request).execute();
 
-            client.newCall(request).enqueue(new Callback() {
-
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.d("HTTP_ERROR", e.getMessage(), e);
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    if (response.isSuccessful() && response.body() != null) {
-                        Log.d("DEBUG", "Risposta ricevuta dal server");
-                        String responseBody = response.body().string();
-                        handleStudentResponse(responseBody);
-                    } else {
-                        Log.e("HttpError", "Risposta non valida dal server");
-                    }
-                }
-            });
-        } catch (Exception e) {
-            Log.e("RequestError", "Errore durante la richiesta: " + e.getMessage(), e);
+            if (response.isSuccessful() && response.body() != null) {
+                Log.d("DEBUG", "Risposta ricevuta dal server");
+                String responseBody = response.body().string();
+                return handleStudentResponse(responseBody);
+            } else {
+                Log.e("HTTP_ERROR", "Risposta non valida dal server");
+            }
+        } catch (IOException e) {
+            Log.e("HTTP_ERROR", "Errore nella richiesta HTTP: " + e.getMessage(), e);
         }
 
-        return studenti;
+        return new ArrayList<>(); // Ritorna una lista vuota in caso di errore
     }
 
-    private void handleStudentResponse(String responseBody) {
+    private ArrayList<Studente> handleStudentResponse(String responseBody) {
+        ArrayList<Studente> studenti = new ArrayList<>();
+
         try {
-            Log.d("RawResponse", "Raw response from server: " + responseBody);  // Log dei dati dal server
-
-            Log.d("CleanedResponse", "Cleaned JSON: " + responseBody);  // Verifica che sia stato pulito
-            JSONObject jsonResponse=null;
-            try {
-                 jsonResponse = new JSONObject(responseBody);
-                Log.d("JsonResponse", "JSONObject created successfully");
-            } catch (JSONException e) {
-                Log.e("JsonError", "Errore durante il parsing del JSON: " + e.getMessage());
-            }
-
-            Log.d("JsonResponse", "JSONObject created successfully");
-
+            JSONObject jsonResponse = new JSONObject(responseBody);
             String status = jsonResponse.getString("status");
 
             if ("success".equals(status)) {
-
                 JSONArray jsonStudenti = jsonResponse.getJSONArray("studenti");
 
                 for (int i = 0; i < jsonStudenti.length(); i++) {
                     JSONObject jsonStudente = jsonStudenti.getJSONObject(i);
+
                     // Parsing dati studente
                     String username = jsonStudente.getString("username");
                     String password = jsonStudente.getString("password");
@@ -103,9 +86,13 @@ public class Server {
 
                     // Parsing della data
                     Date dataNascita = parseData(dataString);
+
                     // Trova la classe
-                    Classe classe = new Classe(Integer.parseInt(String.valueOf(classeStringa.charAt(0))),classeStringa.substring(2,4),classeStringa.charAt(1));
-                    Log.d("sus", "damn");
+                    Classe classe = new Classe(
+                            Integer.parseInt(String.valueOf(classeStringa.charAt(0))),
+                            classeStringa.substring(2, 4),
+                            classeStringa.charAt(1)
+                    );
 
                     // Parsing voti, note e assenze
                     ArrayList<Voti> voti = parseVoti(jsonStudente.getString("voti"));
@@ -125,6 +112,8 @@ public class Server {
         } catch (JSONException e) {
             Log.e("JSONException", "Errore durante il parsing del JSON: " + e.getMessage(), e);
         }
+
+        return studenti;
     }
 
     private Date parseData(String dataString) {
@@ -335,7 +324,6 @@ public class Server {
 
     private void handleDocenteResponse(String responseBody) {
         try {
-            Log.d("docente sus", responseBody);
             JSONObject jsonResponse = new JSONObject(responseBody);
             JSONArray jsonDocenti = jsonResponse.getJSONArray("docenti");
             Log.d("docente sus", jsonDocenti.toString());
