@@ -1,6 +1,7 @@
 package com.example.app_registro_elettronico.gestione;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -84,5 +85,11 @@ public class Assenza implements Serializable {
      */
     public void setDocente(Docente docente) {
         this.docente = docente;
+    }
+
+    public String getstringData(){
+        Calendar calendar= Calendar.getInstance();
+        calendar.setTime(data);
+        return calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.YEAR);
     }
 }

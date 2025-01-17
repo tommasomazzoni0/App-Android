@@ -24,7 +24,7 @@ public class studenteActivity extends AppCompatActivity {
 
     Server server = new Server();
     private RelativeLayout cerchioVerde;
-    private TextView numeroTextView, titoloNote, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria;
+    private TextView numeroTextView, titoloNote, materiaTextView, noteTextView, assenzeTextView, titoloValutazioni, nomeMateria, titoloAssenze;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout;
     private Button logout, buttonMaterieIndietro, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
     private ArrayList<String> materie;
@@ -56,6 +56,7 @@ public class studenteActivity extends AppCompatActivity {
         materiaTextView = findViewById(R.id.media);
         noteTextView = findViewById(R.id.note);
         assenzeTextView = findViewById(R.id.assenze);
+        titoloAssenze = findViewById(R.id.titoloAssenze);
         materieLayout = findViewById(R.id.materieLayout);
         titoloValutazioni = findViewById(R.id.titoloValutazioni);
         votiLayout = findViewById(R.id.votiLayout);
@@ -178,36 +179,44 @@ public class studenteActivity extends AppCompatActivity {
                 noteLayout.addView(titoloNote);
                 noteLayout.setVisibility(View.VISIBLE);
                 buttonNoteIndietro.setVisibility(View.VISIBLE);
-                for (int i = 0; i < studente.getNote().size(); i++) {
-                    Button nota = new Button(studenteActivity.this);
-                    Date data = new Date();
-                    String dataString = convertToString(data);
 
-                    nota.setText(dataString);
+                if (studente.getNote().size() > 0) {
+                    for (int i = 0; i < studente.getNote().size(); i++) {
+                        Button nota = new Button(studenteActivity.this);
 
-                     String noteInfo = studente.getNote().get(i).getText();
-                     noteInfo= noteInfo.replace("Motivo_","");
-                     String docente ="Docente: "+studente.getNote().get(i).getProfessor().getNome()+" "+studente.getNote().get(i).getProfessor().getCognome();
-                     final String info= "Motivazione: "+noteInfo+"\n"+docente;
+                        String dataString = studente.getNote().get(i).getstringData();
 
-                    nota.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Dialog noteDialog = new Dialog(studenteActivity.this);
-                            noteDialog.setContentView(R.layout.dialog_note_info);
-                            TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
-                            noteInfoTextView.setText(info);
+                        nota.setText(dataString);
 
+                        String noteInfo = studente.getNote().get(i).getText();
+                        noteInfo = noteInfo.replace("Motivo_", "");
+                        String docente = "Docente: " + studente.getNote().get(i).getProfessor().getNome() + " " + studente.getNote().get(i).getProfessor().getCognome();
+                        final String info = "Motivazione: " + noteInfo + "\n" + docente;
 
-                            noteDialog.getWindow().setLayout(
-                                    WindowManager.LayoutParams.MATCH_PARENT,
-                                    WindowManager.LayoutParams.WRAP_CONTENT);
-                            noteDialog.getWindow().setGravity(Gravity.BOTTOM);
-                            noteDialog.show();
-                        }
-                    });
+                        nota.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Dialog noteDialog = new Dialog(studenteActivity.this);
+                                noteDialog.setContentView(R.layout.dialog_note_info);
+                                TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
+                                noteInfoTextView.setText(info);
 
-                    noteLayout.addView(nota);
+                                noteDialog.getWindow().setLayout(
+                                        WindowManager.LayoutParams.MATCH_PARENT,
+                                        WindowManager.LayoutParams.WRAP_CONTENT);
+                                noteDialog.getWindow().setGravity(Gravity.BOTTOM);
+                                noteDialog.show();
+                            }
+                        });
+
+                        noteLayout.addView(nota);
+                    }
+                } else {
+                    TextView noNoteTextView = new TextView(studenteActivity.this);
+                    noNoteTextView.setText("Non sono presenti note");
+                    noNoteTextView.setTextSize(16);
+                    noNoteTextView.setGravity(Gravity.CENTER);
+                    noteLayout.addView(noNoteTextView);
                 }
             }
         });
@@ -218,6 +227,7 @@ public class studenteActivity extends AppCompatActivity {
         assenzeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Nascondere altri elementi dell'interfaccia
                 cerchioVerde.setVisibility(View.GONE);
                 numeroTextView.setVisibility(View.GONE);
                 materiaTextView.setVisibility(View.GONE);
@@ -226,25 +236,25 @@ public class studenteActivity extends AppCompatActivity {
                 assenzeTextView.setVisibility(View.GONE);
                 materieLayout.setVisibility(View.GONE);
                 votiLayout.setVisibility(View.GONE);
+
+                // Pulire e preparare il layout delle assenze
+                assenzeLayout.removeAllViews();
+                assenzeLayout.addView(titoloAssenze);
                 assenzeLayout.setVisibility(View.VISIBLE);
                 buttonAssenzaIndietro.setVisibility(View.VISIBLE);
 
-                for (int i=0; i<studente.getAssenze().size(); i++) {
-                    String[] parts = new String[3];
-                    Date data = new Date();
-                    String dataString = convertToString(data);
+                // Controllo se ci sono assenze
+                if (studente.getAssenze().size() > 0) {
+                    for (int i = 0; i < studente.getAssenze().size(); i++) {
+                        String[] parts = new String[3];
+                        String dataString = studente.getAssenze().get(i).getstringData();
 
-                    parts[0] = dataString;
-                    parts[1] = studente.getAssenze().get(i).getdocente().getNome()+" "+studente.getAssenze().get(i).getdocente().getCognome();
-                    String giustifica;
-                    if(studente.getAssenze().get(i).getgiustifica()==true){
-                        giustifica="Giustificata";
-                    }else{
-                        giustifica="Non giustificata";
-                    }
-                    parts[2] = giustifica;
+                        parts[0] = dataString;
+                        parts[1] = studente.getAssenze().get(i).getdocente().getNome() + " " + studente.getAssenze().get(i).getdocente().getCognome();
+                        String giustifica = studente.getAssenze().get(i).getgiustifica() ? "Giustificata" : "Non giustificata";
+                        parts[2] = giustifica;
 
-                    if (parts.length == 3) {
+                        // Creazione di una riga per ogni assenza
                         LinearLayout row = new LinearLayout(studenteActivity.this);
                         row.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -253,21 +263,36 @@ public class studenteActivity extends AppCompatActivity {
                         dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                         dataView.setPadding(16, 16, 16, 16);
 
+                        TextView docenteView = new TextView(studenteActivity.this);
+                        docenteView.setText(parts[1]);
+                        docenteView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2));
+                        docenteView.setPadding(16, 16, 16, 16);
 
+                        TextView giustificaView = new TextView(studenteActivity.this);
+                        giustificaView.setText(parts[2]);
+                        giustificaView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                        giustificaView.setPadding(16, 16, 16, 16);
 
-                        TextView susView = new TextView(studenteActivity.this);
-                        susView.setText(parts[2]);
-                        susView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                        susView.setPadding(16, 16, 16, 16);
-
+                        // Aggiunta delle TextView alla riga
                         row.addView(dataView);
-                        row.addView(susView);
+                        row.addView(docenteView);
+                        row.addView(giustificaView);
 
+                        // Aggiunta della riga al layout delle assenze
                         assenzeLayout.addView(row);
                     }
+                } else {
+                    // Messaggio se non ci sono assenze
+                    TextView noAssenzeView = new TextView(studenteActivity.this);
+                    noAssenzeView.setText("Non ci sono assenze registrate.");
+                    noAssenzeView.setTextSize(16);
+                    noAssenzeView.setGravity(Gravity.CENTER);
+                    noAssenzeView.setPadding(16, 16, 16, 16);
+                    assenzeLayout.addView(noAssenzeView);
                 }
             }
         });
+
 
         buttonMaterieIndietro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -367,10 +392,6 @@ public class studenteActivity extends AppCompatActivity {
     }
 
 
-    public static String convertToString(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return dateFormat.format(date);
-    }
 }
 
 

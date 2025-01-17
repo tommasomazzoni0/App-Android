@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Server {
@@ -59,7 +56,7 @@ public class Server {
             Log.e("HTTP_ERROR", "Errore nella richiesta HTTP: " + e.getMessage(), e);
         }
 
-        return new ArrayList<>(); // Ritorna una lista vuota in caso di errore
+        return new ArrayList<>();
     }
 
     private ArrayList<Studente> handleStudentResponse(String responseBody) {
@@ -118,9 +115,11 @@ public class Server {
 
     private Date parseData(String dataString) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("d-M-yyyy", Locale.getDefault());
-            return sdf.parse(dataString);
-        } catch (ParseException e) {
+            String[] string = dataString.split("-");
+
+            Date data= new GregorianCalendar(Integer.parseInt(string[2]),Integer.parseInt(string[1]),Integer.parseInt(string[0])).getTime();
+            return data;
+        } catch (Exception e) {
             Log.e("DataParsingError", "Errore nel parsing della data: " + dataString);
             return null;
         }
@@ -222,7 +221,12 @@ public class Server {
                     String[] docenteParts = assenzaParts[1].split("_");
                     String nomeDocente = docenteParts[0];
                     String cognomeDocente = docenteParts[1];
-                    Docente docente = getDocenteByName(nomeDocente, cognomeDocente);
+                    Docente docente= null;
+                    if(docenteParts[0].equals("docente") && docenteParts[1].equals("nonregistrato")){
+                            docente= new Docente(docenteParts[0],docenteParts[1],null,null,null,null);
+                    }else{
+                         docente = getDocenteByName(nomeDocente, cognomeDocente);
+                    }
 
                     // Giustificazione
                     boolean giustificata = Boolean.parseBoolean(assenzaParts[2]);
