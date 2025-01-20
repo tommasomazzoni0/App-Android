@@ -1,5 +1,8 @@
 package com.example.app_registro_elettronico.gestione;
 
+import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -91,5 +94,15 @@ public class Assenza implements Serializable {
         Calendar calendar= Calendar.getInstance();
         calendar.setTime(data);
         return calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.YEAR);
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        Calendar calendar= Calendar.getInstance();
+        calendar.setTime(data);
+        return calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.YEAR);
+
     }
 }

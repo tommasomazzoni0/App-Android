@@ -361,8 +361,6 @@ public class studenteActivity extends AppCompatActivity {
 
 
     public Studente prendiStudenti(String username) {
-        Log.d("tommaso", "chiamo il bro");
-
         final Studente[] result = {null};
 
         ExecutorService executor = Executors.newSingleThreadExecutor();

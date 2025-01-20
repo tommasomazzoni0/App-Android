@@ -18,12 +18,13 @@ public class Server {
     private static final String CLASSI_URL = "https://tommasomazzoni.altervista.org/classe.php";
 
     private ArrayList<Studente> studenti = new ArrayList<>();
-    private ArrayList<Docente> docenti= new ArrayList<>();
-    private ArrayList<Genitore> genitori= new ArrayList<>();
+    private ArrayList<Docente> docenti = new ArrayList<>();
+    private ArrayList<Genitore> genitori = new ArrayList<>();
     private ArrayList<Classe> classi = new ArrayList<>();
 
     public interface CallbackStudenti {
         void onSuccess(ArrayList<Studente> studenti);
+
         void onFailure(Exception e);
     }
 
@@ -119,7 +120,7 @@ public class Server {
             if (response.isSuccessful() && response.body() != null) {
                 Log.d("DEBUG", "Risposta ricevuta dal server");
                 String responseBody = response.body().string();
-                return handleGenitoriResponse(responseBody,username);
+                return handleGenitoriResponse(responseBody, username);
             } else {
                 Log.e("HTTP_ERROR", "Risposta non valida dal server");
             }
@@ -131,8 +132,8 @@ public class Server {
     }
 
     private Studente handleGenitoriResponse(String responseBody, String usernameGenitore) {
-        Studente studente= null;
-        studenti= getStudentiServer();
+        Studente studente = null;
+        studenti = getStudentiServer();
         try {
             JSONObject jsonResponse = new JSONObject(responseBody);
             String status = jsonResponse.getString("status");
@@ -156,15 +157,15 @@ public class Server {
                     Date dataNascita = parseData(dataString);
 
                     //trova figlio
-                    if(username.equals(usernameGenitore)){
+                    if (username.equals(usernameGenitore)) {
                         for (Studente stud : studenti) {
-                            Log.d("DEBUG", cfFiglio + "  "+ stud.getCF());
-                            if(stud.getCF().equals(cfFiglio)){
-                                studente= stud;
+                            Log.d("DEBUG", cfFiglio + "  " + stud.getCF());
+                            if (stud.getCF().equals(cfFiglio)) {
+                                studente = stud;
                             }
                         }
                     }
-                    
+
                 }
             }
         } catch (JSONException e) {
@@ -178,7 +179,7 @@ public class Server {
         try {
             String[] string = dataString.split("-");
 
-            Date data= new GregorianCalendar(Integer.parseInt(string[2]),Integer.parseInt(string[1]),Integer.parseInt(string[0])).getTime();
+            Date data = new GregorianCalendar(Integer.parseInt(string[2]), Integer.parseInt(string[1]), Integer.parseInt(string[0])).getTime();
             return data;
         } catch (Exception e) {
             Log.e("DataParsingError", "Errore nel parsing della data: " + dataString);
@@ -282,11 +283,11 @@ public class Server {
                     String[] docenteParts = assenzaParts[1].split("_");
                     String nomeDocente = docenteParts[0];
                     String cognomeDocente = docenteParts[1];
-                    Docente docente= null;
-                    if(docenteParts[0].equals("docente") && docenteParts[1].equals("nonregistrato")){
-                            docente= new Docente(docenteParts[0],docenteParts[1],null,null,null,null);
-                    }else{
-                         docente = getDocenteByName(nomeDocente, cognomeDocente);
+                    Docente docente = null;
+                    if (docenteParts[0].equals("docente") && docenteParts[1].equals("nonregistrato")) {
+                        docente = new Docente(docenteParts[0], docenteParts[1], null, null, null, null);
+                    } else {
+                        docente = getDocenteByName(nomeDocente, cognomeDocente);
                     }
 
                     // Giustificazione
@@ -385,6 +386,63 @@ public class Server {
         }
 
         return docenti;
+    }
+
+    public Docente getDocenti(String username) {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(DOCENTI_URL)
+                .get()
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            if (response.isSuccessful()) {
+                String responseBody = response.body().string();
+                return handleDoc(responseBody);
+            } else {
+                Log.e("HttpError", "Errore durante la richiesta dei docenti");
+            }
+        } catch (IOException e) {
+            Log.e("IOException", "Errore durante la connessione: " + e.getMessage(), e);
+        }
+
+        return null;
+    }
+
+    private Docente handleDoc(String responseBody) {
+        Docente docente;
+        try {
+            JSONObject jsonResponse = new JSONObject(responseBody);
+            JSONArray jsonDocenti = jsonResponse.getJSONArray("docenti");
+            Log.d("docente sus", jsonDocenti.toString());
+
+            for (int i = 0; i < jsonDocenti.length(); i++) {
+                JSONObject jsonDocente = jsonDocenti.getJSONObject(i);
+
+                String nome = jsonDocente.getString("nome");
+                String cognome = jsonDocente.getString("cognome");
+                String materia = jsonDocente.getString("materie");
+                String classi = jsonDocente.getString("classi");
+                ArrayList<Classe> clas = new ArrayList<>();
+                String[] damn = classi.split(";");
+                for (String s : damn) {
+                    clas.add(new Classe(Integer.parseInt(String.valueOf(s.charAt(0))), s.substring(2, 4), s.charAt(1)));
+                }
+
+                ArrayList<String> materie = new ArrayList<>();
+                String[] sus = materia.split(";");
+                for (String s : sus) {
+                    materie.add(s);
+                }
+
+            }
+        } catch (JSONException e) {
+            Log.e("JSONException", "Errore durante il parsing del JSON dei docenti: " + e.getMessage(), e);
+        }
+        return docente;
     }
 
     private void handleDocenteResponse(String responseBody) {

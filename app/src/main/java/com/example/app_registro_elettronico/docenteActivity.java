@@ -3,6 +3,7 @@ package com.example.app_registro_elettronico;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,9 @@ import com.example.app_registro_elettronico.gestione.Studente;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Activity principale per la visualizzazione delle classi e degli alunni associati a un docente.
@@ -25,6 +29,8 @@ public class docenteActivity extends AppCompatActivity {
     TextView alunni;
     Button logout;
     Docente docente;
+    String username;
+    ArrayList<Classe> classi= new ArrayList<>();
     /**
      * Metodo chiamato quando l'Activity viene creata.
      * Popola la lista delle classi e degli alunni, e imposta i layout e i listener degli eventi.
@@ -36,7 +42,8 @@ public class docenteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.docente_main);
         Intent intent = getIntent();
-        docente = (Docente) intent.getSerializableExtra("docente");
+        username = (String) intent.getSerializableExtra("username");
+        docente = prendiDocenti();
 
         LinearLayout classListLayout = findViewById(R.id.classListLayout);
         alunni = findViewById(R.id.leTueClassi);
@@ -74,4 +81,26 @@ public class docenteActivity extends AppCompatActivity {
         });
     }
 
+    public Docente prendiDocenti(){
+        final Docente[] result = {null};
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<Docente> future = executor.submit(() -> {
+            Server server = new Server();
+            Docente doc = server.getDocenti(username);
+
+            if (doc != null) {
+                return doc;
+            }
+            return null;
+        });
+
+        try {
+            result[0] = future.get();
+        } catch (Exception e) {
+            Log.e("StudenteActivity", "Errore durante la ricerca dello studente", e);
+        }
+
+        return result[0];
+    }
 }

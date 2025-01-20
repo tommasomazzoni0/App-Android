@@ -261,34 +261,43 @@ public class genitoreActivity extends AppCompatActivity {
                 assenzeLayout.addView(assenzaText);
 
                 if (studente.getAssenze().size() > 0) {
-                    for (Assenza assenza : assenzeGiustificate) {
-                    LinearLayout row = new LinearLayout(genitoreActivity.this);
-                    row.setOrientation(LinearLayout.HORIZONTAL);
+                    if(!assenzeGiustificate.isEmpty()) {
+                        for (Assenza assenza : assenzeGiustificate) {
+                            LinearLayout row = new LinearLayout(genitoreActivity.this);
+                            row.setOrientation(LinearLayout.HORIZONTAL);
 
-                    TextView dataView = new TextView(genitoreActivity.this);
-                    dataView.setText(assenza.getstringData());
-                    dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                    dataView.setPadding(16, 16, 16, 16);
+                            TextView dataView = new TextView(genitoreActivity.this);
+                            dataView.setText(assenza.getstringData());
+                            dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                            dataView.setPadding(16, 16, 16, 16);
 
-                    TextView docenteView = new TextView(genitoreActivity.this);
-                    docenteView.setText(assenza.getdocente().getNome()+" "+assenza.getdocente().getCognome());
-                    docenteView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                    docenteView.setPadding(16, 16, 16, 16);
+                            TextView docenteView = new TextView(genitoreActivity.this);
+                            docenteView.setText(assenza.getdocente().getNome() + " " + assenza.getdocente().getCognome());
+                            docenteView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                            docenteView.setPadding(16, 16, 16, 16);
 
-                    TextView statoView = new TextView(genitoreActivity.this);
-                    statoView.setText("Giustificata");
-                    statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-                    statoView.setPadding(16, 16, 16, 16);
+                            TextView statoView = new TextView(genitoreActivity.this);
+                            statoView.setText("Giustificata");
+                            statoView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+                            statoView.setPadding(16, 16, 16, 16);
 
-                    row.addView(dataView);
-                    row.addView(docenteView);
-                    row.addView(statoView);
+                            row.addView(dataView);
+                            row.addView(docenteView);
+                            row.addView(statoView);
 
-                    assenzeLayout.addView(row);
-                   }
+                            assenzeLayout.addView(row);
+                        }
+                    }else{
+                        noAssenzeView = new TextView(genitoreActivity.this);
+                        noAssenzeView.setText("Non ci sono assenze giustificate.");
+                        noAssenzeView.setTextSize(16);
+                        noAssenzeView.setGravity(Gravity.CENTER);
+                        noAssenzeView.setPadding(16, 16, 16, 16);
+                        assenzeLayout.addView(noAssenzeView);
+                    }
                 }else{
                     noAssenzeView = new TextView(genitoreActivity.this);
-                    noAssenzeView.setText("Non ci sono assenze registrate.");
+                    noAssenzeView.setText("Non ci sono assenze");
                     noAssenzeView.setTextSize(16);
                     noAssenzeView.setGravity(Gravity.CENTER);
                     noAssenzeView.setPadding(16, 16, 16, 16);
@@ -322,10 +331,7 @@ public class genitoreActivity extends AppCompatActivity {
                     ArrayAdapter<Assenza> adapter = new ArrayAdapter<>(genitoreActivity.this, android.R.layout.simple_spinner_item, assenzeNonGiustificate);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
-
-                    // Mostra un messaggio di conferma
-                    Toast.makeText(genitoreActivity.this, "Assenza giustificata: " + selectedAssenza.getstringData(), Toast.LENGTH_SHORT).show();
-
+                    
                     // Aggiorna la vista delle assenze giustificate
                     assenzeLayout.removeAllViews();
                     assenzeLayout.addView(assenzaText);
