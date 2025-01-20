@@ -51,7 +51,7 @@ public class assenzeAdapter extends RecyclerView.Adapter<assenzeAdapter.AssenzaV
     @Override
     public void onBindViewHolder(@NonNull AssenzaViewHolder holder, int position) {
         Assenza assenza = assenzeList.get(position);
-        holder.dataTextView.setText("Data: " + assenza.getData());
+        holder.dataTextView.setText("Data: " + assenza.getstringData());
     }
 
     /**

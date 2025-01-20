@@ -69,13 +69,13 @@ public class studenteActivity extends AppCompatActivity {
         buttonAssenzaIndietro = findViewById(R.id.backButtonAssenze);
         buttonVotiIndietro = findViewById(R.id.backButtonVoti);
         buttonNoteIndietro = findViewById(R.id.backButtonNote);
-        double media=5;
+        double media=0;
         if (studente != null) {
              media = studente.getmedia();
         } else {
             Log.e("StudenteActivity", "Studente è null, impossibile ottenere la media.");
-        }        ArrayList<String> materie = new ArrayList<>();
-
+        }
+        ArrayList<String> materie = new ArrayList<>();
         studente.getVoti().get(0).getMateria();
         materie.add("Matematica");
         materie.add("Italiano");

@@ -14,19 +14,28 @@ import com.example.app_registro_elettronico.gestione.Studente;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Activity per la schermata del Genitore nell'app.
  * Mostra informazioni sui voti, le assenze e le note dello studente, e permette ai genitori di giustificare le assenze.
  */
 public class genitoreActivity extends AppCompatActivity {
-
+    Server server= new Server();
     private RelativeLayout cerchioVerde;
     private TextView numeroTextView, materiaTextView, noteTextView, assenzeTextView, noteText, giustificaText, assenzaText, titoloValutazioni, nomeMateria;
     private LinearLayout materieLayout, votiLayout, noteLayout, assenzeLayout, giustificalayout;
     private Button giustifica, logout, buttonMaterieIndietro, bottonegiustifica, buttonVotiIndietro, buttonNoteIndietro, buttonAssenzaIndietro;
-    Genitore genitore;
+    Studente studente;
     Spinner spinner;
+    String username;
+    ArrayList<String> matematica= new ArrayList<>();
+    ArrayList<String> italiano= new ArrayList<>();
+    ArrayList<String> storia= new ArrayList<>();
+    ArrayList<String> informatica= new ArrayList<>();
+    ArrayList<String> sistemi= new ArrayList<>();
     private ArrayList<String> materie;
 
     /**
@@ -39,7 +48,8 @@ public class genitoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genitore);
         Intent intent = getIntent();
-        genitore = (Genitore) intent.getSerializableExtra("studente");
+        username = (String) intent.getSerializableExtra("username");
+        studente = prendiStudente(username);
         cerchioVerde = findViewById(R.id.cerchio_verde);
         numeroTextView = findViewById(R.id.numero);
         materiaTextView = findViewById(R.id.media);
@@ -63,17 +73,38 @@ public class genitoreActivity extends AppCompatActivity {
         spinner =findViewById(R.id.date);
         noteText = findViewById(R.id.titoloNote);
 
-        double media = genitore.getmedia();
-        ArrayList<String> materie= new ArrayList<>();
+        double media=0;
+        if (studente != null) {
+            media = studente.getmedia();
+        } else {
+            Log.e("StudenteActivity", "Studente è null, impossibile ottenere la media.");
+        }
+
+        ArrayList<String> materie = new ArrayList<>();
+        studente.getVoti().get(0).getMateria();
         materie.add("Matematica");
         materie.add("Italiano");
         materie.add("Storia");
         materie.add("Informatica");
         materie.add("Sistemi");
 
+        for (int i = 0; i < studente.getVoti().size(); i++) {
+            if(studente.getVoti().get(i).getMateria().equals("Matematica")){
+                matematica.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else if(studente.getVoti().get(i).getMateria().equals("Italiano")){
+                italiano.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else if(studente.getVoti().get(i).getMateria().equals("Storia")){
+                storia.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else if(studente.getVoti().get(i).getMateria().equals("Informatica")){
+                informatica.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }else{
+                sistemi.add(String.valueOf(studente.getVoti().get(i).getvoto()));
+            }
+        }
+
 
         ArrayList<Assenza> assenze = new ArrayList<>();
-        for (Assenza assenza : genitore.getFiglio().getAssenze()) {
+        for (Assenza assenza : studente.getAssenze()) {
             assenze.add(assenza);
         }
         ArrayList<Assenza> assenzeGiustificate = new ArrayList<>();
@@ -88,17 +119,14 @@ public class genitoreActivity extends AppCompatActivity {
             }
         }
 
+        numeroTextView.setText(String.valueOf(media));
 
-        int voto = 5;
-        String materia = materie.get(0);
-
-        numeroTextView.setText(String.valueOf(voto));
-
-        if (voto >= 6) {
+        if (media >= 6) {
             cerchioVerde.setBackgroundResource(R.drawable.cerchio_verde);
         } else {
             cerchioVerde.setBackgroundResource(R.drawable.cerchio_rosso);
         }
+
 
         TextView valutazioniTextView = findViewById(R.id.valutazioni);
         TextView votiTextView = findViewById(R.id.titoloMateria);
@@ -126,15 +154,28 @@ public class genitoreActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             buttonMaterieIndietro.setVisibility(View.GONE);
                             materieLayout.setVisibility(View.GONE);
-                            nomeMateria.setText(materie.get(index)); //nome della materia
+                            nomeMateria.setText(materie.get(index));
                             votiLayout.removeAllViews();
                             votiLayout.setVisibility(View.VISIBLE);
                             buttonVotiIndietro.setVisibility(View.VISIBLE);
                             votiLayout.addView(votiTextView);
-                            for (int j = 0; j < genitore.getFiglio().getVoti().size(); j++) {
-                                Button voto = new Button(genitoreActivity.this);
-                                voto.setText(String.valueOf(genitore.getFiglio().getVoti().get(j)));
-                                votiLayout.addView(voto);
+
+                            ArrayList<String> votiPerMateria = new ArrayList<>();
+                            for (int j = 0; j < studente.getVoti().size(); j++) {
+                                if (studente.getVoti().get(j).getMateria().equals(materie.get(index))) {
+                                    votiPerMateria.add(String.valueOf(studente.getVoti().get(j).getvoto()));
+                                    Button voto = new Button(genitoreActivity.this);
+                                    voto.setText(String.valueOf(studente.getVoti().get(j).getvoto()));
+                                    votiLayout.addView(voto);
+                                }
+                            }
+
+                            if (votiPerMateria.isEmpty()) {
+                                TextView noVotiTextView = new TextView(genitoreActivity.this);
+                                noVotiTextView.setText("Non ci sono voti per questa materia");
+                                noVotiTextView.setTextSize(16);
+                                noVotiTextView.setGravity(Gravity.CENTER);
+                                votiLayout.addView(noVotiTextView);
                             }
                         }
                     });
@@ -161,29 +202,37 @@ public class genitoreActivity extends AppCompatActivity {
                 noteLayout.addView(noteText);
                 buttonNoteIndietro.setVisibility(View.VISIBLE);
 
-                for (int i = 0; i < genitore.getFiglio().getNote().size(); i++) {
-                    Button nota = new Button(genitoreActivity.this);
-                    nota.setText(genitore.getFiglio().getNote().get(i).getDate().toString());
+                if (studente.getNote().size() > 0) {
+                    for (int i = 0; i < studente.getNote().size(); i++) {
+                        Button nota = new Button(genitoreActivity.this);
+                        nota.setText(studente.getNote().get(i).getDate().toString());
 
-                    final String noteInfo = genitore.getFiglio().getNote().get(i).getText();
-                    nota.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Dialog noteDialog = new Dialog(genitoreActivity.this);
-                            noteDialog.setContentView(R.layout.dialog_note_info);
-                            TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
-                            noteInfoTextView.setText(noteInfo);
+                        final String noteInfo = studente.getNote().get(i).getText();
+                        nota.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Dialog noteDialog = new Dialog(genitoreActivity.this);
+                                noteDialog.setContentView(R.layout.dialog_note_info);
+                                TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
+                                noteInfoTextView.setText(noteInfo);
 
 
-                            noteDialog.getWindow().setLayout(
-                                    WindowManager.LayoutParams.MATCH_PARENT,
-                                    WindowManager.LayoutParams.WRAP_CONTENT);
-                            noteDialog.getWindow().setGravity(Gravity.BOTTOM);
-                            noteDialog.show();
-                        }
-                    });
+                                noteDialog.getWindow().setLayout(
+                                        WindowManager.LayoutParams.MATCH_PARENT,
+                                        WindowManager.LayoutParams.WRAP_CONTENT);
+                                noteDialog.getWindow().setGravity(Gravity.BOTTOM);
+                                noteDialog.show();
+                            }
+                        });
 
-                    noteLayout.addView(nota);
+                        noteLayout.addView(nota);
+                    }
+                }else{
+                    TextView noNoteTextView = new TextView(genitoreActivity.this);
+                    noNoteTextView.setText("Non sono presenti note");
+                    noNoteTextView.setTextSize(16);
+                    noNoteTextView.setGravity(Gravity.CENTER);
+                    noteLayout.addView(noNoteTextView);
                 }
             }
         });
@@ -195,6 +244,7 @@ public class genitoreActivity extends AppCompatActivity {
         assenzeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TextView noAssenzeView;
                 cerchioVerde.setVisibility(View.GONE);
                 numeroTextView.setVisibility(View.GONE);
                 materiaTextView.setVisibility(View.GONE);
@@ -210,13 +260,13 @@ public class genitoreActivity extends AppCompatActivity {
                 assenzeLayout.removeAllViews();
                 assenzeLayout.addView(assenzaText);
 
-                // Aggiunge le assenze giustificate alla vista
-                for (Assenza assenza : assenzeGiustificate) {
+                if (studente.getAssenze().size() > 0) {
+                    for (Assenza assenza : assenzeGiustificate) {
                     LinearLayout row = new LinearLayout(genitoreActivity.this);
                     row.setOrientation(LinearLayout.HORIZONTAL);
 
                     TextView dataView = new TextView(genitoreActivity.this);
-                    dataView.setText(String.valueOf(assenza.getData()));
+                    dataView.setText(assenza.getstringData());
                     dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                     dataView.setPadding(16, 16, 16, 16);
 
@@ -235,7 +285,16 @@ public class genitoreActivity extends AppCompatActivity {
                     row.addView(statoView);
 
                     assenzeLayout.addView(row);
+                   }
+                }else{
+                    noAssenzeView = new TextView(genitoreActivity.this);
+                    noAssenzeView.setText("Non ci sono assenze registrate.");
+                    noAssenzeView.setTextSize(16);
+                    noAssenzeView.setGravity(Gravity.CENTER);
+                    noAssenzeView.setPadding(16, 16, 16, 16);
+                    assenzeLayout.addView(noAssenzeView);
                 }
+
 
                 // Configura lo spinner con le assenze non giustificate
                 if (assenzeNonGiustificate.isEmpty()) {
@@ -265,7 +324,7 @@ public class genitoreActivity extends AppCompatActivity {
                     spinner.setAdapter(adapter);
 
                     // Mostra un messaggio di conferma
-                    Toast.makeText(genitoreActivity.this, "Assenza giustificata: " + selectedAssenza.getData(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(genitoreActivity.this, "Assenza giustificata: " + selectedAssenza.getstringData(), Toast.LENGTH_SHORT).show();
 
                     // Aggiorna la vista delle assenze giustificate
                     assenzeLayout.removeAllViews();
@@ -275,7 +334,7 @@ public class genitoreActivity extends AppCompatActivity {
                         row.setOrientation(LinearLayout.HORIZONTAL);
 
                         TextView dataView = new TextView(genitoreActivity.this);
-                        dataView.setText(String.valueOf(assenza.getData()));
+                        dataView.setText(assenza.getstringData());
                         dataView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                         dataView.setPadding(16, 16, 16, 16);
 
@@ -296,7 +355,7 @@ public class genitoreActivity extends AppCompatActivity {
                         assenzeLayout.addView(row);
 
                         ArrayList<Assenza> elencoAssenze = ordinaAssenze(assenzeGiustificate,assenzeNonGiustificate);
-                        genitore.getFiglio().setAssenze(elencoAssenze);
+                        studente.setAssenze(elencoAssenze);
                     }
                 } else {
                     Toast.makeText(genitoreActivity.this, "Non ci sono assenze da giustificare.", Toast.LENGTH_SHORT).show();
@@ -385,10 +444,34 @@ public class genitoreActivity extends AppCompatActivity {
         assenze.addAll(assenzeNonGiustificate);
 
         // Ordina la lista unificata per data
-        assenze.sort((a1, a2) -> a1.getData().compareTo(a2.getData()));
+        assenze.sort((a1, a2) -> a1.getstringData().compareTo(a2.getstringData()));
 
         // Restituisci la lista ordinata
         return assenze;
+    }
+
+    public Studente prendiStudente(String username) {
+
+        final Studente[] result = {null};
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<Studente> future = executor.submit(() -> {
+            Server server = new Server();
+            Studente studente = server.getGenitoriServer(username);
+
+            if (studente != null) {
+                return studente;
+            }
+            return null;
+        });
+
+        try {
+            result[0] = future.get();
+        } catch (Exception e) {
+            Log.e("StudenteActivity", "Errore durante la ricerca dello studente", e);
+        }
+
+        return result[0];
     }
 
 }

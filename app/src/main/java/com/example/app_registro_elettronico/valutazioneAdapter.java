@@ -53,7 +53,7 @@ public class valutazioneAdapter extends RecyclerView.Adapter<valutazioneAdapter.
     @Override
     public void onBindViewHolder(@NonNull ValutazioniViewHolder holder, int position) {
         Voti voto = votiList.get(position);
-        holder.dataTextView.setText("Data: " + voto.getdata());
+        holder.dataTextView.setText("Data: " + voto.getstringData());
         holder.votoTextView.setText("Voto: " + voto.getvoto());
         holder.descrizioneTextView.setText(voto.getdocente().getNome()+" "+voto.getdocente().getCognome());
     }

@@ -1,21 +1,14 @@
 package com.example.app_registro_elettronico;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 import com.example.app_registro_elettronico.gestione.*;
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Server {
 
@@ -60,7 +53,6 @@ public class Server {
     }
 
     private ArrayList<Studente> handleStudentResponse(String responseBody) {
-        ArrayList<Studente> studenti = new ArrayList<>();
 
         try {
             JSONObject jsonResponse = new JSONObject(responseBody);
@@ -111,6 +103,75 @@ public class Server {
         }
 
         return studenti;
+    }
+
+    public Studente getGenitoriServer(String username) {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(GENITORI_URL)
+                .get()
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            if (response.isSuccessful() && response.body() != null) {
+                Log.d("DEBUG", "Risposta ricevuta dal server");
+                String responseBody = response.body().string();
+                return handleGenitoriResponse(responseBody,username);
+            } else {
+                Log.e("HTTP_ERROR", "Risposta non valida dal server");
+            }
+        } catch (IOException e) {
+            Log.e("HTTP_ERROR", "Errore nella richiesta HTTP: " + e.getMessage(), e);
+        }
+
+        return null;
+    }
+
+    private Studente handleGenitoriResponse(String responseBody, String usernameGenitore) {
+        Studente studente= null;
+        studenti= getStudentiServer();
+        try {
+            JSONObject jsonResponse = new JSONObject(responseBody);
+            String status = jsonResponse.getString("status");
+
+            if ("success".equals(status)) {
+                JSONArray jsonGenitori = jsonResponse.getJSONArray("genitori");
+
+                for (int i = 0; i < jsonGenitori.length(); i++) {
+                    JSONObject jsonGenitore = jsonGenitori.getJSONObject(i);
+
+                    // Parsing dati studente
+                    String username = jsonGenitore.getString("username");
+                    String password = jsonGenitore.getString("password");
+                    String nome = jsonGenitore.getString("nome");
+                    String cognome = jsonGenitore.getString("cognome");
+                    String dataString = jsonGenitore.getString("data");
+                    String cf = jsonGenitore.getString("codiceFiscale");
+                    String cfFiglio = jsonGenitore.getString("cfFiglio");
+
+                    // Parsing della data
+                    Date dataNascita = parseData(dataString);
+
+                    //trova figlio
+                    if(username.equals(usernameGenitore)){
+                        for (Studente stud : studenti) {
+                            Log.d("DEBUG", cfFiglio + "  "+ stud.getCF());
+                            if(stud.getCF().equals(cfFiglio)){
+                                studente= stud;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("JSONException", "Errore durante il parsing del JSON: " + e.getMessage(), e);
+        }
+
+        return studente;
     }
 
     private Date parseData(String dataString) {
