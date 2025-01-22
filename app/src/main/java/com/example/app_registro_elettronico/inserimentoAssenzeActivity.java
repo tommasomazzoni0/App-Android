@@ -30,8 +30,8 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
     private Button indietro, inserisci;
     Docente docente;
     Studente alunno;
-    ArrayList<Studente> alunni;
-    Classe classe;
+    ArrayList<Studente> alunni= new ArrayList<>();
+    ArrayList<Classe> classe = new ArrayList<>();
 
     /**
      * Inizializza l'activity, configura il RecyclerView e imposta gli ascoltatori di eventi.
@@ -44,7 +44,7 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         setContentView(R.layout.assenze_activity);
         Intent intent = getIntent();
         docente = (Docente) intent.getSerializableExtra("docente");
-        classe = (Classe) intent.getSerializableExtra("classi");
+        classe = (ArrayList<Classe>) intent.getSerializableExtra("classi");
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
         alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 

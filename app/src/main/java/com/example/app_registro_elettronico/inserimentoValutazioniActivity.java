@@ -36,11 +36,11 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
     private EditText dataEditText, descrizioneEditText;
     private Spinner votoSpinner;
     private float votoSelezionato;
-    Classe classe;
+    ArrayList<Classe> classe = new ArrayList<>();
     Docente docente;
     Studente alunno;
-    ArrayList<Studente> alunni;
-    ArrayList<Studente> studenti;
+    ArrayList<Studente> alunni = new ArrayList<>();
+    ArrayList<Studente> studenti = new ArrayList<>();
 
     /**
      * Inizializza l'activity, configura il RecyclerView, il spinner per i voti e imposta gli ascoltatori di eventi.
@@ -53,7 +53,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         setContentView(R.layout.valutazioni_activity);
         Intent intent = getIntent();
         docente = (Docente) intent.getSerializableExtra("docente");
-        classe = (Classe) intent.getSerializableExtra("classi");
+        classe = (ArrayList<Classe>) intent.getSerializableExtra("classi");
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
         alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 

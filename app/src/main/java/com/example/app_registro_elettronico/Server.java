@@ -80,7 +80,7 @@ public class Server {
                     // Trova la classe
                     Classe classe = new Classe(
                             Integer.parseInt(String.valueOf(classeStringa.charAt(0))),
-                            classeStringa.substring(2, 4),
+                            classeStringa.substring(2, 5),
                             classeStringa.charAt(1)
                     );
 
@@ -401,7 +401,7 @@ public class Server {
 
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
-                return handleDoc(responseBody);
+                return handleDoc(responseBody,username);
             } else {
                 Log.e("HttpError", "Errore durante la richiesta dei docenti");
             }
@@ -412,8 +412,8 @@ public class Server {
         return null;
     }
 
-    private Docente handleDoc(String responseBody) {
-        Docente docente;
+    private Docente handleDoc(String responseBody, String usernameImportante) {
+        Docente docente=null;
         try {
             JSONObject jsonResponse = new JSONObject(responseBody);
             JSONArray jsonDocenti = jsonResponse.getJSONArray("docenti");
@@ -422,15 +422,22 @@ public class Server {
             for (int i = 0; i < jsonDocenti.length(); i++) {
                 JSONObject jsonDocente = jsonDocenti.getJSONObject(i);
 
+                String username = jsonDocente.getString("username");
+                String password = jsonDocente.getString("password");
                 String nome = jsonDocente.getString("nome");
                 String cognome = jsonDocente.getString("cognome");
+                String data = jsonDocente.getString("data");
+                String cf = jsonDocente.getString("codiceFiscale");
                 String materia = jsonDocente.getString("materie");
                 String classi = jsonDocente.getString("classi");
                 ArrayList<Classe> clas = new ArrayList<>();
                 String[] damn = classi.split(";");
+                Log.d("damn", String.valueOf(damn.length));
                 for (String s : damn) {
-                    clas.add(new Classe(Integer.parseInt(String.valueOf(s.charAt(0))), s.substring(2, 4), s.charAt(1)));
+                    clas.add(new Classe(Integer.parseInt(String.valueOf(s.charAt(0))), s.substring(2, 5), s.charAt(1)));
                 }
+
+                Date dataNascita = parseData(data);
 
                 ArrayList<String> materie = new ArrayList<>();
                 String[] sus = materia.split(";");
@@ -438,11 +445,16 @@ public class Server {
                     materie.add(s);
                 }
 
+                if(username.equals(usernameImportante)){
+                    docente= new Docente(nome,cognome,dataNascita,cf,clas,materie);
+                    return docente;
+                }
+
             }
         } catch (JSONException e) {
             Log.e("JSONException", "Errore durante il parsing del JSON dei docenti: " + e.getMessage(), e);
         }
-        return docente;
+        return null;
     }
 
     private void handleDocenteResponse(String responseBody) {
@@ -490,6 +502,23 @@ public class Server {
         return classi;
     }
 
+
+    public ArrayList<Studente> getStudentiClassi(Classe classe){
+        ArrayList<Studente> studentiTotali = getStudentiServer();
+        Log.d("studentiTotali", classe.toString());
+        ArrayList<Studente> studenteClasseRichiesta = new ArrayList<>();
+
+        for (int i = 0; i < studentiTotali.size(); i++) {
+            Log.d("StudenteSus", studentiTotali.get(i).getNome()+ studentiTotali.get(i).getClasse().toString());
+
+            if(studentiTotali.get(i).getClasse().toString().equals(classe.toString())){
+
+                studenteClasseRichiesta.add(studentiTotali.get(i));
+            }
+        }
+        return studenteClasseRichiesta;
+    }
+
     private ArrayList<String> parseMaterie(JSONArray jsonMaterie) throws JSONException {
         ArrayList<String> materie = new ArrayList<>();
         for (int i = 0; i < jsonMaterie.length(); i++) {
@@ -497,4 +526,6 @@ public class Server {
         }
         return materie;
     }
+
+
 }

@@ -22,8 +22,8 @@ public class alunniDocenteActivity extends AppCompatActivity {
 
     TextView valutazioniTextView, noteTextView, assenzeTextView;
     Button logout, indietro;
-    Classe classe;
-    ArrayList<Studente> alunni;
+    ArrayList<Classe> classe = new ArrayList<>();
+    ArrayList<Studente> alunni= new ArrayList<>();
     Docente docente;
     Studente alunno;
 
@@ -39,7 +39,7 @@ public class alunniDocenteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_docente);
         Intent intent = getIntent();
         docente = (Docente) intent.getSerializableExtra("docente");
-        classe = (Classe) intent.getSerializableExtra("classi");
+        classe = (ArrayList<Classe>) intent.getSerializableExtra("classi");
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
         alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 

@@ -55,9 +55,10 @@ public class docenteActivity extends AppCompatActivity {
             button.setTextColor(getResources().getColor(android.R.color.white));
 
             button.setOnClickListener(v -> {
-                ArrayList<Studente> alunni = classe.getStudenti();
+                ArrayList<Studente> alunni = prendiStudenti(classe);
                 Intent intent1 = new Intent(docenteActivity.this, alunniActivity.class);
-                intent1.putExtra("classi", classe);
+                intent1.putExtra("classi", docente.getClassi());
+                intent1.putExtra("classe", classe);
                 intent1.putExtra("alunni", alunni);
                 startActivity(intent1);
             });
@@ -103,4 +104,30 @@ public class docenteActivity extends AppCompatActivity {
 
         return result[0];
     }
+
+    public ArrayList<Studente> prendiStudenti(Classe classe) {
+        final ArrayList<Studente> result = new ArrayList<>();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<ArrayList<Studente>> future = executor.submit(() -> {
+            Server server = new Server();
+            ArrayList<Studente> studenti = server.getStudentiClassi(classe);
+            Log.d("alunni", String.valueOf(studenti.size()));
+            if(studenti!=null){
+                return studenti;
+            }
+            return null;
+        });
+
+        try {
+            result.addAll(future.get());
+        } catch (Exception e) {
+            Log.e("StudenteActivity", "Errore durante la ricerca degli studenti", e);
+        } finally {
+            executor.shutdown();
+        }
+
+        return result;
+    }
+
 }

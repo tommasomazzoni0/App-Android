@@ -29,7 +29,7 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     private EditText dataEditText, nomeEditText, notaEditText;
     private Button indietro, inserisci;
     Docente docente;
-    Classe classe;
+    ArrayList<Classe> classe;
     Studente alunno;
 
     ArrayList<Studente> alunni;
@@ -45,7 +45,7 @@ public class inserimentoNoteActivity extends AppCompatActivity {
         setContentView(R.layout.note_activity);
         Intent intent = getIntent();
         docente = (Docente) intent.getSerializableExtra("docente");
-        classe = (Classe) intent.getSerializableExtra("classi");
+        classe = (ArrayList<Classe>) intent.getSerializableExtra("classi");
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
         alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 

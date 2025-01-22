@@ -205,16 +205,19 @@ public class genitoreActivity extends AppCompatActivity {
                 if (studente.getNote().size() > 0) {
                     for (int i = 0; i < studente.getNote().size(); i++) {
                         Button nota = new Button(genitoreActivity.this);
-                        nota.setText(studente.getNote().get(i).getDate().toString());
+                        nota.setText(studente.getNote().get(i).getstringData());
 
-                        final String noteInfo = studente.getNote().get(i).getText();
+                        String noteInfo = studente.getNote().get(i).getText();
+                        noteInfo = noteInfo.replace("Motivo_", "");
+                        String docente = "Docente: " + studente.getNote().get(i).getProfessor().getNome() + " " + studente.getNote().get(i).getProfessor().getCognome();
+                        final String info = "Motivazione: " + noteInfo + "\n" + docente;
                         nota.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Dialog noteDialog = new Dialog(genitoreActivity.this);
                                 noteDialog.setContentView(R.layout.dialog_note_info);
                                 TextView noteInfoTextView = noteDialog.findViewById(R.id.noteInfoTextView);
-                                noteInfoTextView.setText(noteInfo);
+                                noteInfoTextView.setText(info);
 
 
                                 noteDialog.getWindow().setLayout(

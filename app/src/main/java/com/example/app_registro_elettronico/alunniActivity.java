@@ -23,7 +23,8 @@ public class alunniActivity extends AppCompatActivity {
 
     Button logout;
     Classe classe;
-    ArrayList<Studente> alunni;
+    ArrayList<Classe> classi= new ArrayList<>();
+    ArrayList<Studente> alunni= new ArrayList<>();
 
     /**
      * Metodo chiamato durante la creazione dell'attività.
@@ -36,7 +37,8 @@ public class alunniActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alunni);
         Intent intent = getIntent();
-        classe =(Classe) intent.getSerializableExtra("classi");
+        ArrayList<Classe> classi=(ArrayList<Classe>) intent.getSerializableExtra("classi");
+        classe = (Classe) intent.getSerializableExtra("classe");
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
 
         TextView classeTitle = findViewById(R.id.classeTitle);
@@ -55,7 +57,7 @@ public class alunniActivity extends AppCompatActivity {
 
                 button.setOnClickListener(v -> {
                     Intent intent2 = new Intent(alunniActivity.this, alunniDocenteActivity.class);
-                    intent2.putExtra("classi", classe);
+                    intent2.putExtra("classi", classi);
                     intent2.putExtra("alunni", alunni);
                     intent2.putExtra("alunno_selezionato", alunno);
                     startActivity(intent2);
@@ -94,7 +96,8 @@ public class alunniActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            Classe classe = (Classe) data.getSerializableExtra("classi");
+            Classe classe = (Classe) data.getSerializableExtra("classe");
+
             ArrayList<Studente> alunni = (ArrayList<Studente>) data.getSerializableExtra("alunni");
 
             if (classe != null && alunni != null) {
@@ -102,7 +105,7 @@ public class alunniActivity extends AppCompatActivity {
                 classeTitle.setText("Alunni della " + classe);
 
                 LinearLayout alunniLayout = findViewById(R.id.alunniLayout);
-                alunniLayout.removeAllViews();  // Pulisci la lista precedente
+                alunniLayout.removeAllViews();
 
                 for (Studente alunno : alunni) {
                     Button button = new Button(this);
@@ -112,7 +115,7 @@ public class alunniActivity extends AppCompatActivity {
 
                     button.setOnClickListener(v -> {
                         Intent intent = new Intent(alunniActivity.this, alunniDocenteActivity.class);
-                        intent.putExtra("classi", classe);
+                        intent.putExtra("classi", classi);
                         intent.putExtra("alunni", alunni);
                         intent.putExtra("alunno_selezionato", alunno);
                         startActivityForResult(intent, 1);
