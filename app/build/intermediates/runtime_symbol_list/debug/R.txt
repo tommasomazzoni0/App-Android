@@ -3107,7 +3107,6 @@ int id Assenza 0x7f090002
 int id BOTTOM_END 0x7f090003
 int id BOTTOM_START 0x7f090004
 int id CTRL 0x7f090005
-int id Descrizione 0x7f090006
 int id FUNCTION 0x7f090007
 int id META 0x7f090008
 int id NO_DEBUG 0x7f090009
@@ -3117,6 +3116,7 @@ int id SHOW_ALL 0x7f09000c
 int id SHOW_PATH 0x7f09000d
 int id SHOW_PROGRESS 0x7f09000e
 int id SYM 0x7f09000f
+int id SpinnerMateria 0x7f090236
 int id TOP_END 0x7f090010
 int id TOP_START 0x7f090011
 int id Titolonota 0x7f090012

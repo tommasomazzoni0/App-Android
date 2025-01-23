@@ -2,6 +2,7 @@ package com.example.app_registro_elettronico;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,15 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_registro_elettronico.gestione.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.ParseException;
+import java.util.*;
 
 
 /**
  * Activity per la gestione dell'inserimento delle assenze per gli alunni.
- * Consente di visualizzare una lista di assenze, inserire nuove assenze e navigare tra le schermate.
+ * Consente di visualizzare una lista di assenze, inserire nuove assenze.
  */
 public class inserimentoAssenzeActivity extends AppCompatActivity {
 
@@ -28,13 +27,14 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
     private assenzeAdapter assenzaAdapter;
     private EditText dataEditText;
     private Button indietro, inserisci;
-    Docente docente;
-    Studente alunno;
-    ArrayList<Studente> alunni= new ArrayList<>();
-    ArrayList<Classe> classe = new ArrayList<>();
+    private Docente docente;
+    private Studente alunno;
+    private ArrayList<Studente> alunni= new ArrayList<>();
+    private ArrayList<Classe> classi = new ArrayList<>();
+    private Classe classe;
 
     /**
-     * Inizializza l'activity, configura il RecyclerView e imposta gli ascoltatori di eventi.
+     * Inizializza l'activity.
      *
      * @param savedInstanceState Bundle che contiene lo stato precedentemente salvato dell'activity.
      */
@@ -44,10 +44,10 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         setContentView(R.layout.assenze_activity);
         Intent intent = getIntent();
         docente = (Docente) intent.getSerializableExtra("docente");
-        classe = (ArrayList<Classe>) intent.getSerializableExtra("classi");
+        classi = (ArrayList<Classe>) intent.getSerializableExtra("classi");
+        classe = (Classe) intent.getSerializableExtra("classe");
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
         alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
-
 
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
@@ -62,8 +62,12 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(inserimentoAssenzeActivity.this, alunniDocenteActivity.class);
-                intent.putExtra("classi", classe);
+                intent.putExtra("classi", classi);
+                intent.putExtra("classe", classe);
                 intent.putExtra("alunni", alunni);
+                intent.putExtra("docente", docente);
+                intent.putExtra("alunno_selezionato", alunno);
+
                 startActivity(intent);
                 finish();
             }
@@ -110,20 +114,29 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         inserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date nuovaData = (Date) dataEditText.getText();
+                String dataText = dataEditText.getText().toString();
 
-                if (nuovaData == null) {
+                if (dataText.isEmpty()) {
                     Toast.makeText(inserimentoAssenzeActivity.this, "Inserisci una data valida", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                alunno.getAssenze().add(new Assenza(docente, nuovaData, false));
-                assenzaAdapter.notifyDataSetChanged();
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    dateFormat.setLenient(false);
+                    Date nuovaData = dateFormat.parse(dataText);
+                    alunno.getAssenze().add(new Assenza(docente, nuovaData, false));
+                    assenzaAdapter.notifyDataSetChanged();
 
-                Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
 
-                dataEditText.setText("");
+                    dataEditText.setText("");
+
+                } catch (ParseException e) {
+                    Toast.makeText(inserimentoAssenzeActivity.this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
     }
 }

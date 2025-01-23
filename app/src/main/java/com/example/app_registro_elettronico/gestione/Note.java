@@ -80,4 +80,5 @@ public class Note implements Serializable {
         calendar.setTime(date);
         return calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.YEAR);
     }
+
 }

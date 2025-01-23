@@ -12,8 +12,8 @@ drawable icona
 drawable rounded_background
 id Alunni
 id Assenza
-id Descrizione
 id Password
+id SpinnerMateria
 id Titolonota
 id Username
 id Voti

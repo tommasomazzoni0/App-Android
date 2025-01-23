@@ -133,6 +133,10 @@ public class Studente extends Persona implements Serializable {
         this.classe = classe;
     }
 
+    /**
+     * funzione per ritornare la media
+     * @return la media dei voti
+     */
     public double getmedia(){
         double media = 0;
         for (Voti v: voti) {

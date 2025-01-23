@@ -3108,7 +3108,6 @@ id Assenza
 id BOTTOM_END
 id BOTTOM_START
 id CTRL
-id Descrizione
 id FUNCTION
 id META
 id NO_DEBUG
@@ -3118,6 +3117,7 @@ id SHOW_ALL
 id SHOW_PATH
 id SHOW_PROGRESS
 id SYM
+id SpinnerMateria
 id TOP_END
 id TOP_START
 id Titolonota

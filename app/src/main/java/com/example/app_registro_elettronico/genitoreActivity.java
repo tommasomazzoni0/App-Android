@@ -39,7 +39,7 @@ public class genitoreActivity extends AppCompatActivity {
     private ArrayList<String> materie;
 
     /**
-     * Inizializza l'activity, imposta i componenti UI e gli ascoltatori di eventi.
+     * Inizializza l'activity
      *
      * @param savedInstanceState Un bundle che contiene lo stato precedentemente salvato dell'activity.
      */
@@ -308,7 +308,6 @@ public class genitoreActivity extends AppCompatActivity {
                 }
 
 
-                // Configura lo spinner con le assenze non giustificate
                 if (assenzeNonGiustificate.isEmpty()) {
                     Toast.makeText(genitoreActivity.this, "Non ci sono assenze non giustificate.", Toast.LENGTH_SHORT).show();
                     return;
@@ -445,6 +444,12 @@ public class genitoreActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * serve per mettere in ordine cronologico le date
+     * @param assenzeGiustificate arraylist delle assenze giustificate
+     * @param assenzeNonGiustificate arraylist delle assenze non giustificate
+     * @return arraylist di assenze in ordine di data
+     */
     public static ArrayList<Assenza> ordinaAssenze(ArrayList<Assenza> assenzeGiustificate, ArrayList<Assenza> assenzeNonGiustificate) {
         ArrayList<Assenza> assenze = new ArrayList<>();
 
@@ -459,6 +464,11 @@ public class genitoreActivity extends AppCompatActivity {
         return assenze;
     }
 
+    /**
+     * Serve per prendere i dati dal server con l'account con cui siamo entrati, aspetta finchè il server non ha risposto
+     * @param username l'username dell'utente
+     * @return lo studente, ovvero i dati
+     */
     public Studente prendiStudente(String username) {
 
         final Studente[] result = {null};

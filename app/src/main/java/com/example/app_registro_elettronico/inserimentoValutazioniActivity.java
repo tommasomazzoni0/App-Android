@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,136 +20,186 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_registro_elettronico.gestione.*;
 import com.example.app_registro_elettronico.valutazioneAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 
 /**
  * Activity per la gestione dell'inserimento delle valutazioni degli alunni.
- * Consente di visualizzare le valutazioni, aggiungerne di nuove e navigare tra le schermate.
  */
 public class inserimentoValutazioniActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private valutazioneAdapter votiAdapter;
     private Button indietro, inserisci;
-    private EditText dataEditText, descrizioneEditText;
-    private Spinner votoSpinner;
-    private float votoSelezionato;
-    ArrayList<Classe> classe = new ArrayList<>();
-    Docente docente;
-    Studente alunno;
-    ArrayList<Studente> alunni = new ArrayList<>();
-    ArrayList<Studente> studenti = new ArrayList<>();
+    private EditText dataEditText;
+    private Spinner votoSpinner, materieSpinner;
+    private float votoSelezionato = 0f;
+    private String materiaSelezionata = "";
+    private ArrayList<Classe> classi = new ArrayList<>();
+    private Docente docente;
+    private Classe classe;
+    private Studente alunno;
+    private ArrayList<Studente> studenti = new ArrayList<>();
 
-    /**
-     * Inizializza l'activity, configura il RecyclerView, il spinner per i voti e imposta gli ascoltatori di eventi.
-     *
-     * @param savedInstanceState Bundle che contiene lo stato precedentemente salvato dell'activity.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valutazioni_activity);
-        Intent intent = getIntent();
-        docente = (Docente) intent.getSerializableExtra("docente");
-        classe = (ArrayList<Classe>) intent.getSerializableExtra("classi");
-        alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
-        alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 
-        indietro = findViewById(R.id.indietro);
-        inserisci = findViewById(R.id.inserisci);
-        recyclerView = findViewById(R.id.votiRecyclerView);
-        dataEditText = findViewById(R.id.data);
-        descrizioneEditText = findViewById(R.id.Descrizione);
-        votoSpinner = findViewById(R.id.votoSpinner);
+        try {
+            // Recupero dati dall'Intent
+            Intent intent = getIntent();
+            docente = (Docente) intent.getSerializableExtra("docente");
+            classi = (ArrayList<Classe>) intent.getSerializableExtra("classi");
+            classe = (Classe) intent.getSerializableExtra("classe");
+            studenti = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
+            alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        votiAdapter = new valutazioneAdapter(alunno.getVoti());
-        recyclerView.setAdapter(votiAdapter);
-        votiAdapter.notifyDataSetChanged();
 
-        indietro.setOnClickListener(view -> {
-            Intent intent1 = new Intent(inserimentoValutazioniActivity.this, alunniDocenteActivity.class);
-            intent1.putExtra("classi", classe);
-            intent1.putExtra("alunni", studenti);
-            startActivity(intent1);
+            if (alunno == null) {
+                throw new IllegalArgumentException("Dati dell'alunno mancanti");
+            }
+
+            // Inizializzazione dei componenti
+            indietro = findViewById(R.id.indietro);
+            inserisci = findViewById(R.id.inserisci);
+            recyclerView = findViewById(R.id.votiRecyclerView);
+            dataEditText = findViewById(R.id.data);
+            materieSpinner = findViewById(R.id.SpinnerMateria);
+            votoSpinner = findViewById(R.id.votoSpinner);
+
+            // Configurazione RecyclerView
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            if (alunno.getVoti() == null) {
+                alunno.setVoti(new ArrayList<>());
+            }
+            votiAdapter = new valutazioneAdapter(alunno.getVoti());
+            recyclerView.setAdapter(votiAdapter);
+
+            // Pulsante indietro
+            indietro.setOnClickListener(view -> {
+                Intent intent1 = new Intent(inserimentoValutazioniActivity.this, alunniDocenteActivity.class);
+                intent1.putExtra("classi", classi);
+                intent1.putExtra("classe", classe);
+                intent1.putExtra("alunni", studenti);
+                intent1.putExtra("docente", docente);
+                intent1.putExtra("alunno_selezionato", alunno);
+                startActivity(intent1);
+                finish();
+            });
+
+            dataEditText.setOnClickListener(view -> showDatePicker());
+
+            ArrayAdapter<CharSequence> votoAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.voti_array, android.R.layout.simple_spinner_item);
+            votoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            votoSpinner.setAdapter(votoAdapter);
+            votoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    votoSelezionato = Float.parseFloat(parentView.getItemAtPosition(position).toString());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    votoSelezionato = 0f;
+                }
+            });
+
+            if (docente != null && docente.getMaterie() != null) {
+                ArrayAdapter<String> materieAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, docente.getMaterie());
+                materieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                materieSpinner.setAdapter(materieAdapter);
+                materieSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        materiaSelezionata = adapterView.getItemAtPosition(i).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        materiaSelezionata = "";
+                    }
+                });
+            }
+
+            inserisci.setOnClickListener(view -> inserisciValutazione());
+
+        } catch (Exception e) {
+            Log.e("inserimentoValutazioni", "Errore durante l'inizializzazione: " + e.getMessage(), e);
+            Toast.makeText(this, "Errore nell'inizializzazione", Toast.LENGTH_LONG).show();
             finish();
-        });
+        }
+    }
 
-        dataEditText.setOnClickListener(view -> {
-            final Calendar calendar = Calendar.getInstance();
+    /**
+     * Mostra il DatePicker per selezionare una data.
+     */
+    private void showDatePicker() {
+        final Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
 
-            int currentYear = calendar.get(Calendar.YEAR);
-            int currentMonth = calendar.get(Calendar.MONTH);
+        int startYear, endYear;
+        if (currentMonth >= Calendar.SEPTEMBER) {
+            startYear = currentYear;
+            endYear = currentYear + 1;
+        } else {
+            startYear = currentYear - 1;
+            endYear = currentYear;
+        }
 
-            int startYear;
-            int endYear;
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(startYear, Calendar.SEPTEMBER, 1);
 
-            if (currentMonth >= Calendar.SEPTEMBER) {
-                startYear = currentYear;
-                endYear = currentYear + 1;
-            } else {
-                startYear = currentYear - 1;
-                endYear = currentYear;
-            }
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(endYear, Calendar.JUNE, 30);
 
-            Calendar startDate = Calendar.getInstance();
-            startDate.set(startYear, Calendar.SEPTEMBER, 1);
+        new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
+            String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+            dataEditText.setText(selectedDate);
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
 
-            Calendar endDate = Calendar.getInstance();
-            endDate.set(endYear, Calendar.JUNE, 30);
+    /**
+     * Inserisce una valutazione per l'alunno selezionato.
+     */
+    private void inserisciValutazione() {
+        // Ottieni il valore inserito per la data
+        String dataInserita = dataEditText.getText().toString().trim();
 
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+        // Verifica che tutti i campi obbligatori siano compilati
+        if (TextUtils.isEmpty(dataInserita) || votoSelezionato == 0 || TextUtils.isEmpty(materiaSelezionata)) {
+            Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, selectedYear, selectedMonth, selectedDay) -> {
-                String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
-                dataEditText.setText(selectedDate);
-            }, year, month, day);
+        try {
+            // Parsing della data inserita dall'utente
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            dateFormat.setLenient(false); // Verifica rigorosa del formato della data
+            Date data = dateFormat.parse(dataInserita);
 
-            datePickerDialog.getDatePicker().setMinDate(startDate.getTimeInMillis());
-            datePickerDialog.getDatePicker().setMaxDate(endDate.getTimeInMillis());
-
-            datePickerDialog.show();
-        });
-
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.voti_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        votoSpinner.setAdapter(adapter);
-
-        votoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                votoSelezionato = Float.parseFloat(parentView.getItemAtPosition(position).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                votoSelezionato = 0;
-            }
-        });
-
-        inserisci.setOnClickListener(view -> {
-            Date data = (Date) dataEditText.getText();
-
-            if (TextUtils.isEmpty((CharSequence) data) || votoSelezionato == 0) {
-                Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-
-            alunno.getVoti().add(new Voti(votoSelezionato,"italiano", docente,data));
+            // Aggiungi la valutazione alla lista dell'alunno
+            alunno.getVoti().add(new Voti(votoSelezionato, materiaSelezionata, docente, data));
             votiAdapter.notifyItemInserted(alunno.getVoti().size() - 1);
 
+            // Resetta i campi di input
             dataEditText.setText("");
-            descrizioneEditText.setText("");
             votoSpinner.setSelection(0);
+            materieSpinner.setSelection(0);
+
+            // Mostra messaggio di conferma
             Toast.makeText(this, "Valutazione inserita con successo", Toast.LENGTH_SHORT).show();
-        });
+        } catch (ParseException e) {
+            // Mostra un messaggio di errore se la data non è valida
+            Toast.makeText(this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
+        }
     }
+
 }

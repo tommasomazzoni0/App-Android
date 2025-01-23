@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Metodo di creazione dell'activity.
-     * Inizializza le viste, imposta gli ascoltatori di eventi e gestisce la logica di login.
+     * Gestisce la logica di login.
      *
      * @param savedInstanceState Stato precedentemente salvato dell'activity.
      */

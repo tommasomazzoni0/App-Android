@@ -39,7 +39,7 @@ public class valutazioneAdapter extends RecyclerView.Adapter<valutazioneAdapter.
     @NonNull
     @Override
     public ValutazioniViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.voti_item, parent, false);
         return new ValutazioniViewHolder(view);
     }
 
@@ -55,7 +55,6 @@ public class valutazioneAdapter extends RecyclerView.Adapter<valutazioneAdapter.
         Voti voto = votiList.get(position);
         holder.dataTextView.setText("Data: " + voto.getstringData());
         holder.votoTextView.setText("Voto: " + voto.getvoto());
-        holder.descrizioneTextView.setText(voto.getdocente().getNome()+" "+voto.getdocente().getCognome());
     }
 
     /**
@@ -77,8 +76,6 @@ public class valutazioneAdapter extends RecyclerView.Adapter<valutazioneAdapter.
 
         TextView dataTextView;
         TextView votoTextView;
-        TextView descrizioneTextView;
-
 
         /**
          * Costruttore per inizializzare il ViewHolder con la vista dell'elemento.
@@ -87,9 +84,8 @@ public class valutazioneAdapter extends RecyclerView.Adapter<valutazioneAdapter.
          */
         public ValutazioniViewHolder(View itemView) {
             super(itemView);
-            dataTextView = itemView.findViewById(R.id.noteDate);
-            votoTextView = itemView.findViewById(R.id.noteProfessor);
-            descrizioneTextView = itemView.findViewById(R.id.noteText);
+            dataTextView = itemView.findViewById(R.id.dataVoti);
+            votoTextView = itemView.findViewById(R.id.voto);
         }
     }
 }

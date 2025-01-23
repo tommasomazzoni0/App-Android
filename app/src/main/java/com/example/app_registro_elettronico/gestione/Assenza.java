@@ -90,6 +90,10 @@ public class Assenza implements Serializable {
         this.docente = docente;
     }
 
+    /**
+     * Stringa la data nel modo voluto
+     * @return una stringa
+     */
     public String getstringData(){
         Calendar calendar= Calendar.getInstance();
         calendar.setTime(data);

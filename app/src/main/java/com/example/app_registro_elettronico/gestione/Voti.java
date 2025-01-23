@@ -81,6 +81,10 @@ public class Voti implements Serializable {
         this.docente = docente;
     }
 
+    /**
+     * stringa una serie di valori
+     * @return la stringa voluta
+     */
     public String getstringData(){
         Calendar calendar= Calendar.getInstance();
         calendar.setTime(data);

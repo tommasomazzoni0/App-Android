@@ -51,9 +51,11 @@ public class notesAdapter extends RecyclerView.Adapter<notesAdapter.NoteViewHold
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = noteList.get(position);
-        holder.dateTextView.setText("Data: " + note.getDate());
-        holder.professorTextView.setText("Professore: " + note.getProfessor());
-        holder.textTextView.setText(note.getText());
+        holder.dateTextView.setText("Data: " + note.getstringData());
+        holder.professorTextView.setText("Professore: " + note.getProfessor().getNome()+" "+note.getProfessor().getCognome());
+        String noteInfo = note.getText();
+        noteInfo = noteInfo.replace("Motivo_", "");
+        holder.textTextView.setText("Motivazione: "+noteInfo);
     }
 
     /**

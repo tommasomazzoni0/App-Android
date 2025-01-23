@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Activity che gestisce l'interfaccia studente, visualizzando i dettagli come voti, note e assenze.
+ * Activity che gestisce l'interfaccia studente, visualizzando voti, note e assenze.
  */
 public class studenteActivity extends AppCompatActivity {
 
@@ -227,7 +227,6 @@ public class studenteActivity extends AppCompatActivity {
         assenzeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Nascondere altri elementi dell'interfaccia
                 cerchioVerde.setVisibility(View.GONE);
                 numeroTextView.setVisibility(View.GONE);
                 materiaTextView.setVisibility(View.GONE);
@@ -237,13 +236,11 @@ public class studenteActivity extends AppCompatActivity {
                 materieLayout.setVisibility(View.GONE);
                 votiLayout.setVisibility(View.GONE);
 
-                // Pulire e preparare il layout delle assenze
                 assenzeLayout.removeAllViews();
                 assenzeLayout.addView(titoloAssenze);
                 assenzeLayout.setVisibility(View.VISIBLE);
                 buttonAssenzaIndietro.setVisibility(View.VISIBLE);
 
-                // Controllo se ci sono assenze
                 if (studente.getAssenze().size() > 0) {
                     for (int i = 0; i < studente.getAssenze().size(); i++) {
                         String[] parts = new String[3];
@@ -254,7 +251,6 @@ public class studenteActivity extends AppCompatActivity {
                         String giustifica = studente.getAssenze().get(i).getgiustifica() ? "Giustificata" : "Non giustificata";
                         parts[2] = giustifica;
 
-                        // Creazione di una riga per ogni assenza
                         LinearLayout row = new LinearLayout(studenteActivity.this);
                         row.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -273,16 +269,13 @@ public class studenteActivity extends AppCompatActivity {
                         giustificaView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
                         giustificaView.setPadding(16, 16, 16, 16);
 
-                        // Aggiunta delle TextView alla riga
                         row.addView(dataView);
                         row.addView(docenteView);
                         row.addView(giustificaView);
 
-                        // Aggiunta della riga al layout delle assenze
                         assenzeLayout.addView(row);
                     }
                 } else {
-                    // Messaggio se non ci sono assenze
                     TextView noAssenzeView = new TextView(studenteActivity.this);
                     noAssenzeView.setText("Non ci sono assenze registrate.");
                     noAssenzeView.setTextSize(16);
@@ -360,6 +353,11 @@ public class studenteActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Serve per prendere i dati dal server con l'account con cui siamo entrati, aspetta finchè il server non ha risposto
+     * @param username l'username dell'utente
+     * @return lo studente, ovvero i dati
+     */
     public Studente prendiStudenti(String username) {
         final Studente[] result = {null};
 
