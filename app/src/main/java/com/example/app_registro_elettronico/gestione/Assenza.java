@@ -109,4 +109,25 @@ public class Assenza implements Serializable {
         return calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.YEAR);
 
     }
+
+
+    /**
+     * Funzione che restituisce l'assenza in formato stringa.
+     *
+     * @return Stringa che rappresenta l'assenza.
+     */
+    public String toStringServer(){
+        if(docente==null){
+            if(giustifica){
+                return getstringData() + " " +  "docente_nonregistrato" + " true";
+            }
+            return getstringData() + " " + "docente_nonregistrato" + " false";
+        }
+        else{
+            if(giustifica){
+                return getstringData() + " " + docente.getNome() + "_" + docente.getCognome() + " true";
+            }
+            return getstringData() + " " + docente.getNome() + "_" + docente.getCognome() + " false";
+        }
+    }
 }

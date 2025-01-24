@@ -364,6 +364,8 @@ public class genitoreActivity extends AppCompatActivity {
 
                         ArrayList<Assenza> elencoAssenze = ordinaAssenze(assenzeGiustificate,assenzeNonGiustificate);
                         studente.setAssenze(elencoAssenze);
+                        server.creaEliminaStudente("elimina",studente);
+                        server.creaEliminaStudente("carica",studente);
                     }
                 } else {
                     Toast.makeText(genitoreActivity.this, "Non ci sono assenze da giustificare.", Toast.LENGTH_SHORT).show();

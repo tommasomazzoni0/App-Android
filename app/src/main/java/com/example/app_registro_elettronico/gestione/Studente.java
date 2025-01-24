@@ -43,7 +43,7 @@ public class Studente extends Persona implements Serializable {
     public String getStringVoti(){
         String s = "";
         for (Voti v: voti) {
-            s += v.toString() + ";";
+            s += v.toStringServer() + ";";
         }
         return s;
     }
@@ -56,7 +56,7 @@ public class Studente extends Persona implements Serializable {
     public String getStringNote(){
         String s = "";
         for (Note n: note) {
-            s += n.toString() + ";";
+            s += n.toStringServer() + ";";
         }
         return s;
     }
@@ -69,7 +69,7 @@ public class Studente extends Persona implements Serializable {
     public String getStringAssenze(){
         String s = "";
         for (Assenza a: assenze) {
-            s += a.toString() + ";";
+            s += a.toStringServer() + ";";
         }
         return s;
     }

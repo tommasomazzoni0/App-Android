@@ -91,4 +91,17 @@ public class Voti implements Serializable {
         return calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.YEAR);
     }
 
+
+    /**
+     * Funzione che restituisce il voto in formato stringa.
+     *
+     * @return Stringa che rappresenta la nota.
+     */
+    public String toStringServer(){
+        if(docente==null){
+            return voto + " " + materia + " " + "docente_nonregistrato" + " " + getstringData();
+        }
+        return voto + " " + materia + " " + docente.getNome() + "_" + docente.getCognome() + " " + getstringData();
+    }
+
 }

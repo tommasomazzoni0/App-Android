@@ -44,6 +44,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
     private Classe classe;
     private Studente alunno;
     private ArrayList<Studente> studenti = new ArrayList<>();
+    private Server server= new Server();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +197,9 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
 
             // Mostra messaggio di conferma
             Toast.makeText(this, "Valutazione inserita con successo", Toast.LENGTH_SHORT).show();
+            server.creaEliminaStudente("elimina",alunno);
+            server.creaEliminaStudente("carica",alunno);
+
         } catch (ParseException e) {
             // Mostra un messaggio di errore se la data non è valida
             Toast.makeText(this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();

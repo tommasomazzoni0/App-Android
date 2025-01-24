@@ -32,6 +32,7 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     private Studente alunno;
     private Classe classe;
     private ArrayList<Studente> alunni;
+    private Server server= new Server();
 
     /**
      * Inizializza l'activity.
@@ -142,6 +143,9 @@ public class inserimentoNoteActivity extends AppCompatActivity {
                 notesAdapter.notifyDataSetChanged();
 
                 Toast.makeText(inserimentoNoteActivity.this, "Nota aggiunta con successo", Toast.LENGTH_SHORT).show();
+                server.creaEliminaStudente("elimina",alunno);
+                server.creaEliminaStudente("carica",alunno);
+
 
                 // Resetta i campi di input
                 dataEditText.setText("");

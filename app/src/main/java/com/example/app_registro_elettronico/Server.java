@@ -528,4 +528,52 @@ public class Server {
     }
 
 
+    /**
+     * Funzione che crea/elimina uno studente dal sistema inviando una richiesta HTTP POST al server.
+     *
+     * @param action Azione da eseguire.
+     * @param studente Studente da creare/eliminare.
+     */
+    public static void creaEliminaStudente(String action, Studente studente) {
+        // Configura il client HTTP
+        OkHttpClient client = new OkHttpClient();
+
+        // Costruisce il corpo della richiesta
+        RequestBody formBody = new FormBody.Builder()
+                .add("azione", action)
+                .add("username",studente.getCredenziali().getUser())
+                .add("password",studente.getCredenziali().getPassword())
+                .add("nome",studente.getNome())
+                .add("cognome",studente.getCognome())
+                .add("data",studente.getStringData())
+                .add("codiceFiscale",studente.getCF())
+                .add("classe",studente.getClasse().toString())
+                .add("voti",studente.getStringVoti())
+                .add("note",studente.getStringNote())
+                .add("assenze",studente.getStringAssenze())
+                .build();
+
+        // Costruisce la richiesta HTTP
+        Request request = new Request.Builder()
+                .url(STUDENTI_URL)
+                .post(formBody)
+                .build();
+
+        // Esegue la richiesta in un thread separato
+        new Thread(() -> {
+            try {
+                Response response = client.newCall(request).execute();
+
+                // Mostra la risposta nella text area
+                if (response.isSuccessful()) {
+                } else {
+                    System.out.println(response.body().string());
+                }
+            } catch (IOException ex) {
+                System.out.println("Eccezione: " + ex.getMessage());
+            }
+        }).start();
+    }
+
+
 }

@@ -32,6 +32,7 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
     private ArrayList<Studente> alunni= new ArrayList<>();
     private ArrayList<Classe> classi = new ArrayList<>();
     private Classe classe;
+    Server server= new Server();
 
     /**
      * Inizializza l'activity.
@@ -129,6 +130,8 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
                     assenzaAdapter.notifyDataSetChanged();
 
                     Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
+                    server.creaEliminaStudente("elimina",alunno);
+                    server.creaEliminaStudente("carica",alunno);
 
                     dataEditText.setText("");
 
