@@ -111,12 +111,24 @@
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="16dp" />
 
+        <TextView
+                android:id="@+id/noNoteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Non ci sono note disponibili."
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp" />
     </LinearLayout>
+
 
     <Button
             android:id="@+id/indietro"

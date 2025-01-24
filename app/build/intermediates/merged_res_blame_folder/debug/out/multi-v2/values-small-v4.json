@@ -4,7 +4,7 @@
             "outputFile": "com.example.app_registro_elettronico.app-mergeDebugResources-29:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\tommaso.mazzoni_isar\\.gradle\\caches\\transforms-3\\25a5d91e7e9d6b9ad48ce52ae08f78cb\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",
+                    "source": "C:\\Users\\User\\.gradle\\caches\\transforms-3\\25a5d91e7e9d6b9ad48ce52ae08f78cb\\transformed\\material-1.12.0\\res\\values-small-v4\\values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

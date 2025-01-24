@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +16,6 @@ import com.example.app_registro_elettronico.gestione.*;
 
 import java.text.ParseException;
 import java.util.*;
-
 
 /**
  * Activity per la gestione dell'inserimento delle assenze per gli alunni.
@@ -27,22 +27,20 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
     private assenzeAdapter assenzaAdapter;
     private EditText dataEditText;
     private Button indietro, inserisci;
+    private TextView assenzeTextView; // TextView per indicare assenza di assenze
     private Docente docente;
     private Studente alunno;
-    private ArrayList<Studente> alunni= new ArrayList<>();
+    private ArrayList<Studente> alunni = new ArrayList<>();
     private ArrayList<Classe> classi = new ArrayList<>();
     private Classe classe;
-    Server server= new Server();
+    private Server server = new Server();
 
-    /**
-     * Inizializza l'activity.
-     *
-     * @param savedInstanceState Bundle che contiene lo stato precedentemente salvato dell'activity.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assenze_activity);
+
+        // Recupera i dati dall'Intent
         Intent intent = getIntent();
         docente = (Docente) intent.getSerializableExtra("docente");
         classi = (ArrayList<Classe>) intent.getSerializableExtra("classi");
@@ -50,33 +48,36 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
         alunni = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
         alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
 
+        // Inizializzazione delle view
         indietro = findViewById(R.id.indietro);
         inserisci = findViewById(R.id.inserisci);
         dataEditText = findViewById(R.id.data);
         recyclerView = findViewById(R.id.assenzeRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        assenzeTextView = findViewById(R.id.assenzeTextView);
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         assenzaAdapter = new assenzeAdapter(alunno.getAssenze());
         recyclerView.setAdapter(assenzaAdapter);
 
-        indietro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(inserimentoAssenzeActivity.this, alunniDocenteActivity.class);
-                intent.putExtra("classi", classi);
-                intent.putExtra("classe", classe);
-                intent.putExtra("alunni", alunni);
-                intent.putExtra("docente", docente);
-                intent.putExtra("alunno_selezionato", alunno);
+        // Gestione visibilità della TextView per l'assenza di assenze
+        toggleEmptyView();
 
-                startActivity(intent);
-                finish();
-            }
+        // Listener per il pulsante "Indietro"
+        indietro.setOnClickListener(view -> {
+            Intent backIntent = new Intent(inserimentoAssenzeActivity.this, alunniDocenteActivity.class);
+            backIntent.putExtra("classi", classi);
+            backIntent.putExtra("classe", classe);
+            backIntent.putExtra("alunni", alunni);
+            backIntent.putExtra("docente", docente);
+            backIntent.putExtra("alunno_selezionato", alunno);
+
+            startActivity(backIntent);
+            finish();
         });
 
+        // Listener per la scelta della data
         dataEditText.setOnClickListener(view -> {
             final Calendar calendar = Calendar.getInstance();
-
             int currentYear = calendar.get(Calendar.YEAR);
             int currentMonth = calendar.get(Calendar.MONTH);
 
@@ -112,34 +113,48 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
-        inserisci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String dataText = dataEditText.getText().toString();
+        // Listener per il pulsante "Inserisci"
+        inserisci.setOnClickListener(view -> {
+            String dataText = dataEditText.getText().toString();
 
-                if (dataText.isEmpty()) {
-                    Toast.makeText(inserimentoAssenzeActivity.this, "Inserisci una data valida", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (dataText.isEmpty()) {
+                Toast.makeText(inserimentoAssenzeActivity.this, "Inserisci una data valida", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    dateFormat.setLenient(false);
-                    Date nuovaData = dateFormat.parse(dataText);
-                    alunno.getAssenze().add(new Assenza(docente, nuovaData, false));
-                    assenzaAdapter.notifyDataSetChanged();
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                dateFormat.setLenient(false);
+                Date nuovaData = dateFormat.parse(dataText);
+                alunno.getAssenze().add(new Assenza(docente, nuovaData, false));
+                assenzaAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
-                    server.creaEliminaStudente("elimina",alunno);
-                    server.creaEliminaStudente("carica",alunno);
+                Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
 
-                    dataEditText.setText("");
+                server.creaEliminaStudente("elimina", alunno);
+                server.creaEliminaStudente("carica", alunno);
 
-                } catch (ParseException e) {
-                    Toast.makeText(inserimentoAssenzeActivity.this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
-                }
+                dataEditText.setText("");
+
+                // Aggiorna la visibilità della TextView
+                toggleEmptyView();
+
+            } catch (ParseException e) {
+                Toast.makeText(inserimentoAssenzeActivity.this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    /**
+     * Mostra o nasconde la TextView in base alla presenza di assenze.
+     */
+    private void toggleEmptyView() {
+        if (alunno.getAssenze().isEmpty()) {
+            assenzeTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            assenzeTextView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

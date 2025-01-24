@@ -24,6 +24,7 @@ id assenze
 id assenzeElenco
 id assenzeLayout
 id assenzeRecyclerView
+id assenzeTextView
 id backButton
 id backButtonAssenze
 id backButtonMaterie
@@ -49,6 +50,7 @@ id linearLayout
 id logOutButton
 id materieLayout
 id media
+id noNoteTextView
 id nota
 id note
 id noteDate

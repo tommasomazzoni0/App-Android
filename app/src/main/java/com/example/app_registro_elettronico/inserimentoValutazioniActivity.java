@@ -44,7 +44,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
     private Classe classe;
     private Studente alunno;
     private ArrayList<Studente> studenti = new ArrayList<>();
-    private Server server= new Server();
+    private Server server = new Server();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,6 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
             classe = (Classe) intent.getSerializableExtra("classe");
             studenti = (ArrayList<Studente>) intent.getSerializableExtra("alunni");
             alunno = (Studente) intent.getSerializableExtra("alunno_selezionato");
-
 
             if (alunno == null) {
                 throw new IllegalArgumentException("Dati dell'alunno mancanti");
@@ -81,7 +80,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
             votiAdapter = new valutazioneAdapter(alunno.getVoti());
             recyclerView.setAdapter(votiAdapter);
 
-            // Pulsante indietro
+            // Pulsante "Indietro"
             indietro.setOnClickListener(view -> {
                 Intent intent1 = new Intent(inserimentoValutazioniActivity.this, alunniDocenteActivity.class);
                 intent1.putExtra("classi", classi);
@@ -93,8 +92,10 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
                 finish();
             });
 
+            // Configurazione del DatePicker
             dataEditText.setOnClickListener(view -> showDatePicker());
 
+            // Configurazione dello Spinner per i voti
             ArrayAdapter<CharSequence> votoAdapter = ArrayAdapter.createFromResource(this,
                     R.array.voti_array, android.R.layout.simple_spinner_item);
             votoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -111,6 +112,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
                 }
             });
 
+            // Configurazione dello Spinner per le materie
             if (docente != null && docente.getMaterie() != null) {
                 ArrayAdapter<String> materieAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, docente.getMaterie());
                 materieAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -128,6 +130,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
                 });
             }
 
+            // Pulsante "Inserisci"
             inserisci.setOnClickListener(view -> inserisciValutazione());
 
         } catch (Exception e) {
@@ -163,8 +166,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
             String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
             dataEditText.setText(selectedDate);
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-                .show();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     /**
@@ -183,7 +185,7 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
         try {
             // Parsing della data inserita dall'utente
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            dateFormat.setLenient(false); // Verifica rigorosa del formato della data
+            dateFormat.setLenient(false);
             Date data = dateFormat.parse(dataInserita);
 
             // Aggiungi la valutazione alla lista dell'alunno
@@ -197,13 +199,11 @@ public class inserimentoValutazioniActivity extends AppCompatActivity {
 
             // Mostra messaggio di conferma
             Toast.makeText(this, "Valutazione inserita con successo", Toast.LENGTH_SHORT).show();
-            server.creaEliminaStudente("elimina",alunno);
-            server.creaEliminaStudente("carica",alunno);
+            server.creaEliminaStudente("elimina", alunno);
+            server.creaEliminaStudente("carica", alunno);
 
         } catch (ParseException e) {
-            // Mostra un messaggio di errore se la data non è valida
             Toast.makeText(this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

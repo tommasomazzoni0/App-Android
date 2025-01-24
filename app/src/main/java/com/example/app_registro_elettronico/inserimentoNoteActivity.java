@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,7 +33,8 @@ public class inserimentoNoteActivity extends AppCompatActivity {
     private Studente alunno;
     private Classe classe;
     private ArrayList<Studente> alunni;
-    private Server server= new Server();
+    private Server server = new Server();
+    private TextView noNotesTextView;
 
     /**
      * Inizializza l'activity.
@@ -59,6 +61,9 @@ public class inserimentoNoteActivity extends AppCompatActivity {
         notaEditText = findViewById(R.id.nota);
         recyclerView = findViewById(R.id.notesRecyclerView);
 
+        // Creazione della TextView per messaggi di lista vuota
+        noNotesTextView = findViewById(R.id.noNoteTextView);
+
         // Inizializza la lista delle note
         noteList = alunno.getNote();
         if (noteList == null) {
@@ -70,6 +75,9 @@ public class inserimentoNoteActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         notesAdapter = new notesAdapter(noteList);
         recyclerView.setAdapter(notesAdapter);
+
+        // Mostra o nasconde il messaggio di lista vuota
+        updateEmptyNotesMessage();
 
         // Listener per il pulsante "Indietro"
         indietro.setOnClickListener(view -> {
@@ -142,10 +150,12 @@ public class inserimentoNoteActivity extends AppCompatActivity {
                 noteList.add(new Note(nuovaData, docente, nuovaNota));
                 notesAdapter.notifyDataSetChanged();
 
-                Toast.makeText(inserimentoNoteActivity.this, "Nota aggiunta con successo", Toast.LENGTH_SHORT).show();
-                server.creaEliminaStudente("elimina",alunno);
-                server.creaEliminaStudente("carica",alunno);
+                // Aggiorna il messaggio di lista vuota
+                updateEmptyNotesMessage();
 
+                Toast.makeText(inserimentoNoteActivity.this, "Nota aggiunta con successo", Toast.LENGTH_SHORT).show();
+                server.creaEliminaStudente("elimina", alunno);
+                server.creaEliminaStudente("carica", alunno);
 
                 // Resetta i campi di input
                 dataEditText.setText("");
@@ -155,5 +165,18 @@ public class inserimentoNoteActivity extends AppCompatActivity {
                 Toast.makeText(inserimentoNoteActivity.this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * Aggiorna la visibilità del messaggio che indica una lista vuota.
+     */
+    private void updateEmptyNotesMessage() {
+        if (noteList.isEmpty()) {
+            noNotesTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            noNotesTextView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

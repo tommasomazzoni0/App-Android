@@ -3197,6 +3197,7 @@ int id assenze 0x7f09005c
 int id assenzeElenco 0x7f09005d
 int id assenzeLayout 0x7f09005e
 int id assenzeRecyclerView 0x7f09005f
+int id assenzeTextView 0x7f090237
 int id async 0x7f090060
 int id auto 0x7f090061
 int id autoComplete 0x7f090062
@@ -3451,6 +3452,7 @@ int id navigation_header_container 0x7f09015a
 int id never 0x7f09015b
 int id neverCompleteToEnd 0x7f09015c
 int id neverCompleteToStart 0x7f09015d
+int id noNoteTextView 0x7f090236
 int id noScroll 0x7f09015e
 int id noState 0x7f09015f
 int id none 0x7f090160

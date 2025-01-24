@@ -52,6 +52,12 @@ public class assenzeAdapter extends RecyclerView.Adapter<assenzeAdapter.AssenzaV
     public void onBindViewHolder(@NonNull AssenzaViewHolder holder, int position) {
         Assenza assenza = assenzeList.get(position);
         holder.dataTextView.setText("Data: " + assenza.getstringData());
+        if(assenza.getgiustifica()){
+            holder.statoTextView.setText("Stato: giustificata");
+
+        }else{
+            holder.statoTextView.setText("Stato: non giustificata");
+        }
     }
 
     /**
@@ -70,6 +76,7 @@ public class assenzeAdapter extends RecyclerView.Adapter<assenzeAdapter.AssenzaV
     public static class AssenzaViewHolder extends RecyclerView.ViewHolder {
 
         TextView dataTextView;
+        TextView statoTextView;
 
         /**
          * Costruttore per il ViewHolder.
@@ -80,6 +87,7 @@ public class assenzeAdapter extends RecyclerView.Adapter<assenzeAdapter.AssenzaV
         public AssenzaViewHolder(View itemView) {
             super(itemView);
             dataTextView = itemView.findViewById(R.id.dataassenza);
+            statoTextView = itemView.findViewById(R.id.descriziome);
         }
     }
 }

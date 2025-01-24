@@ -368,7 +368,6 @@ public class studenteActivity extends AppCompatActivity {
 
             if (studenti != null) {
                 for (Studente s : studenti) {
-                    Log.d("tommaso", s.getCredenziali().getUser());
                     if (s.getCredenziali().getUser().equals(username)) {
 
                         return s;

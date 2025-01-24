@@ -8,12 +8,8 @@ import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_registro_elettronico.gestione.Assenza;
-import com.example.app_registro_elettronico.gestione.Genitore;
 import com.example.app_registro_elettronico.gestione.Studente;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
