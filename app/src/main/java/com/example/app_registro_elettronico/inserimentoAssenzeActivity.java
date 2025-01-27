@@ -128,12 +128,13 @@ public class inserimentoAssenzeActivity extends AppCompatActivity {
                     Date nuovaData = dateFormat.parse(dataText);
                     alunno.getAssenze().add(new Assenza(docente, nuovaData, false));
                     assenzaAdapter.notifyDataSetChanged();
+                    dataEditText.setText("");
 
                     Toast.makeText(inserimentoAssenzeActivity.this, "Assenza aggiunta con successo", Toast.LENGTH_SHORT).show();
                     server.creaEliminaStudente("elimina",alunno);
                     server.creaEliminaStudente("carica",alunno);
 
-                    dataEditText.setText("");
+
 
                 } catch (ParseException e) {
                     Toast.makeText(inserimentoAssenzeActivity.this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();

@@ -142,14 +142,14 @@ public class inserimentoNoteActivity extends AppCompatActivity {
                 noteList.add(new Note(nuovaData, docente, nuovaNota));
                 notesAdapter.notifyDataSetChanged();
 
+                // Resetta i campi di input
+                dataEditText.setText("");
+                notaEditText.setText("");
+
                 Toast.makeText(inserimentoNoteActivity.this, "Nota aggiunta con successo", Toast.LENGTH_SHORT).show();
                 server.creaEliminaStudente("elimina",alunno);
                 server.creaEliminaStudente("carica",alunno);
 
-
-                // Resetta i campi di input
-                dataEditText.setText("");
-                notaEditText.setText("");
 
             } catch (ParseException e) {
                 Toast.makeText(inserimentoNoteActivity.this, "Formato data non valido. Usa dd/MM/yyyy", Toast.LENGTH_SHORT).show();
